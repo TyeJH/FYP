@@ -11,7 +11,7 @@ $session::sessionStarted();
 
 if (isset($_POST['staffSubmit'])) {
     $val = new Validation();
-    $aID = $val->test_input($_POST['adminid']);
+    $aID = 'ADM'.$val->test_input($_POST['adminid']);
     $apass = $val->test_input($_POST['adminpass']);
 
     if (empty($aID) || empty($apass)) {
