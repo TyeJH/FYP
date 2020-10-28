@@ -1,4 +1,5 @@
 <?php
+include_once '../DataAccess/SocietyDA.php';
 
 class Society {
 
@@ -25,12 +26,25 @@ class Society {
         }
     }
 
-    public function __get($name) {
+    public function &__get($name) {
         if (property_exists($this, $name)) {
             return $this->$name;
         } else {
             return false;
         }
     }
+    
+    public function generateRandomId() {
+        $newId = 'SOC' . rand(0, 99999);
+        if ($this->isIdDuplicate($newId)) {
+            $this->generateRandomId();
+        } else {
+            return $newId;
+        }
+    }
 
+    public function isIdDuplicate($newId) {
+        $sc = new SocietyDA();
+        return $sc->checkID($newId);
+    }
 }

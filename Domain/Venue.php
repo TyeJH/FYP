@@ -1,17 +1,17 @@
 <?php
 
-include_once '../DataAccess/StudentDA.php';
+include_once '../DataAccess/VenueDA.php';
 
-class Student {
+class Venue {
 
-    private $studID;
-    private $password;
-    private $uniStudID;
+    private $venueID;
+    private $venueName;
+    private $venueDesc;
 
-    public function __construct($studID = "", $password = "", $uniStudID = "") {
-        $this->studID = $studID;
-        $this->password = $password;
-        $this->uniStudID = $uniStudID;
+    public function __construct($venueID = "", $venueName = "", $venueDesc = "") {
+        $this->venueID = $venueID;
+        $this->venueName = $venueName;
+        $this->venueDesc = $venueDesc;
     }
 
     public function __set($name, $value) {
@@ -30,9 +30,9 @@ class Student {
             return false;
         }
     }
-
+   
     public function generateRandomId() {
-        $newId = 'STU' . rand(0, 99999);
+        $newId = 'VEN' . rand(0, 99999);
         if ($this->isIdDuplicate($newId)) {
             $this->generateRandomId();
         } else {
@@ -41,8 +41,7 @@ class Student {
     }
 
     public function isIdDuplicate($newId) {
-        $st = new StudentDA();
-        return $st->checkID($newId);
+        $vn = new VenueDA();
+        return $vn->checkID($newId);
     }
-
 }

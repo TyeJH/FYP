@@ -1,9 +1,7 @@
 <?php
-include_once '../Domain/SessionManagement.php';
 include_once '../Domain/Admin.php';
 include_once '../Domain/Student.php';
-$session = new SessionManagement();
-$session::sessionStarted();
+session_start();
 ?>
 <!DOCTYPE html>
 
@@ -18,8 +16,8 @@ $session::sessionStarted();
     </head>
     <body>
         <?php
-        if ($session::sessionExists('current')) {
-            if ($session::getSession('current') == "Admin") {
+        if (isset($_SESSION['current'])) {
+            if ($_SESSION['current'] == "Admin") {
         ?>
                 <header>
                     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -30,9 +28,6 @@ $session::sessionStarted();
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="../UI/HomePage.php">Home <span class="sr-only">(current)</span></a>
-                                </li>
                                 <li class="nav-item active">
                                     <a class="nav-link" href="../UI/ViewEvent.php">Events</a>
                                 </li>
@@ -44,16 +39,9 @@ $session::sessionStarted();
                                         Admin
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="?view">View Profile</a>
-                                        <a class="dropdown-item" href="?logout">Logout</a>
+                                        <a class="dropdown-item" href="../UI/UserProfile.php">View Profile</a>
+                                        <a class="dropdown-item" href="../UI/Logout.php">Logout</a>
                                     </div>
-                                    <?php
-                                    if ($_SERVER['QUERY_STRING'] == 'view') {
-                                            header("Location:../UI/ViewProfile.php");
-                                        } else if ($_SERVER['QUERY_STRING'] == 'logout') {
-                                            header("Location:../UI/Logout.php");
-                                        }
-                                    ?>
                                 </li>
                             </ul>
                             <form class="form-inline my-2 my-lg-0">
@@ -64,7 +52,7 @@ $session::sessionStarted();
                     </nav>
                 </header>
         <?php
-            } else if ($session::getSession('current') == "Society") {
+            } else if ($_SESSION['current'] == "Society") {
         ?>
                 <header>
                     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -75,9 +63,6 @@ $session::sessionStarted();
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="../UI/HomePage.php">Home <span class="sr-only">(current)</span></a>
-                                </li>
                                 <li class="nav-item active">
                                     <a class="nav-link" href="../UI/ViewEvent.php">Events</a>
                                 </li>
@@ -89,16 +74,9 @@ $session::sessionStarted();
                                         Society
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="?view">View Profile</a>
-                                        <a class="dropdown-item" href="?logout">Logout</a>
+                                        <a class="dropdown-item" href="../UI/UserProfile.php">View Profile</a>
+                                        <a class="dropdown-item" href="../UI/Logout.php">Logout</a>
                                     </div>
-                                    <?php
-                                    if ($_SERVER['QUERY_STRING'] == 'view') {
-                                            header("Location:../UI/ViewProfile.php");
-                                        } else if ($_SERVER['QUERY_STRING'] == 'logout') {
-                                            header("Location:../UI/Logout.php");
-                                        }
-                                    ?>
                                 </li>
                             </ul>
                             <form class="form-inline my-2 my-lg-0">
@@ -109,7 +87,7 @@ $session::sessionStarted();
                     </nav>
                 </header>
         <?php
-            } else if ($session::getSession('current') == "Student") {
+            } else if ($_SESSION['current'] == "Student") {
         ?>
                 <header>
                     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -121,9 +99,6 @@ $session::sessionStarted();
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="../UI/HomePage.php">Home <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="nav-item active">
                                     <a class="nav-link" href="../UI/ViewEvent.php">Events</a>
                                 </li>
                                 <li class="nav-item dropdown active">
@@ -131,16 +106,9 @@ $session::sessionStarted();
                                         Student
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="?view">View Profile</a>
-                                        <a class="dropdown-item" href="?logout">Logout</a>
+                                        <a class="dropdown-item" href="../UI/UserProfile.php">View Profile</a>
+                                        <a class="dropdown-item" href="../UI/Logout.php">Logout</a>
                                     </div>
-                                    <?php
-                                    if ($_SERVER['QUERY_STRING'] == 'view') {
-                                            header("Location:../UI/ViewProfile.php");
-                                        } else if ($_SERVER['QUERY_STRING'] == 'logout') {
-                                            header("Location:../UI/Logout.php");
-                                        }
-                                    ?>
                                 </li>
                             </ul>
                             <form class="form-inline my-2 my-lg-0">
@@ -163,9 +131,6 @@ $session::sessionStarted();
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="../UI/HomePage.php">Home <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="nav-item active">
                                     <a class="nav-link" href="../UI/ViewEvent.php">Events</a>
                                 </li>
                                 <li class="nav-item dropdown active">
@@ -178,13 +143,13 @@ $session::sessionStarted();
                                         <a class="dropdown-item" href="?student">Student</a>
                                         <?php
                                         if ($_SERVER['QUERY_STRING'] == 'staff') {
-                                            $session::setSession('role', 'staff');
+                                            $_SESSION['role'] = 'staff';
                                             header("Location:../UI/Login.php");
                                         } else if ($_SERVER['QUERY_STRING'] == 'society') {
-                                            $session::setSession('role', 'society');
+                                            $_SESSION['role'] = 'society';
                                             header("Location:../UI/Login.php");
                                         } else if ($_SERVER['QUERY_STRING'] == 'student') {
-                                            $session::setSession('role', 'student');
+                                            $_SESSION['role'] = 'student';
                                             header("Location:../UI/Login.php");
                                         }
                                         ?>
@@ -199,10 +164,10 @@ $session::sessionStarted();
                                         <a class="dropdown-item" href="?Rstudent">Student</a>
                                         <?php
                                         if ($_SERVER['QUERY_STRING'] == 'Rstaff') {
-                                            $session::setSession('status', 'staff');
+                                            $_SESSION['status'] = 'staff';
                                             header("Location:../UI/Register.php");
                                         } else if ($_SERVER['QUERY_STRING'] == 'Rstudent') {
-                                            $session::setSession('status', 'student');
+                                            $_SESSION['status'] = 'student';
                                             header("Location:../UI/Register.php");
                                         }
                                         ?>
@@ -219,43 +184,39 @@ $session::sessionStarted();
         <?php
             }
         } else {
-            $session::setSession('current', '');
+            $_SESSION['current'] = '';
             header("Location:../UI/HomePage.php");
         }
-        ?>
-        <?php
-        if ($session::sessionExists('status')) {
-            if ($session::getSession('status') == 'staff') {
-                $test = new Admin();
-                $id = $test->generateRandomId();
+        if (isset($_SESSION['status'])) {
+            if ($_SESSION['status'] == 'staff') {
         ?>
             <h1>Staff Account Register</h1>
             <form action="../Domain/ValidateRegsiter.php" method="post">
-                <label>Admin ID:</label> <input type="text" value="<?= $id?>" readonly="readonly" name="adminid"/><br>
-                <label>Role: </label>
-                <select name="position">
-                    <option value="Admin">Admin</option>
-                    <option value="Staff">Staff</option>
+                <label>Admin ID:</label>
+                <select name="adminid">
+                    <option selected disabled hidden>Select an Option</option>
+                    <option value="DSA">Department of Student Affairs (DSA)</option>
+                    <option value="BUR">Bursary (BUR)</option>
+                    <option value="CCM">Department of Corporate Communication And Marketing (CCM)</option>
+                    <option value="DEM">Department of Estates And Maintenance (DEM)</option>
+                    <option value="DOS">Department of Security (DOS)</option>
                 </select><br>
                 <label>Password: </label><input type="password" name="pass" placeholder="Enter your password"/><br>
                 <label>Confirm Password: </label><input type="password" name="cpass" placeholder="Re-Type your password"/><br>
-                <label>Staff ID: </label><input type="text" name="staffid" placeholder="Enter your staff id" /><br>
-                <input type="submit" name="rSubmit" value="Register"/> <input type="reset" name="reset" value="Cancel"/>
+                <input type="submit" name="staffSubmit" value="Register"/> <input type="reset" name="reset" value="Cancel"/>
             </form>
         <?php
-            
-            } else if ($session::getSession('status') == 'student') {
+            } else if ($_SESSION['status'] == 'student') {
                 $stu = new Student();
                 $sID = $stu->generateRandomId();
         ?>
             <h1>Student Account Register</h1>
             <form method="post" action="../Domain/ValidateRegsiter.php">
                 <label>User ID: </label> <input type="text" name="id" value="<?= $sID?>" readonly=""/><br>
-                <label>User Name: </label> <input type="text" name="username" placeholder="Enter your username"/><br>
                 <label>Password: </label> <input type="password" name="pass" placeholder="Enter your password"/><br>
                 <label>Confirm Password: </label><input type="password" name="cpass" placeholder="Re-Type your password"/><br>
                 <label>Student ID: </label> <input type="text" name="studid" placeholder="Enter your student id"/><br>
-                <input type="submit" name="sSubmit" value="Register"/> <input type="reset" name="reset" value="Cancel"/>
+                <input type="submit" name="studentSubmit" value="Register"/> <input type="reset" name="reset" value="Cancel"/>
             </form>
         <?php        
             } 

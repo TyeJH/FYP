@@ -1,52 +1,83 @@
 <?php
 include_once '../Domain/Admin.php';
+include_once '../Domain/Student.php';
+include_once '../Domain/Validation.php';
 include_once '../DataAccess/AdminDA.php';
-include_once'../Domain/Validation.php';
+include_once '../DataAccess/StudentDA.php';
 
-if (isset($_POST['rSubmit'])) {
+session_start();
+
+if (isset($_POST['staffSubmit'])) {
     $val = new Validation();
     $id = $val->test_input($_POST['adminid']);
-    $positon = $val->test_input($_POST['position']);
     $pass = $val->test_input($_POST['pass']);
     $cpass = $val->test_input($_POST['cpass']);
-    $staff = $val->test_input($_POST['staffid']);
 
-    if (empty($id) || empty($positon) || empty($pass) || empty($cpass) || empty($staff)) {
+    if (empty($id) || empty($pass) || empty($cpass)) {
         echo'cannot leave it empty';
-    }else{
-        if($val->passwordIsValid($pass)==true){
-            if($val->passwordIsValid($cpass)==true){
-                if($pass==$cpass){
+    } else {
+        if ($val->passwordIsValid($pass)) {
+            if ($val->passwordIsValid($cpass)) {
+                if ($pass == $cpass) {
                     $create = new AdminDA();
-                    if($create->checkStaffID($staff)){
-                        $ad= new Admin($id,$positon,$pass,$staff); 
-                        $create->regsiter($ad);
-                        echo '<script>alert("Account Register Successfully");location.href = "../UI/HomePage.php";</script>';
+                    if ($create->checkID($id)) {
+                        $ad = new Admin($id, $pass);
+                        $create->register($ad);
+                        unset($_SESSION['status']);
+                        $_SESSION['role']='staff';
+                        echo '<script>alert("Account Register Successfully");location.href = "../UI/Login.php";</script>';
                     } else {
-                        echo'Invalid Staff ID';
+                        echo'Account had been registered';
                     }
-                }else{
+                } else {
                     echo'Password and Confirm Password must match';
                 }
-            }else{
+            } else {
                 echo'Confirm Password invalid format';
             }
-        }else{
-                echo'Password invalid format';
-            }
+        } else {
+            echo'Password invalid format';
+        }
     }
-} else if (isset($_POST['sSubmit'])) {
+} else if (isset($_POST['studentSubmit'])) {
     $val = new Validation();
     $id = $val->test_input($_POST['id']);
-    $name = $val->test_input($_POST['username']);
     $pass = $val->test_input($_POST['pass']);
     $cpass = $val->test_input($_POST['cpass']);
     $stud = $val->test_input($_POST['studid']);
 
-    if(empty($id)||empty($name)||empty($pass)||empty($cpass)||empty($stud)){
-        
+    if (empty($id) || empty($pass) || empty($cpass) || empty($stud)) {
+        echo "cannot empty";
+    } else {
+        if ($val->passwordIsValid($pass)) {
+            if ($val->passwordIsValid($cpass)) {
+                if ($pass == $cpass) {
+                    $create = new StudentDA();
+                    if ($create->checkUniID($stud)) {
+                        if ($create->checkStudID($stud)) {
+                            $st = new Student($id, $pass, $stud);
+                            $create->register($st);
+                            unset($_SESSION['status']);
+                            $_SESSION['role']='student';
+                            echo '<script>alert("Account Register Successfully");location.href = "../UI/Login.php";</script>';
+                        } else {
+                            echo'Account had been registered';
+                        }
+                    } else {
+                        echo'Invalid Student ID';
+                    }
+                } else {
+                    echo'Password and Confirm Password must match';
+                }
+            } else {
+                echo'Confirm Password invalid format';
+            }
+        } else {
+            echo'Password invalid format';
+        }
     }
-}else{
+} else {
     header("Location:../UI/HomePage.php");
 }
 
+    

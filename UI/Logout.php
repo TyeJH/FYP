@@ -1,7 +1,3 @@
-
-<?php
-include_once '../Domain/SessionManagement.php';
-?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,13 +6,11 @@ include_once '../Domain/SessionManagement.php';
     </head>
     <body>
         <?php
-        $session = new SessionManagement();
-        $session::sessionStarted();
-
-        if ($session::sessionExists('current')) {
-            $session::sessionClosed();
-        }
-
+        session_start();
+        session_unset();
+        session_destroy();
+        session_write_close();
+        session_regenerate_id(true);
         echo '<script>alert("Logout Successfully.");location.href = "../UI/HomePage.php";</script>';
         ?>
     </body>
