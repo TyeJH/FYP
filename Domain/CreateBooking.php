@@ -38,7 +38,7 @@ if (isset($_POST['bookVenue'])) {
         if ($bookingDA->create($booking)) {
             echo '<script>alert("Successfully Booked");location.href = "../UI/BookVenue.php";</script>';
         } else {
-            //echo '<script>alert("Unexpected error occur");location.href = "../UI/BookVenue.php";</script>';
+            echo '<script>alert("Unexpected error occur");location.href = "../UI/BookVenue.php";</script>';
         }
     }
 }

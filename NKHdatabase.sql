@@ -136,7 +136,7 @@ CREATE TABLE Schedule(
     startTime       TIME        not null,
     endDate         DATE        null,
     endTime         TIME        null,
-    unlimted        VARCHAR(255)null,
+    unlimited       VARCHAR(255)null,
     noOfParticipant INT(255)    null,
     noOfJoined      INT(6)      null,
     scheduleStatus VARCHAR(255) not null,

@@ -7,15 +7,15 @@ class ScheduleDA {
 
     public function create(Schedule $schedule) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'INSERT INTO schedule (venue, startDate, startTime, endDate, endTime, unlimted, noOfParticipant, noOfJoined, scheduleStatus, eventID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        $query = 'INSERT INTO schedule (venue, startDate, startTime, endDate, endTime, unlimited, noOfParticipant, noOfJoined, scheduleStatus, eventID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         $stmt = $db->prepare($query);
-        $stmt->bindParam(1, $schedule->venue, PDO::PARAM_STR);
-        $stmt->bindParam(2, $schedule->startDate, PDO::PARAM_STR);
+        $stmt->bindParam(1, $schedule->venue);
+        $stmt->bindParam(2, $schedule->startDate);
         $stmt->bindParam(3, $schedule->startTime, PDO::PARAM_STR);
         $stmt->bindParam(4, $schedule->endDate, PDO::PARAM_STR);
         $stmt->bindParam(5, $schedule->endTime, PDO::PARAM_STR);
-        $stmt->bindParam(6, $schedule->unlimted, PDO::PARAM_STR);
-        $stmt->bindParam(7, $schedule->noOfParticipant, PDO::PARAM_STR);
+        $stmt->bindParam(6, $schedule->unlimited);
+        $stmt->bindParam(7, $schedule->noOfParticipant);
         $stmt->bindParam(8, $schedule->noOfJoined, PDO::PARAM_STR);
         $stmt->bindParam(9, $schedule->scheduleStatus, PDO::PARAM_STR);
         $stmt->bindParam(10, $schedule->eventID, PDO::PARAM_STR);
@@ -39,7 +39,7 @@ class ScheduleDA {
         } else {
             $scheduleArray = array();
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $schedule = new Schedule($row['scheduleID'], $row['venue'], $row['startDate'], $row['startTime'], $row['endDate'], $row['endTime'], $row['unlimted'], $row['noOfParticipant'], $row['noOfJoined'], $row['scheduleStatus'], $row['eventID']);
+                $schedule = new Schedule($row['scheduleID'], $row['venue'], $row['startDate'], $row['startTime'], $row['endDate'], $row['endTime'], $row['unlimited'], $row['noOfParticipant'], $row['noOfJoined'], $row['scheduleStatus'], $row['eventID']);
                 $scheduleArray[] = $schedule;
             }
             return $scheduleArray;
@@ -49,18 +49,18 @@ class ScheduleDA {
 
     public function update(Schedule $schedule) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'UPDATE schedule SET venue = ?, startDate = ?, startTime = ?, endDate = ?, endTime = ?, unlimted = ?, noOfParticipant = ?, noOfJoined = ?, scheduleStatus = ? WHERE scheduleID = ?';
+        $query = 'UPDATE schedule SET venue = ?, startDate = ?, startTime = ?, endDate = ?, endTime = ?, unlimited = ?, noOfParticipant = ?, noOfJoined = ?, scheduleStatus = ? WHERE scheduleID = ?';
         $stmt = $db->prepare($query);
-        $stmt->bindParam(1, $schedule->venue, PDO::PARAM_STR);
-        $stmt->bindParam(2, $schedule->startDate, PDO::PARAM_STR);
-        $stmt->bindParam(3, $schedule->startTime, PDO::PARAM_STR);
-        $stmt->bindParam(4, $schedule->endDate, PDO::PARAM_STR);
-        $stmt->bindParam(5, $schedule->endTime, PDO::PARAM_STR);
-        $stmt->bindParam(6, $schedule->unlimted, PDO::PARAM_STR);
-        $stmt->bindParam(7, $schedule->noOfParticipant, PDO::PARAM_STR);
-        $stmt->bindParam(8, $schedule->noOfJoined, PDO::PARAM_STR);
-        $stmt->bindParam(9, $schedule->scheduleStatus, PDO::PARAM_STR);
-        $stmt->bindParam(10, $schedule->scheduleID, PDO::PARAM_STR);
+        $stmt->bindValue(1, $schedule->venue, PDO::PARAM_STR);
+        $stmt->bindValue(2, $schedule->startDate, PDO::PARAM_STR);
+        $stmt->bindValue(3, $schedule->startTime, PDO::PARAM_STR);
+        $stmt->bindValue(4, $schedule->endDate, PDO::PARAM_STR);
+        $stmt->bindValue(5, $schedule->endTime, PDO::PARAM_STR);
+        $stmt->bindValue(6, $schedule->unlimited, PDO::PARAM_STR);
+        $stmt->bindValue(7, $schedule->noOfParticipant, PDO::PARAM_STR);
+        $stmt->bindValue(8, $schedule->noOfJoined, PDO::PARAM_STR);
+        $stmt->bindValue(9, $schedule->scheduleStatus, PDO::PARAM_STR);
+        $stmt->bindValue(10, $schedule->scheduleID, PDO::PARAM_STR);
         if ($stmt->execute()) {
             return true;
         } else {
