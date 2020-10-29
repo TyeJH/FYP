@@ -27,7 +27,8 @@ and open the template in the editor.
                 var valueSpilted = value.split(',');
                 var attendanceStatus = "";
                 var type = 'attendance';
-                if (checkBox.checked === true) {;
+                if (checkBox.checked === true) {
+                    ;
                     attendanceStatus = "Attended";
                 } else {
                     attendanceStatus = "Absent";
@@ -38,7 +39,7 @@ and open the template in the editor.
                             url: "../Domain/UpdateParticipant.php",
                             data: {
                                 "type": type,
-                                "eventID": valueSpilted[0],
+                                "scheduleID": valueSpilted[0],
                                 "userID": userID,
                                 "applyDate": valueSpilted[2],
                                 "applyStatus": valueSpilted[3],
@@ -60,7 +61,7 @@ and open the template in the editor.
             <?php
             if (isset($_GET['eventID'])) {
                 $participantsDA = new ParticipantsDA();
-                $participantArray = $participantsDA->retrieve($_GET['eventID'],'Approved');
+                $participantArray = $participantsDA->retrieve($_GET['eventID'], 'Approved');
                 $count = 1;
                 echo "<table id=participantsApplication class = 'table table-hover table-responsive table-bordered'>";
                 echo "<thead>";
@@ -68,6 +69,7 @@ and open the template in the editor.
                 echo "<th>No </th>";
                 echo "<th>Student ID</th>";
                 //echo "<th>Name</th>";
+                echo "<th>Schedule ID</th>";
                 echo "<th>Attendance</th>";
                 echo "</tr>";
                 echo "</thead>";
@@ -81,11 +83,12 @@ and open the template in the editor.
                         echo "<tr>";
                         echo "<td>$count</td>";
                         echo "<td>$participant->userID</td>";
+                        echo "<td>$participant->scheduleID</td>";
                         //echo "<td>{$studName}</td>";
                         if ($participant->attendanceStatus == 'Attended') {
-                            echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->userID' value='$participant->eventID,$participant->userID,$participant->applyDate,$participant->applyStatus' checked></td>";
+                            echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->userID,$participant->applyDate,$participant->applyStatus' checked></td>";
                         } else {
-                            echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->userID' value='$participant->eventID,$participant->userID,$participant->applyDate,$participant->applyStatus'></td>";
+                            echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->userID,$participant->applyDate,$participant->applyStatus'></td>";
                         }
                         $count++;
                     }

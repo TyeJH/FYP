@@ -2,10 +2,10 @@
 
 require_once '../Domain/Participants.php';
 require_once '../DataAccess/ParticipantsDA.php';
-if (isset($_POST['type']) && isset($_POST['eventID']) && isset($_POST['userID']) && isset($_POST['applyDate']) && isset($_POST['applyStatus']) && isset($_POST['attendanceStatus'])) {
+if (isset($_POST['type']) && isset($_POST['scheduleID']) && isset($_POST['userID']) && isset($_POST['applyDate']) && isset($_POST['applyStatus']) && isset($_POST['attendanceStatus'])) {
 
     $type = $_POST['type'];
-    $eventID = $_POST['eventID'];
+    $scheduleID = $_POST['scheduleID'];
     $userID = $_POST['userID'];
     $applyDate = $_POST['applyDate'];
     $applyStatus = $_POST['applyStatus'];
@@ -14,12 +14,12 @@ if (isset($_POST['type']) && isset($_POST['eventID']) && isset($_POST['userID'])
         if ($applyStatus == "Approved") {
             //By default after approved then user will become absent.
             //Pending > Approved > Absent > Attend 
-            $participant = new Participants($eventID, $userID, $applyDate, $applyStatus, 'Absent');
+            $participant = new Participants($scheduleID, $userID, $applyDate, $applyStatus, 'Absent');
         } else {
-            $participant = new Participants($eventID, $userID, $applyDate, $applyStatus, 'N/A');
+            $participant = new Participants($scheduleID, $userID, $applyDate, $applyStatus, 'N/A');
         }
     } else {
-        $participant = new Participants($eventID, $userID, $applyDate, $applyStatus, $attendanceStatus);
+        $participant = new Participants($scheduleID, $userID, $applyDate, $applyStatus, $attendanceStatus);
     }
     $participantDA = new ParticipantsDA();
     if ($participantDA->update($participant)) {

@@ -48,10 +48,10 @@ class ParticipantsDA {
         $db = DatabaseConnection::getInstance()->getDB();
         $query = 'UPDATE participants SET applyStatus = ? , attendanceStatus = ? WHERE userID = ? AND scheduleID = ?';
         $stmt = $db->prepare($query);
-        $stmt->bindParam(1, $participant->applyStatus);
-        $stmt->bindParam(2, $participant->attendanceStatus);
-        $stmt->bindParam(3, $participant->userID);
-        $stmt->bindParam(4, $participant->scheduleID);
+        $stmt->bindValue(1, $participant->applyStatus);
+        $stmt->bindValue(2, $participant->attendanceStatus);
+        $stmt->bindValue(3, $participant->userID);
+        $stmt->bindValue(4, $participant->scheduleID);
         if ($stmt->execute()) {
             return true;
         } else {

@@ -38,7 +38,7 @@ and open the template in the editor.
                             url: "../Domain/UpdateParticipant.php", //can remove URL also fine bcuz I had included the eventProcess.php
                             data: {
                                 "type": type,
-                                "eventID": valueSpilted[0],
+                                "scheduleID": valueSpilted[0],
                                 "userID": userID,
                                 "applyDate": valueSpilted[2],
                                 "applyStatus": applyStatus,
@@ -64,6 +64,7 @@ and open the template in the editor.
             echo "<th>No </th>";
             echo "<th>Student ID</th>";
             //echo "<th>Name</th>";
+            echo "<th>Schedule ID</th>";
             echo "<th>Apply Date</th>";
             echo "<th>Approval</th>";
             echo "</tr>";
@@ -83,14 +84,15 @@ and open the template in the editor.
                         echo "<tr>";
                         echo "<td>$count</td>";
                         echo "<td>$participant->userID</td>";
+                        echo "<td>$participant->scheduleID</td>";
                         //echo "<td>{$studName}</td>";
                         $dateFormatted = date("Y-M-d", strtotime($participant->applyDate));
                         echo "<td>{$dateFormatted}</td>";
 
                         if ($participant->applyStatus == 'Approved') {
-                            echo "<td>  <input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->userID' value='$participant->eventID,$participant->userID,$participant->applyDate' checked></td>";
+                            echo "<td>  <input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->userID,$participant->applyDate' checked></td>";
                         } else {
-                            echo "<td>  <input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->userID' value='$participant->eventID,$participant->userID,$participant->applyDate'></td>";
+                            echo "<td>  <input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->userID,$participant->applyDate'></td>";
                         }
                         $count++;
                     }

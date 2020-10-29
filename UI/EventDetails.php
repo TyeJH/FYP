@@ -121,7 +121,7 @@ AUTHOR : NGO KIAN HEE
                                     $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
                                     $endDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($etFormat));
                                     //$et = strtotime($etFormat);
-                                    echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&schedule=$schedule->scheduleID' onclick='JSalert()' type='submit' class='btn btn-primary' name='participate'>Join here !</a></br>";
+                                    echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
                                     $count++;
                                 }
                                 ?>
