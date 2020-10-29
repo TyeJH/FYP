@@ -6,14 +6,12 @@ class Society {
     private $societyID;
     private $societyName;
     private $societyDesc;
-    private $societyMember;
     private $societyPass;
 
-    public function __construct($societyID = "", $societyName = "", $societyDesc = "", $societyMember = "", $societyPass = "") {
+    public function __construct($societyID = "", $societyName = "", $societyDesc = "", $societyPass = "") {
         $this->societyID = $societyID;
         $this->societyName = $societyName;
         $this->societyDesc = $societyDesc;
-        $this->societyMember = $societyMember;
         $this->societyPass = $societyPass;
     }
 

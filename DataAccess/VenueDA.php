@@ -82,15 +82,6 @@ class VenueDA {
         DatabaseConnection::closeConnection($db);
     }
 
-    public function delete($vn) {
-        $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'DELETE FROM venue WHERE venueID = ?';
-        $stmt = $db->prepare($query);
-        $stmt->bindParam(1, $vn, PDO::PARAM_STR);
-        $stmt->execute();
-        DatabaseConnection::closeConnection($db);
-    }
-
     public function checkID($newId) {
         $db = DatabaseConnection::getInstance()->getDb();
         $stmt = $db->prepare("SELECT venueID FROM venue WHERE venueID = ?");

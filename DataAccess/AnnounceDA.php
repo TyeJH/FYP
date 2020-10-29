@@ -18,7 +18,7 @@ class AnnounceDA {
             $ann = $stmt->fetchAll();
             $aList=[];
             foreach($ann as $a){
-               $aList[] = new Announcement($a['annID'], $a['annTitle'], $a['annContent'], $a['annDate'], $a['annAuthor'], $a['adminID']);
+               $aList[] = new Announcement($a['annID'], $a['annTitle'], $a['annContent'], $a['annDate'], $a['adminID']);
             }
             DatabaseConnection::closeConnection($db);
             return $aList;
@@ -37,7 +37,7 @@ class AnnounceDA {
             return null;
         } else {
             $a = $stmt->fetch(PDO::FETCH_ASSOC);
-            $ann = new Announcement($a['annID'], $a['annTitle'], $a['annContent'], $a['annDate'], $a['annAuthor'], $a['adminID']);
+            $ann = new Announcement($a['annID'], $a['annTitle'], $a['annContent'], $a['annDate'], $a['adminID']);
             DatabaseConnection::closeConnection($db);
             return $ann;
         }
@@ -45,28 +45,26 @@ class AnnounceDA {
 
     public function regsiter(Announcement $an) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'INSERT INTO announcement VALUES(?,?,?,?,?,?)';
+        $query = 'INSERT INTO announcement VALUES(?,?,?,?,?)';
         $stmt = $db->prepare($query);
         $stmt->bindParam(1, $an->annID, PDO::PARAM_STR);
         $stmt->bindParam(2, $an->annTitle, PDO::PARAM_STR);
         $stmt->bindParam(3, $an->annContent, PDO::PARAM_STR);
         $stmt->bindParam(4, $an->annDate, PDO::PARAM_STR);
-        $stmt->bindParam(5, $an->annAuthor, PDO::PARAM_STR);
-        $stmt->bindParam(6, $an->adminID, PDO::PARAM_STR);
+        $stmt->bindParam(5, $an->adminID, PDO::PARAM_STR);
         $stmt->execute();
         DatabaseConnection::closeConnection($db);
     }
 
     public function update(Announcement $an) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'UPDATE announcement SET annTitle = ?, annContent = ?, annDate = ?, annAuthor = ?, adminID = ? WHERE annID = ?';
+        $query = 'UPDATE announcement SET annTitle = ?, annContent = ?, annDate = ?, adminID = ? WHERE annID = ?';
         $stmt = $db->prepare($query);
         $stmt->bindParam(1, $an->annTitle, PDO::PARAM_STR);
         $stmt->bindParam(2, $an->annContent, PDO::PARAM_STR);
         $stmt->bindParam(3, $an->annDate, PDO::PARAM_STR);
-        $stmt->bindParam(4, $an->annAuthor, PDO::PARAM_STR);
-        $stmt->bindParam(5, $an->adminID, PDO::PARAM_STR);
-        $stmt->bindParam(6, $an->annID, PDO::PARAM_STR);
+        $stmt->bindParam(4, $an->adminID, PDO::PARAM_STR);
+        $stmt->bindParam(5, $an->annID, PDO::PARAM_STR);
         $stmt->execute();
         DatabaseConnection::closeConnection($db);
     }

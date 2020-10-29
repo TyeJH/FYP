@@ -73,6 +73,9 @@ session_start();
                                 <li class="nav-item active">
                                     <a class="nav-link" href="../UI/Announcement.php">Announcement</a>
                                 </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="../UI/VenueList.php">Venue</a>
+                                </li>
                                 <li class="nav-item dropdown active">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Society

@@ -1,5 +1,5 @@
 <?php
-include_once '../DataAccess/AnnouncementDA.php';
+include_once '../DataAccess/AnnounceDA.php';
 
 class Announcement {
 
@@ -7,15 +7,13 @@ class Announcement {
     private $annTitle;
     private $annContent;
     private $annDate;
-    private $annAuthor;
     private $adminID;
 
-    public function __construct($annID = "", $annTitle = "", $annContent = "", $annDate = "", $annAuthor = "", $adminID = "") {
+    public function __construct($annID = "", $annTitle = "", $annContent = "", $annDate = "", $adminID = "") {
         $this->annID = $annID;
         $this->annTitle = $annTitle;
         $this->annContent = $annContent;
         $this->annDate = $annDate;
-        $this->annAuthor = $annAuthor;
         $this->adminID = $adminID;
     }
 

@@ -33,14 +33,13 @@ if (isset($_POST['staffUpdate'])) {
     $id = $val->test_input($_POST['sID']);
     $name = $val->test_input($_POST['sName']);
     $desc = $val->test_input($_POST['sDesc']);
-    $member = $val->test_input($_POST['sMember']);
     $pass = $val->test_input($_POST['sPass']);
     
     if(empty($pass)){
         echo "password cannot be empty";
     }else{
         if($val->passwordIsValid($pass)){
-            $soc = new Society($id,$name,$desc,$member,$pass);
+            $soc = new Society($id,$name,$desc,$pass);
             $socda = new SocietyDA();
             $socda->update($soc);
             $_SESSION['result']= $soc;

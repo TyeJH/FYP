@@ -154,10 +154,6 @@ session_start();
                             <td><input type="text" name="sDesc" class="desc" value="<?= $society->societyDesc ?>" readonly="" style="border:none;outline:none"></td>
                         </tr>
                         <tr>
-                            <th>Society Member</th>
-                            <td><input type="text" name="sMember" class="member" value="<?= $society->societyMember ?>" readonly="" style="border:none;outline: none"></td>
-                        </tr>
-                        <tr>
                             <th>Society Password</th>
                             <td><input type="text" name="sPass" class="pass" value="<?= $society->societyPass ?>" readonly="" style="border: none;outline: none"></td>
                         </tr>
@@ -168,8 +164,8 @@ session_start();
                 <script>
                     $('.edit').click(function () {
                         $(this).siblings('.save, .cancel').show();
-                        $('.pass, .name, .desc, .member').removeAttr("readonly");
-                        $('.pass, .name, .desc, .member').attr("style", "border:1px solid;outline:1px solid");
+                        $('.pass, .name, .desc').removeAttr("readonly");
+                        $('.pass, .name, .desc').attr("style", "border:1px solid;outline:1px solid");
                         $('.name').focus();
                     });
                     $('.cancel').click(function () {
