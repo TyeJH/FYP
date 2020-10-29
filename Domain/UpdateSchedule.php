@@ -9,7 +9,7 @@ if (isset($_POST['updateSchedule'])) {
 
     //initializes
     $scheduleID = $_POST['scheduleID'];
-    if ($_POST['unlimited'] == 'Yes') {
+    if ($_POST["unlimited:$scheduleID"] == 'Yes') {
         $unlimited = 'Yes';
         $noOfParticipant = null;
     } else {

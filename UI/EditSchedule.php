@@ -45,10 +45,10 @@ and open the template in the editor.
         });
         function checkUnlimited(id) {
             var element = document.getElementById('participant:' + id);
-            var radios = document.getElementsByName('unlimited');
+            var radios = document.getElementsByName('unlimited:' + id);
             for (var i = 0, length = radios.length; i < length; i++) {
                 if (radios[i].checked) {
-                    if (radios[i].value === 'Yes') {
+                    if (radios[i].value == 'Yes') {
                         element.value = null;
                         element.disabled = true;
                         element.required = false;
@@ -112,11 +112,11 @@ and open the template in the editor.
                                     <td>
                                         <?php
                                         if ($schedule->unlimited == 'Yes') {
-                                            echo "Yes <input type='radio' name='unlimited' onChange='checkUnlimited($schedule->scheduleID);' value='Yes' checked/> ";
-                                            echo "No <input type='radio'  name='unlimited' onChange='checkUnlimited($schedule->scheduleID);' value='No'/>";
+                                            echo "Yes <input type='radio' name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='Yes' checked/> ";
+                                            echo "No <input type='radio'  name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='No'/>";
                                         } else {
-                                            echo "Yes <input type='radio' name='unlimited' onChange='checkUnlimited($schedule->scheduleID);' value='Yes'/> ";
-                                            echo "No <input type='radio'  name='unlimited' onChange='checkUnlimited($schedule->scheduleID);' value='No' checked/>";
+                                            echo "Yes <input type='radio' name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='Yes'/> ";
+                                            echo "No <input type='radio'  name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='No' checked/>";
                                         }
                                         ?>
                                     </td>
