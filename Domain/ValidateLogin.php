@@ -30,7 +30,7 @@ if (isset($_POST['staffSubmit'])) {
     $val = new Validation();
     $scID = "SOC" . $val->test_input($_POST['societyid']);
     $scpass = $val->test_input($_POST['societypass']);
-    
+
     if (empty($scID) || empty($scpass)) {
         echo "Cannot leave it empty";
     } else {
@@ -41,13 +41,15 @@ if (isset($_POST['staffSubmit'])) {
             $_SESSION['current'] = "Society";
             unset($_SESSION['role']);
             echo'<script>alert("Login Successfully");location.href = "../UI/EventOrganizerHome.php";</script>';
+        } else {
+            echo "password invalid";
         }
     }
 } else if (isset($_POST['studentSubmit'])) {
     $val = new Validation();
     $stID = "STU" . $val->test_input($_POST['userid']);
     $stpass = $val->test_input($_POST['studentpass']);
-    
+
     if (empty($stID) || empty($stpass)) {
         echo "Cannot leave it empty";
     } else {

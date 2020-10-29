@@ -3,7 +3,7 @@ require_once '../Domain/Schedule.php';
 require_once '../DataAccess/ScheduleDA.php';
 session_start();
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <!--
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -63,12 +63,12 @@ and open the template in the editor.
     </script>
 
     <body>
-
         <div class='container'>
             <div class='page-header'>
                 <h1>Your Schedules</h1>
             </div>
-
+            <a href = 'EnterSchedule.php?eventID=<?= $_GET['eventID'] ?>' class = 'btn btn-primary'>Add Schedule</a>
+            <a href='EventOrganizerHome.php' class='btn btn-danger'>Back</a>
             <?php
             if (isset($_SESSION['message'])) {
                 echo '<br>' . $_SESSION['message'];
@@ -155,7 +155,6 @@ and open the template in the editor.
                                         <input type="hidden" name="eventID" value="<?= $schedule->eventID ?>"/>
                                         <input type="hidden" name="scheduleID" value="<?= $schedule->scheduleID ?>"/>
                                         <button type="submit" onclick="return confirm('Save?')" class='btn btn-primary' name="updateSchedule">Save</button>
-                                        <a href='EventOrganizerHome.php' class='btn btn-danger'>Back</a>
                                     </td>
                                 </tr>
                             </table>
