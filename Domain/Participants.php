@@ -2,14 +2,14 @@
 
 class Participants {
 
-    private $eventID;
+    private $scheduleID;
     private $userID;
     private $applyDate;
     private $applyStatus;
     private $attendanceStatus;
 
-    public function __construct($eventID = "", $userID = "", $applyDate = "", $applyStatus = "", $attendanceStatus = "") {
-        $this->eventID = $eventID;
+    public function __construct($scheduleID = "", $userID = "", $applyDate = "", $applyStatus = "", $attendanceStatus = "") {
+        $this->scheduleID = $scheduleID;
         $this->userID = $userID;
         $this->applyDate = $applyDate;
         $this->applyStatus = $applyStatus;
