@@ -2,7 +2,6 @@
 require_once '../Domain/SocietyEvent.php';
 require_once '../DataAccess/SocietyEventDA.php';
 include_once '../Domain/UpdateEvent.php';
-
 ?>
 <!DOCTYPE html>
 <!--
@@ -140,6 +139,8 @@ and open the template in the editor.
 
                 </form>
                 <?php
+            }else{
+                header('Location:EventOrganizerHome.php');
             }
             ?>
         </div>

@@ -3,6 +3,7 @@ require_once '../DataAccess/SocietyEventDA.php';
 session_start();
 if (!isset($_SESSION['result'])) {
     $_SESSION['current'] = 'Society';
+    $_SESSION['role'] = 'society';
     header('location:Login.php');
 }
 ?>

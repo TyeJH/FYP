@@ -40,7 +40,7 @@ if (isset($_POST['staffSubmit'])) {
             $_SESSION['result'] = $result;
             $_SESSION['current'] = "Society";
             unset($_SESSION['role']);
-            echo'<script>alert("Login Successfully");location.href = "../UI/HomePage.php";</script>';
+            echo'<script>alert("Login Successfully");location.href = "../UI/EventOrganizerHome.php";</script>';
         }
     }
 } else if (isset($_POST['studentSubmit'])) {

@@ -1,6 +1,7 @@
 <?php
 require_once '../Domain/Schedule.php';
 require_once '../DataAccess/ScheduleDA.php';
+session_start();
 ?>
 <!DOCTYPE html>
 <!--
@@ -47,8 +48,6 @@ and open the template in the editor.
             var radios = document.getElementsByName('unlimited');
             for (var i = 0, length = radios.length; i < length; i++) {
                 if (radios[i].checked) {
-                    // do whatever you want with the checked radio
-                    alert('participant:' + id + ' ' + radios[i].value);
                     if (radios[i].value === 'Yes') {
                         element.value = null;
                         element.disabled = true;
@@ -57,8 +56,6 @@ and open the template in the editor.
                         element.disabled = false;
                         element.required = true;
                     }
-                    // only one radio can be logically checked, don't check the rest
-                    break;
                 }
             }
         }

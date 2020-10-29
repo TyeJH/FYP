@@ -1,4 +1,12 @@
-<?php require '../serverLoad.php' ?>
+<?php
+require '../serverLoad.php';
+session_start();
+if (!isset($_SESSION['result'])) {
+    $_SESSION['current'] = 'Society';
+    $_SESSION['role'] = 'society';
+    header('location:Login.php');
+}
+?>
 
 <!DOCTYPE html>
 <!--
@@ -96,7 +104,7 @@ and open the template in the editor.
                             </td>
                             <td>
                                 From: <select id="startTime" name="startTime"  onchange="CompareTime();" required>
-<!--                                    <option  disabled selected>Start Time:</option>-->
+                                    <!--                                    <option  disabled selected>Start Time:</option>-->
                                     <?php
                                     $startTime = 800;
                                     $endTime = 2030;
@@ -121,7 +129,7 @@ and open the template in the editor.
                                     ?>
                                 </select>
                                 To: <select id="endTime" name="endTime" onchange="CompareTime();" required>
-<!--                                    <option  disabled selected>End Time:</option>-->
+                                    <!--                                    <option  disabled selected>End Time:</option>-->
                                     <?php
                                     $startTime = 830;
                                     $endTime = 2100;
