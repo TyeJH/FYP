@@ -1,7 +1,5 @@
 <?php
 include_once '../DataAccess/SocietyEventDA.php';
-$_SESSION['current'] = 'else'; //when load header, it will go to last Else statement instead go back to HomePage.php
-require 'header.php';
 ?>
 <!DOCTYPE html>
 <!--
@@ -23,44 +21,43 @@ and open the template in the editor.
             $(document).ready(function () {
                 $('#eventTable').DataTable();
             });
-        </script>
+        </script> 
     </head>
     <body>
 <!--        original table class <table id='eventTable' class ='table table-hover table-responsive table-bordered'>-->
-
-            <div class='container'>
-                <div class='page-header'>
-                    <h1>Events Happening</h1>
-                </div>
-                <?php
-                //table clsas removed table-responsive
-                echo "<table id='eventTable' class ='table table-hover  table-bordered'>";
-                echo "<thead>";
-                echo "<tr>";
-                echo "<th>Name</th>";
-                echo "<th>Action</th>";
-                echo "</tr>";
-                echo "</thead>";
-                echo "<tbody>";
-                $eventDA = new SocietyEventDA();
-                $eventArray = $eventDA->retrieve();
-                if ($eventArray == null) {
-                    echo "<tr>";
-                    echo "<td colspan='7' style=color:red;text-align:center;>No records found.</td>";
-                    echo "</tr>";
-                } else {
-                    foreach ($eventArray as $event) {
-                        echo "<tr>";
-                        echo "<td>{$event->eventName}</td>";
-                        echo "<td> <a href = 'EventDetails.php?eventID={$event->eventID}' class='btn btn-primary m-r-1em'>View</a> ";
-                        echo "</tr>";
-                    }
-                }
-                echo "</tbody>";
-                echo "</table>";
-                ?>
-                <a href="HomePage.php" class="btn btn-danger">Back</a>
+        <div class='container'>
+            <div class='page-header'>
+                <h1>Events Happening</h1>
             </div>
+            <?php
+            //table clsas removed table-responsive
+            echo "<table id='eventTable' class ='table table-hover  table-bordered'>";
+            echo "<thead>";
+            echo "<tr>";
+            echo "<th>Name</th>";
+            echo "<th>Action</th>";
+            echo "</tr>";
+            echo "</thead>";
+            echo "<tbody>";
+            $eventDA = new SocietyEventDA();
+            $eventArray = $eventDA->retrieve();
+            if ($eventArray == null) {
+                echo "<tr>";
+                echo "<td colspan='7' style=color:red;text-align:center;>No records found.</td>";
+                echo "</tr>";
+            } else {
+                foreach ($eventArray as $event) {
+                    echo "<tr>";
+                    echo "<td>{$event->eventName}</td>";
+                    echo "<td> <a href = 'EventDetails.php?eventID={$event->eventID}' class='btn btn-primary m-r-1em'>View</a> ";
+                    echo "</tr>";
+                }
+            }
+            echo "</tbody>";
+            echo "</table>";
+            ?>
+            <a href="HomePage.php" class="btn btn-danger">Back</a>
+        </div>
 
     </body>
 </html>

@@ -49,7 +49,8 @@ and open the template in the editor.
             <h2>Your created Events</h2>
 
             <?php
-            echo "<table id='eventTable' class ='table table-hover table-responsive table-bordered'>";
+            //class ='table table-hover table-responsive table-bordered' << original class
+            echo "<table id='eventTable' class ='table table-hover table-bordered'>";
             echo "<thead>";
             echo "<tr>";
             echo "<th>Event ID</th>";
