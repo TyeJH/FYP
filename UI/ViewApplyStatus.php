@@ -1,12 +1,7 @@
 <?php
 require '../DataAccess/DocumentationDA.php';
 require '../Domain/Society.php';
-
 session_start();
-if (!isset($_SESSION['result'])) {
-    $_SESSION['current'] = 'Society';
-    header('location:Login.php');
-}
 ?>
 
 <!DOCTYPE html>
@@ -60,43 +55,48 @@ and open the template in the editor.
                 <h1>Your Applications</h1>
             </div>
             <?php
-            echo "<table id='documentsTable' class = 'table table-hover table-responsive table-bordered'>";
-            echo "<thead>";
-            echo "<tr>";
-            echo "<th>Document ID</th>";
-            echo "<th>Name</th>";
-            echo "<th>Date Applied</th>";
-            echo "<th>Status</th>";
-            echo "<th>Action</th>";
-            echo "</tr>";
-            echo "<thead>";
-            echo "<tbody>";
-            $societyID = $_SESSION['result']->societyID;
-            $documentationDA = new DocumentationDA();
-            $docArray = $documentationDA->retrieveBySocietyID($societyID);
-            if ($docArray == null) {
+            if (isset($_SESSION['result'])) {
+                echo "<table id='documentsTable' class = 'table table-hover table-responsive table-bordered'>";
+                echo "<thead>";
                 echo "<tr>";
-                echo "<td colspan='4' style=color:red;text-align:center;>No records found.</td>";
+                echo "<th>Document ID</th>";
+                echo "<th>Name</th>";
+                echo "<th>Date Applied</th>";
+                echo "<th>Status</th>";
+                echo "<th>Action</th>";
                 echo "</tr>";
-            } else {
-                foreach ($docArray as $doc) {
+                echo "<thead>";
+                echo "<tbody>";
+
+                $societyID = $_SESSION['result']->societyID;
+                $documentationDA = new DocumentationDA();
+                $docArray = $documentationDA->retrieveBySocietyID($societyID);
+                if ($docArray == null) {
                     echo "<tr>";
-                    echo "<td>{$doc->docID}</td>";
-                    echo "<td><a title='Download File' download='" . $doc->docName . "' href=data:" . $doc->mime . ";base64," . base64_encode($doc->docContent) . ">$doc->docName</a></td>";
-                    $dateFormatted = date("Y-M-d", strtotime($doc->applyDate));
-                    echo "<td>{$dateFormatted}</td>";
-                    echo "<td>{$doc->status}</td>";
-                    if ($doc->status == "Approved") {
-                        echo "<td> <a href = 'SocietyCreateEvent.php?applyID={$doc->docID}' class='btn btn-primary m-r-1em'>Create event</a> </td>";
-                    } else if ($doc->status == "Pending") {
-                        echo "<td> <p>Waiting for approval</p> </td>";
-                    } else if ($doc->status == "Disapproved") {
-                        echo "<td><input type = 'button' name = 'edit' value = 'View Feedback' id = '{$doc->docID}' class = 'btn btn-primary m-r-1em view_data' /></td>";
+                    echo "<td colspan='4' style=color:red;text-align:center;>No records found.</td>";
+                    echo "</tr>";
+                } else {
+                    foreach ($docArray as $doc) {
+                        echo "<tr>";
+                        echo "<td>{$doc->docID}</td>";
+                        echo "<td><a title='Download File' download='" . $doc->docName . "' href=data:" . $doc->mime . ";base64," . base64_encode($doc->docContent) . ">$doc->docName</a></td>";
+                        $dateFormatted = date("Y-M-d", strtotime($doc->applyDate));
+                        echo "<td>{$dateFormatted}</td>";
+                        echo "<td>{$doc->status}</td>";
+                        if ($doc->status == "Approved") {
+                            echo "<td> <a href = 'SocietyCreateEvent.php?applyID={$doc->docID}' class='btn btn-primary m-r-1em'>Create event</a> </td>";
+                        } else if ($doc->status == "Pending") {
+                            echo "<td> <p>Waiting for approval</p> </td>";
+                        } else if ($doc->status == "Disapproved") {
+                            echo "<td><input type = 'button' name = 'edit' value = 'View Feedback' id = '{$doc->docID}' class = 'btn btn-primary m-r-1em view_data' /></td>";
+                        }
                     }
                 }
+                echo "</tbody>";
+                echo "</table>";
+            }else{
+                header('Location:EventOrganizerHome.php');
             }
-            echo "</tbody>";
-            echo "</table>";
             ?>
             <a href="EventOrganizerHome.php" class="btn btn-danger">Back</a>
         </div>

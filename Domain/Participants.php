@@ -2,13 +2,15 @@
 
 class Participants {
 
+    private $scheduleID;
     private $eventID;
     private $userID;
     private $applyDate;
     private $applyStatus;
     private $attendanceStatus;
 
-    public function __construct($eventID = "", $userID = "", $applyDate = "", $applyStatus = "", $attendanceStatus = "") {
+    public function __construct($scheduleID = "", $eventID = "", $userID = "", $applyDate = "", $applyStatus = "", $attendanceStatus = "") {
+        $this->scheduleID = $scheduleID;
         $this->eventID = $eventID;
         $this->userID = $userID;
         $this->applyDate = $applyDate;
@@ -25,7 +27,7 @@ class Participants {
         }
     }
 
-    public function &__get($name) {
+    public function __get($name) {
         if (property_exists($this, $name)) {
             return $this->$name;
         } else {

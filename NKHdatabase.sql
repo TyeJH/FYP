@@ -86,16 +86,29 @@ CREATE TABLE SocietyEvent(
     eventName          varchar(20)       not null,
     eventDesc          varchar(300)      not null,
     eventCategory      varchar(20)       not null,
-    startDate          date              not null,
-    endDate            date              not null,
     image              longblob          not null,
-    noOfParticipant    int(255)          not null,
     noOfHelper         int(255)          not null,
     contactNo          varchar(300)      not null,
     societyID          varchar(10)       not null,
     applyID            int(11)           not null,
     PRIMARY KEY(eventID),
     FOREIGN KEY (societyID) REFERENCES society(societyID)
+);
+
+CREATE TABLE Schedule(
+    scheduleID      INT(6)      not null auto_increment,
+    venue           VARCHAR(255)not null,
+    startDate       DATE        not null,
+    startTime       TIME        not null,
+    endDate         DATE        null,
+    endTime         TIME        null,
+    unlimited       VARCHAR(255)null,
+    noOfParticipant INT(255)    null,
+    noOfJoined      INT(6)      null,
+    scheduleStatus VARCHAR(255) not null,
+    eventID         INT(6)      not null,
+    PRIMARY KEY(scheduleID),
+    FOREIGN KEY (eventID) REFERENCES SocietyEvent(eventID)
 );
 
 CREATE TABLE feedbacks(
@@ -110,14 +123,19 @@ CREATE TABLE feedbacks(
     FOREIGN KEY(docID)     references documentation(docID)
 );
 
+
 CREATE TABLE participants(
+    scheduleID       INT(6)       not null,
     eventID          INT(6)       not null,
     userID           VARCHAR(300) not null,
-    applyDate        DATETIME not null,
+    applyDate        DATETIME     not null,
     applyStatus      VARCHAR(300) not null,
     attendanceStatus VARCHAR(300) not null,
+    PRIMARY KEY(scheduleID,eventID,userID),
+    FOREIGN KEY (scheduleID) REFERENCES Schedule(scheduleID),
     FOREIGN KEY (eventID) REFERENCES SocietyEvent(eventID),
     FOREIGN KEY (userID) REFERENCES student(userID)
+
 );
 
 CREATE TABLE helpers(
@@ -129,18 +147,3 @@ CREATE TABLE helpers(
     FOREIGN KEY (userID) REFERENCES student(userID)
 );
 
-CREATE TABLE Schedule(
-    scheduleID      INT(6)      not null auto_increment,
-    venue           VARCHAR(255)not null,
-    startDate       DATE        not null,
-    startTime       TIME        not null,
-    endDate         DATE        null,
-    endTime         TIME        null,
-    unlimted        VARCHAR(255)null,
-    noOfParticipant INT(255)    null,
-    noOfJoined      INT(6)      null,
-    scheduleStatus VARCHAR(255) not null,
-    eventID         INT(6)      not null,
-    PRIMARY KEY(scheduleID),
-    FOREIGN KEY (eventID) REFERENCES SocietyEvent(eventID)
-);

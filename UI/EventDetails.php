@@ -1,5 +1,9 @@
-<?php require '../DataAccess/SocietyEventDA.php'; ?>
-<?php require '../Domain/CreateParticipant.php'; ?>
+<?php
+require '../DataAccess/SocietyEventDA.php';
+require '../Domain/CreateParticipant.php';
+require '../DataAccess/ScheduleDA.php';
+?>
+
 
 <!DOCTYPE html>
 <!--
@@ -71,28 +75,9 @@ AUTHOR : NGO KIAN HEE
                             </td>
                         </tr>
                         <tr>
-                            <td>Participants Allowed : </td>
-                            <td>
-                                <?= $event->noOfParticipant ?>
-                            </td>
-                        </tr>
-                        <tr>
                             <td>Helper Needed : </td>
                             <td>  
                                 <?= $event->noOfHelper ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Start date :</td>
-
-                            <td>            
-                                <?= $event->startDate ?>
-                            </td>
-                        </tr>
-                        <tr>            
-                            <td>End date :</td>
-                            <td>            
-                                <?= $event->endDate ?>
                             </td>
                         </tr>
                         <tr>
@@ -112,16 +97,42 @@ AUTHOR : NGO KIAN HEE
                         </tr>
                         <tr>
                             <td>
-
+                                Schedule Session
                             </td>
                             <td>
-                                <input type="hidden" name="eventID" value="<?= $event->eventID ?>" />
-                                <button onclick="JSalert()" type="submit" class='btn btn-primary' name="participate">Participate Now !</button>
+                                <?php
+                                $scheduleDA = new ScheduleDA();
+                                $scheduleArray = $scheduleDA->retrieve($eventID);
+                                $count = 1;
+                                foreach ($scheduleArray as $schedule) {
+                                    echo "<b>Session $count </b> </br>";
+                                    echo "<b>Venue :</b> $schedule->venue  </br>";
+                                    if ($schedule->unlimited == 'No') {
+                                        echo "Slot: $schedule->noOfJoined/$schedule->noOfParticipant</br>";
+                                    }
+                                    //convert format to dd/mm/yyyy 2200
+                                    $stFormat = $schedule->startDate . " " . $schedule->startTime;
+                                    $etFormat = $schedule->endDate . " " . $schedule->endTime;
+                                    $st = strtotime($stFormat);
+                                    $et = strtotime($etFormat);
+                                    //convert format to Thursday, 2020--Oct-01 4:00 PM
+                                    $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
+                                    $endDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($etFormat));
+                                    //$et = strtotime($etFormat);
+                                    echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                    $count++;
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
                                 <button onclick="JSalert()" type="submit" class='btn btn-primary' name="applyHelper">Register as Helper!</button>
                                 <a href='HomePage.php' class='btn btn-danger'>Back</a>
                             </td>
                         </tr>
-
                     </table>
 
                     <?php

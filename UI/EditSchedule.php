@@ -1,6 +1,7 @@
 <?php
 require_once '../Domain/Schedule.php';
 require_once '../DataAccess/ScheduleDA.php';
+session_start();
 ?>
 <!DOCTYPE html>
 <!--
@@ -42,24 +43,30 @@ and open the template in the editor.
                 }
             });
         });
-        function checkUnlimited(yesNo) {
-            var element = document.getElementById('noOfParticipant');
-            if (yesNo === 'Yes') {
-                element.value = null;
-                element.disabled = true;
-                element.required = false;
-            } else {
-                element.disabled = false;
-                element.required = true;
+        function checkUnlimited(id) {
+            var element = document.getElementById('participant:' + id);
+            var radios = document.getElementsByName('unlimited:' + id);
+            for (var i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+                    if (radios[i].value == 'Yes') {
+                        element.value = null;
+                        element.disabled = true;
+                        element.required = false;
+                    } else {
+                        element.disabled = false;
+                        element.required = true;
+                    }
+                }
             }
         }
+
     </script>
 
     <body>
 
         <div class='container'>
             <div class='page-header'>
-                <h1>Your Event</h1>
+                <h1>Your Schedules</h1>
             </div>
 
             <?php
@@ -73,7 +80,7 @@ and open the template in the editor.
                 $scheduleArray = $scheduleDA->retrieve($eventID);
                 $count = 1;
                 if ($scheduleArray == null) {
-                    echo "<p>style=color:red;text-align:center;>No records found.</p>";
+                    echo "<p style=color:red;text-align:center;>No records found.</p>";
                 } else {
                     foreach ($scheduleArray as $schedule) {
                         echo "<h3>Schedule $count</h3>";
@@ -105,11 +112,11 @@ and open the template in the editor.
                                     <td>
                                         <?php
                                         if ($schedule->unlimited == 'Yes') {
-                                            echo "Yes <input type='radio' id='unlimited' name='unlimited' onClick='checkUnlimited(this.value)' value='Yes' checked/> ";
-                                            echo "No <input type='radio' id='unlimited' name='unlimited' onClick='checkUnlimited(this.value)' value='No'/>";
+                                            echo "Yes <input type='radio' name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='Yes' checked/> ";
+                                            echo "No <input type='radio'  name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='No'/>";
                                         } else {
-                                            echo "Yes <input type='radio' id='unlimited' name='unlimited' onClick='checkUnlimited(this.value)' value='Yes'/> ";
-                                            echo "No <input type='radio' id='unlimited' name='unlimited' onClick='checkUnlimited(this.value)' value='No' checked/>";
+                                            echo "Yes <input type='radio' name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='Yes'/> ";
+                                            echo "No <input type='radio'  name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='No' checked/>";
                                         }
                                         ?>
                                     </td>
@@ -117,7 +124,13 @@ and open the template in the editor.
                                 <tr>
                                     <td>Participants Allowed :</td>
                                     <td>
-                                        <input type="number" min="<?= $schedule->noOfJoined ?>" id="noOfParticipant" name="noOfParticipant" value='<?= $schedule->noOfParticipant ?>' class='form-control'/><br>
+                                        <?php
+                                        if ($schedule->unlimited == 'Yes') {
+                                            echo "<input disabled type = 'number' min = '$schedule->noOfJoined' id='participant:$schedule->scheduleID'  name = 'noOfParticipant' value = '$schedule->noOfParticipant' class = 'form-control'/><br>";
+                                        } else {
+                                            echo "<input type = 'number' min = '$schedule->noOfJoined' id='participant:$schedule->scheduleID'  name = 'noOfParticipant' value = '$schedule->noOfParticipant' class = 'form-control'/><br>";
+                                        }
+                                        ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -138,8 +151,9 @@ and open the template in the editor.
                                     <td>
                                     </td>
                                     <td>
-                                        <input type="hidden" name="noOfJoined" value="<?= $schedule->noOfJoined ?>"/><br>
-                                        <input type="hidden" name="eventID" value="<?= $schedule->eventID ?>"/><br>
+                                        <input type="hidden" name="noOfJoined" value="<?= $schedule->noOfJoined ?>"/>
+                                        <input type="hidden" name="eventID" value="<?= $schedule->eventID ?>"/>
+                                        <input type="hidden" name="scheduleID" value="<?= $schedule->scheduleID ?>"/>
                                         <button type="submit" onclick="return confirm('Save?')" class='btn btn-primary' name="updateSchedule">Save</button>
                                         <a href='EventOrganizerHome.php' class='btn btn-danger'>Back</a>
                                     </td>

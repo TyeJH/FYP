@@ -8,11 +8,12 @@ session_start();
 if (isset($_POST['updateSchedule'])) {
 
     //initializes
-    if ($_POST['unlimited'] == "Yes") {
+    $scheduleID = $_POST['scheduleID'];
+    if ($_POST["unlimited:$scheduleID"] == 'Yes') {
         $unlimited = 'Yes';
         $noOfParticipant = null;
     } else {
-        $unlimited = null;
+        $unlimited = 'No';
         $noOfParticipant = $_POST['noOfParticipant'];
     }
     $venue = $_POST['venue'];
@@ -30,20 +31,14 @@ if (isset($_POST['updateSchedule'])) {
     $st = strtotime($stFormat);
     $et = strtotime($etFormat);
     if ($st > $et || $st == $et) {
-        echo "<script>alert('The end time must be greater than the start time.');</script>";
+        echo "<script>alert('The end time must be greater than the start time.');location.href = '../UI/EditSchedule.php?eventID=$eventID';</script>";
     } else {
-        $schedule = new Schedule($scheduleID = "", $venue, $startDate, $startTime, $endDate, $endTime, $unlimited, $noOfParticipant, $noOfJoined, $scheduleStatus, $eventID);
+        $schedule = new Schedule($scheduleID, $venue, $startDate, $startTime, $endDate, $endTime, $unlimited, $noOfParticipant, $noOfJoined, $scheduleStatus, $eventID);
         $scheduleDA = new ScheduleDA();
         if ($scheduleDA->update($schedule)) {
-            echo "<script>alert('Successfully Updated.');location.href = '../UI/EditSchedule.php?eventID='$eventID;</script>";
+           echo "<script>alert('Successfully Updated.');location.href = '../UI/EditSchedule.php?eventID=$eventID';</script>";
         } else {
-            echo "<script>alert('Unexpected error occur.');location.href = '../UI/EditSchedule.php?eventID='$eventID;</script>";
+            echo "<script>alert('Unexpected error occur.');location.href = '../UI/EditSchedule.php?eventID=$eventID';</script>";
         }
     }
-}
-
-//if input false, negative result will occur when dateOne is earlier than dateTwo
-function millisecsBetween($dateOne, $dateTwo, $abs = true) {
-    $func = $abs ? 'abs' : 'intval';
-    return $func(strtotime($dateOne) - strtotime($dateTwo)) * 1000;
 }

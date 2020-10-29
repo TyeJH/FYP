@@ -12,7 +12,7 @@ if (isset($_POST['createSchedule'])) {
         $unlimited = 'Yes';
         $noOfParticipant = null;
     } else {
-        $unlimited = null;
+        $unlimited = 'No';
         $noOfParticipant = $_POST['noOfParticipant'];
     }
     $venue = $_POST['venue'];
@@ -23,21 +23,21 @@ if (isset($_POST['createSchedule'])) {
     $scheduleStatus = 'Ongoing';
     $societyID = $_SESSION['result']->societyID;
     $eventID = $_POST['eventID'];
-    $noOfJoined = null;
+    $noOfJoined = 0;
     //convert format to dd/mm/yyyy 2400
     $stFormat = $startDate . " " . $startTime;
     $etFormat = $endDate . " " . $endTime;
     $st = strtotime($stFormat);
     $et = strtotime($etFormat);
     if ($st > $et || $st == $et) {
-        echo "<script>alert('The end time must be greater than the start time.');</script>";
+        echo "<script>alert('The end time must be greater than the start time.');location.href = '../UI/EnterSchedule.php?eventID=$eventID';</script>";
     } else {
         $schedule = new Schedule($scheduleID = "", $venue, $startDate, $startTime, $endDate, $endTime, $unlimited, $noOfParticipant, $noOfJoined, $scheduleStatus, $eventID);
         $scheduleDA = new ScheduleDA();
         if ($scheduleDA->create($schedule)) {
-            echo '<script>alert("Successfully Created.");location.href = "../UI/EventOrganizerHome.php";</script>';
+        echo "<script>alert('Successfully Created.');location.href = '../UI/EnterSchedule.php?eventID=$eventID';</script>";
         } else {
-            echo '<script>alert("Unexpected error occur.");location.href = "../UI/EventOrganizerHome.php";</script>';
+        echo "<script>alert('Unexpected error occur.');location.href = '../UI/EnterSchedule.php?eventID=$eventID';</script>";
         }
     }
 }

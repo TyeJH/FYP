@@ -8,24 +8,18 @@ class SocietyEvent {
     private $eventName;
     private $eventDesc;
     private $eventCategory;
-    private $startDate;
-    private $endDate;
     private $image;
-    private $noOfParticipant;
     private $noOfHelper;
     private $contactNo;
     private $societyID;
     private $applyID;
 
-    public function __construct($eventID = "", $eventName = "", $eventDesc = "", $eventCategory = "", $startDate = "", $endDate = "", $image = "", $noOfParticipant = "", $noOfHelper = "", $contactNo = "", $societyID = "", $applyID = "") {
+    public function __construct($eventID = "", $eventName = "", $eventDesc = "", $eventCategory = "", $image = "", $noOfHelper = "", $contactNo = "", $societyID = "", $applyID = "") {
         $this->eventID = $eventID;
         $this->eventName = $eventName;
         $this->eventDesc = $eventDesc;
         $this->eventCategory = $eventCategory;
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
         $this->image = $image;
-        $this->noOfParticipant = $noOfParticipant;
         $this->noOfHelper = $noOfHelper;
         $this->contactNo = $contactNo;
         $this->societyID = $societyID;

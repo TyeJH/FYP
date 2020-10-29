@@ -1,9 +1,5 @@
 <?php
 session_start();
-//if (!isset($_SESSION['result'])) {
-//    $_SESSION['current'] = 'Society';
-//    header('location:Login.php');
-//}
 ?>
 <!DOCTYPE html>
 <!--

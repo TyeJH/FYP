@@ -13,13 +13,11 @@ if (isset($_POST['createEvent'])) {
     $eventName = $val->test_input($_POST['eventName']);
     $eventDesc = $val->test_input($_POST['eventDesc']);
     $eventCategory = $val->test_input($_POST['eventCategory']);
-    $startDate = $_POST['startDate'];
-    $endDate = $_POST['endDate'];
+
     //Event Image file
     $filename = $_FILES['myfile']['name'];
     $ext = pathinfo($filename, PATHINFO_EXTENSION);
     $content = file_get_contents($_FILES['myfile']['tmp_name']);
-    $noOfParticipant = $_POST['noOfParticipant'];
     $noOfHelper = $_POST['noOfHelper'];
     $contactNo = $_POST['contactNo'];
     $societyID = $_SESSION['result']->societyID;
@@ -40,7 +38,7 @@ if (isset($_POST['createEvent'])) {
         $_SESSION['message'] =  "<div class='alert alert-info'><strong>Sorry, image file only jpg and png is accepted.</strong></div>";
         header("location:../UI/SocietyCreateEvent.php?applyID=$applyID");
     } else {
-        $event = new SocietyEvent($eventID = "", $eventName, $eventDesc, $eventCategory, $startDate, $endDate, $content, $noOfParticipant, $noOfHelper, $contactNo, $societyID, $applyID);
+        $event = new SocietyEvent($eventID = "", $eventName, $eventDesc, $eventCategory, $content, $noOfHelper, $contactNo, $societyID, $applyID);
         $eventDA = new SocietyEventDA();
         if ($eventDA->create($event)) {
             $_SESSION['message'] = "<div class='alert alert-success'><strong>Success!</strong> You have posted a new event.</div>";
