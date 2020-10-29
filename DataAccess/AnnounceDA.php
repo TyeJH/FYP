@@ -42,6 +42,23 @@ class AnnounceDA {
             return $ann;
         }
     }
+    
+    public function retrieveJSON($annid) {
+        $db = DatabaseConnection::getInstance()->getDb();
+        $query = "SELECT * FROM announcement WHERE annID = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $annid, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $a = $stmt->fetch(PDO::FETCH_ASSOC);
+            DatabaseConnection::closeConnection($db);
+            return $a;
+        }
+    }
 
     public function regsiter(Announcement $an) {
         $db = DatabaseConnection::getInstance()->getDB();

@@ -26,7 +26,7 @@ if (isset($_POST['venueid'])) {
             <td width="70%">'.$edit->venueName.'</td>  
         </tr>
         <tr>  
-            <td width="30%"><label>Vanue Description</label></td>  
+            <td width="30%"><label>Venue Description</label></td>  
             <td width="70%">'.$edit->venueDesc.'</td>  
         </tr>
      ';
