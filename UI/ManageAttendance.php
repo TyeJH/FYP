@@ -40,9 +40,10 @@ and open the template in the editor.
                             data: {
                                 "type": type,
                                 "scheduleID": valueSpilted[0],
+                                "eventID": valueSpilted[1],
                                 "userID": userID,
-                                "applyDate": valueSpilted[2],
-                                "applyStatus": valueSpilted[3],
+                                "applyDate": valueSpilted[3],
+                                "applyStatus": valueSpilted[4],
                                 "attendanceStatus": attendanceStatus
                             },
                             success: function (data) {
@@ -86,9 +87,9 @@ and open the template in the editor.
                         echo "<td>$participant->scheduleID</td>";
                         //echo "<td>{$studName}</td>";
                         if ($participant->attendanceStatus == 'Attended') {
-                            echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->userID,$participant->applyDate,$participant->applyStatus' checked></td>";
+                            echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate,$participant->applyStatus' checked></td>";
                         } else {
-                            echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->userID,$participant->applyDate,$participant->applyStatus'></td>";
+                            echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate,$participant->applyStatus'></td>";
                         }
                         $count++;
                     }

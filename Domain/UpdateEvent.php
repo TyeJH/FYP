@@ -19,7 +19,7 @@ if (isset($_POST['updateEvent'])) {
         //If user didn't upload new image file, then use existing one
         $eventDA = new SocietyEventDA();
         $event = new SocietyEvent();
-        $event = $eventDA->retrieve($eventID);
+        $event = $eventDA->retrieveByEventID($eventID);
         $content = $event->image;
     } else {
         //If user upload new image file, then use the uploaded one
@@ -30,9 +30,6 @@ if (isset($_POST['updateEvent'])) {
         $file = 1;
     }
     $eventCategory = $val->test_input($_POST['eventCategory']);
-    $startDate = $_POST['startDate'];
-    $endDate = $_POST['endDate'];
-    $noOfParticipant = $_POST['noOfParticipant'];
     $noOfHelper = $_POST['noOfHelper'];
     $contactNo = $_POST['contactNo'];
 
@@ -49,7 +46,7 @@ if (isset($_POST['updateEvent'])) {
         header("location:../UI/EditEvent.php?eventID=$eventID");
     } else {
 
-        $event = new SocietyEvent($eventID, $eventName, $eventDesc, $eventCategory, $startDate, $endDate, $content, $noOfParticipant, $noOfHelper, $contactNo, $societyID, $applyID);
+        $event = new SocietyEvent($eventID, $eventName, $eventDesc, $eventCategory, $content, $noOfHelper, $contactNo, $societyID, $applyID);
         $eventDA = new SocietyEventDA();
         if ($eventDA->update($event)) {
             $_SESSION['message'] = "<div class='alert alert-success'><strong>Successfully updated!</strong></div>";

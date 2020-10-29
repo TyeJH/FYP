@@ -3,13 +3,15 @@
 class Participants {
 
     private $scheduleID;
+    private $eventID;
     private $userID;
     private $applyDate;
     private $applyStatus;
     private $attendanceStatus;
 
-    public function __construct($scheduleID = "", $userID = "", $applyDate = "", $applyStatus = "", $attendanceStatus = "") {
+    public function __construct($scheduleID = "", $eventID = "", $userID = "", $applyDate = "", $applyStatus = "", $attendanceStatus = "") {
         $this->scheduleID = $scheduleID;
+        $this->eventID = $eventID;
         $this->userID = $userID;
         $this->applyDate = $applyDate;
         $this->applyStatus = $applyStatus;

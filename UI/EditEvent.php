@@ -86,28 +86,9 @@ and open the template in the editor.
                             </td>
                         </tr>
                         <tr>
-                            <td>Participants Allowed : </td>
-                            <td>
-                                <input type="number" min="1" name="noOfParticipant" value="<?= $event->noOfParticipant ?>" class='form-control'/><br>
-                            </td>
-                        </tr>
-                        <tr>
                             <td>Helper Needed : </td>
                             <td>  
                                 <input type="number" min="0" name="noOfHelper" value="<?= $event->noOfHelper ?>" class='form-control'/><br>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Start date :</td>
-
-                            <td>            
-                                <input type="text" id="start" name="startDate" value="<?= $event->startDate ?>" class='form-control'/><br>
-                            </td>
-                        </tr>
-                        <tr>            
-                            <td>End date :</td>
-                            <td>            
-                                <input type="text" id="end" name="endDate" value="<?= $event->endDate ?>" class='form-control'/><br>
                             </td>
                         </tr>
                         <tr>            

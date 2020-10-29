@@ -84,27 +84,9 @@ and open the template in the editor.
                                 </td>
                             </tr>
                             <tr>
-                                <td>Participants Allowed : </td>
-                                <td>
-                                    <input type="number" min="1" name="noOfParticipant" class='form-control'/><br>
-                                </td>
-                            </tr>
-                            <tr>
                                 <td>Helper Needed : </td>
                                 <td>  
                                     <input type="number" min="0" name="noOfHelper" class='form-control'/><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Start date :</td>
-                                <td>
-                                    <input type="text" id="start" name="startDate" class='form-control'/><br>
-                                </td>
-                            </tr>
-                            <tr>            
-                                <td>End date :</td>
-                                <td>            
-                                    <input type="text" id="end" name="endDate" class='form-control'/><br>
                                 </td>
                             </tr>
                             <tr>            

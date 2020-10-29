@@ -39,8 +39,9 @@ and open the template in the editor.
                             data: {
                                 "type": type,
                                 "scheduleID": valueSpilted[0],
+                                "eventID": valueSpilted[1],
                                 "userID": userID,
-                                "applyDate": valueSpilted[2],
+                                "applyDate": valueSpilted[3],
                                 "applyStatus": applyStatus,
                                 "attendanceStatus": attendanceStatus
                             },
@@ -90,9 +91,9 @@ and open the template in the editor.
                         echo "<td>{$dateFormatted}</td>";
 
                         if ($participant->applyStatus == 'Approved') {
-                            echo "<td>  <input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->userID,$participant->applyDate' checked></td>";
+                            echo "<td>  <input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate' checked></td>";
                         } else {
-                            echo "<td>  <input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->userID,$participant->applyDate'></td>";
+                            echo "<td>  <input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate'></td>";
                         }
                         $count++;
                     }

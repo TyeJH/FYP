@@ -46,10 +46,8 @@ AUTHOR : NGO KIAN HEE
                 echo '<br>' . $_SESSION['message'];
                 unset($_SESSION['message']);
             }
-            if (!isset($_GET['eventID'])) {
-                //$eventID = $_GET['eventID'];
-                $eventID = 1;
-
+            if (isset($_GET['eventID'])) {
+                $eventID = $_GET['eventID'];
                 $eventDA = new SocietyEventDA();
                 $event = $eventDA->retrieveByEventID($eventID);
                 if ($event == null) {
