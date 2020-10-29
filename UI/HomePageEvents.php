@@ -1,5 +1,7 @@
 <?php
 include_once '../DataAccess/SocietyEventDA.php';
+session_start();
+require 'header.php';
 ?>
 <!DOCTYPE html>
 <!--
