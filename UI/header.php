@@ -169,10 +169,10 @@
                 <?php
             }
         } 
-//        else {
-//            $_SESSION['current'] = '';
-//            header("Location:../UI/HomePage.php");
-//        }
+        else {
+            $_SESSION['current'] = '';
+            header("Location:../UI/HomePage.php");
+        }
         ?>
     </body> 
 </html>
