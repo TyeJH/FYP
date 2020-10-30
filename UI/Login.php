@@ -24,9 +24,21 @@ require 'header.php';
                             ?>
                             <h1>Staff Account Login</h1>
                             <form method="post" action="../Domain/validateLogin.php">
-                                <label>Admin ID: </label> <input type="text" placeholder="Enter admin id" name="adminid" autofocus=""/><br>
-                                <label>Password: </label> <input type="password" placeholder="Enter your password" name ="adminpass"/><br>
-                                <input type="submit" name="staffSubmit" value="Login"/> <input type="reset" name="reset" value="Cancel"/><br>
+                                <table>
+                                    <tr>
+                                        <th>Admin ID:</th>
+                                        <td><input type="text" placeholder="Enter admin id" name="adminid" autofocus=""/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Password:</th>
+                                        <td><input type="password" placeholder="Enter your password" name ="adminpass"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><input type="submit" name="staffSubmit" value="Login"/>
+                                        <input type="reset" name="reset" value="Cancel"/></td>
+                                    </tr>
+                                </table>
                             </form>
                             <?php
                         } else if ($_SESSION['role'] == 'society') {

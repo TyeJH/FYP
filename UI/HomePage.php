@@ -4,7 +4,9 @@ include_once '../Domain/Student.php';
 include_once '../Domain/Society.php';
 include_once '../DataAccess/SocietyEventDA.php';
 session_start();
-require 'header.php';
+require '../UI/header.php';
+
+
 ?>
 <html>
     <head>
@@ -12,5 +14,6 @@ require 'header.php';
         <title>Home Page</title>
     </head>
     <body>
+
     </body>
 </html>
