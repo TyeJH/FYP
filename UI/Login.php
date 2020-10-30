@@ -24,7 +24,7 @@ require 'header.php';
                             ?>
                             <h1>Staff Account Login</h1>
                             <form method="post" action="../Domain/validateLogin.php">
-                                <table >
+                                <table>
                                     <tr>
                                         <th>Admin ID:</th>
                                         <td><input type="text" placeholder="Enter admin id" name="adminid" autofocus=""/></td>

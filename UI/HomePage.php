@@ -5,6 +5,8 @@ include_once '../Domain/Society.php';
 include_once '../DataAccess/SocietyEventDA.php';
 session_start();
 require '../UI/header.php';
+
+
 ?>
 <html>
     <head>
@@ -12,6 +14,6 @@ require '../UI/header.php';
         <title>Home Page</title>
     </head>
     <body>
-        
+
     </body>
 </html>
