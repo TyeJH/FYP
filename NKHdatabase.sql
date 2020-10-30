@@ -39,7 +39,6 @@ CREATE TABLE venue(
     venueName      varchar(20)   not null,
     venueDesc      varchar(100)  not null,
     venueStatus    varchar(10)   not null,
-    venueLocation  varchar(50)   not null,
     PRIMARY KEY(venueID)
 );
 
