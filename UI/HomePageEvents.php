@@ -1,5 +1,7 @@
 <?php
 include_once '../DataAccess/SocietyEventDA.php';
+session_start();
+require 'header.php';
 ?>
 <!DOCTYPE html>
 <!--
@@ -21,15 +23,17 @@ and open the template in the editor.
             $(document).ready(function () {
                 $('#eventTable').DataTable();
             });
-        </script>
+        </script> 
     </head>
     <body>
+<!--        original table class <table id='eventTable' class ='table table-hover table-responsive table-bordered'>-->
         <div class='container'>
             <div class='page-header'>
                 <h1>Events Happening</h1>
             </div>
             <?php
-            echo "<table id='eventTable' class ='table table-hover table-responsive table-bordered'>";
+            //table clsas removed table-responsive
+            echo "<table id='eventTable' class ='table table-hover  table-bordered'>";
             echo "<thead>";
             echo "<tr>";
             echo "<th>Name</th>";
@@ -55,7 +59,6 @@ and open the template in the editor.
             echo "</table>";
             ?>
             <a href="HomePage.php" class="btn btn-danger">Back</a>
-
         </div>
 
     </body>

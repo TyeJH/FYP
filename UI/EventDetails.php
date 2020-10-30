@@ -104,23 +104,27 @@ AUTHOR : NGO KIAN HEE
                                 $scheduleDA = new ScheduleDA();
                                 $scheduleArray = $scheduleDA->retrieve($eventID);
                                 $count = 1;
-                                foreach ($scheduleArray as $schedule) {
-                                    echo "<b>Session $count </b> </br>";
-                                    echo "<b>Venue :</b> $schedule->venue  </br>";
-                                    if ($schedule->unlimited == 'No') {
-                                        echo "Slot: $schedule->noOfJoined/$schedule->noOfParticipant</br>";
+                                if ($scheduleArray != null) {
+                                    foreach ($scheduleArray as $schedule) {
+                                        echo "<b>Session $count </b> </br>";
+                                        echo "<b>Venue :</b> $schedule->venue  </br>";
+                                        if ($schedule->unlimited == 'No') {
+                                            echo "Slot: $schedule->noOfJoined/$schedule->noOfParticipant</br>";
+                                        }
+                                        //convert format to dd/mm/yyyy 2200
+                                        $stFormat = $schedule->startDate . " " . $schedule->startTime;
+                                        $etFormat = $schedule->endDate . " " . $schedule->endTime;
+                                        $st = strtotime($stFormat);
+                                        $et = strtotime($etFormat);
+                                        //convert format to Thursday, 2020--Oct-01 4:00 PM
+                                        $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
+                                        $endDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($etFormat));
+                                        //$et = strtotime($etFormat);
+                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                        $count++;
                                     }
-                                    //convert format to dd/mm/yyyy 2200
-                                    $stFormat = $schedule->startDate . " " . $schedule->startTime;
-                                    $etFormat = $schedule->endDate . " " . $schedule->endTime;
-                                    $st = strtotime($stFormat);
-                                    $et = strtotime($etFormat);
-                                    //convert format to Thursday, 2020--Oct-01 4:00 PM
-                                    $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
-                                    $endDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($etFormat));
-                                    //$et = strtotime($etFormat);
-                                    echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
-                                    $count++;
+                                }else{
+                                    echo "Waiting for event organizer to upload schedule.";
                                 }
                                 ?>
                             </td>
