@@ -86,79 +86,93 @@ and open the template in the editor.
                         echo "<h3>Schedule $count</h3>";
                         ?>
                         <form action="../Domain/UpdateSchedule.php" method="post" enctype="multipart/form-data">
-                            <table class='table table-hover table-responsive table-bordered'>
-                                <tr>
-                                    <td>Venue : </td>
-                                    <td>  
-                                        <input type="text" name="venue" class='form-control' value="<?= $schedule->venue ?>"/><br>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Date Time :</td>
-                                    <td>
-                                        Start Date : <input type="text" id="start" name="startDate" value="<?= $schedule->startDate ?>"/>
-                                        Time : <input type="time" name="startTime" value="<?= $schedule->startTime ?>"/>
-                                    </td>
-                                </tr>
-                                <tr>            
-                                    <td></td>
-                                    <td>
-                                        End Date : <input type="text" id="end" name="endDate" value="<?= $schedule->endDate ?>"/>
-                                        Time : <input type="time" name="endTime" value="<?= $schedule->endTime ?>"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Unlimited Participant : </td>
-                                    <td>
-                                        <?php
-                                        if ($schedule->unlimited == 'Yes') {
-                                            echo "Yes <input type='radio' name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='Yes' checked/> ";
-                                            echo "No <input type='radio'  name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='No'/>";
-                                        } else {
-                                            echo "Yes <input type='radio' name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='Yes'/> ";
-                                            echo "No <input type='radio'  name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='No' checked/>";
-                                        }
-                                        ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Participants Allowed :</td>
-                                    <td>
-                                        <?php
-                                        if ($schedule->unlimited == 'Yes') {
-                                            echo "<input disabled type = 'number' min = '$schedule->noOfJoined' id='participant:$schedule->scheduleID'  name = 'noOfParticipant' value = '$schedule->noOfParticipant' class = 'form-control'/><br>";
-                                        } else {
-                                            echo "<input type = 'number' min = '$schedule->noOfJoined' id='participant:$schedule->scheduleID'  name = 'noOfParticipant' value = '$schedule->noOfParticipant' class = 'form-control'/><br>";
-                                        }
-                                        ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Status :</td>
-                                    <td>
-                                        <?php
-                                        if ($schedule->scheduleStatus == 'Ongoing') {
-                                            echo "Ongoing <input type='radio' id='scheduleStatus' name='scheduleStatus' value='Ongoing' checked/> ";
-                                            echo "Cancel <input type='radio' id='scheduleStatus' name='scheduleStatus' value='Cancel'/>";
-                                        } else {
-                                            echo "Ongoing <input type='radio' id='scheduleStatus' name='scheduleStatus' value='Ongoing'/> ";
-                                            echo "Cancel <input type='radio' id='scheduleStatus' name='scheduleStatus' value='Cancel' checked/>";
-                                        }
-                                        ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="noOfJoined" value="<?= $schedule->noOfJoined ?>"/>
-                                        <input type="hidden" name="eventID" value="<?= $schedule->eventID ?>"/>
-                                        <input type="hidden" name="scheduleID" value="<?= $schedule->scheduleID ?>"/>
-                                        <button type="submit" onclick="return confirm('Save?')" class='btn btn-primary' name="updateSchedule">Save</button>
-                                    </td>
-                                </tr>
-                            </table>
+                            <p>
+                                <button type="button" class="btn btn-info btn-lg" value="scheduleID:<?= $schedule->scheduleID ?>" onclick='editManage(this.value, false)'>
+                                    <span class="glyphicon glyphicon-edit"></span> Edit
+                                </button>
+                            </p>
+                            <fieldset id="scheduleID:<?= $schedule->scheduleID ?>" disabled>
+                                <table class='table table-hover table-responsive table-bordered'>
+                                    <tr>
+                                        <td>Venue : </td>
+                                        <td>  
+                                            <input type="text" name="venue" class='form-control' value="<?= $schedule->venue ?>"/><br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date Time :</td>
+                                        <td>
+                                            Start Date : <input type="text" id="start" name="startDate" value="<?= $schedule->startDate ?>"/>
+                                            Time : <input type="time" name="startTime" value="<?= $schedule->startTime ?>"/>
+                                        </td>
+                                    </tr>
+                                    <tr>            
+                                        <td></td>
+                                        <td>
+                                            End Date : <input type="text" id="end" name="endDate" value="<?= $schedule->endDate ?>"/>
+                                            Time : <input type="time" name="endTime" value="<?= $schedule->endTime ?>"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unlimited Participant : </td>
+                                        <td>
+                                            <?php
+                                            if ($schedule->unlimited == 'Yes') {
+                                                echo "Yes <input type='radio' name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='Yes' checked/> ";
+                                                echo "No <input type='radio'  name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='No'/>";
+                                            } else {
+                                                echo "Yes <input type='radio' name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='Yes'/> ";
+                                                echo "No <input type='radio'  name='unlimited:$schedule->scheduleID' onChange='checkUnlimited($schedule->scheduleID);' value='No' checked/>";
+                                            }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Participants Allowed :</td>
+                                        <td>
+                                            <?php
+                                            if ($schedule->unlimited == 'Yes') {
+                                                echo "<input disabled type = 'number' min = '$schedule->noOfJoined' id='participant:$schedule->scheduleID'  name = 'noOfParticipant' value = '$schedule->noOfParticipant' class = 'form-control'/><br>";
+                                            } else {
+                                                echo "<input type = 'number' min = '$schedule->noOfJoined' id='participant:$schedule->scheduleID'  name = 'noOfParticipant' value = '$schedule->noOfParticipant' class = 'form-control'/><br>";
+                                            }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status :</td>
+                                        <td>
+                                            <?php
+                                            if ($schedule->scheduleStatus == 'Ongoing') {
+                                                echo "Ongoing <input type='radio' id='scheduleStatus' name='scheduleStatus' value='Ongoing' checked/> ";
+                                                echo "Cancel <input type='radio' id='scheduleStatus' name='scheduleStatus' value='Cancel'/>";
+                                            } else {
+                                                echo "Ongoing <input type='radio' id='scheduleStatus' name='scheduleStatus' value='Ongoing'/> ";
+                                                echo "Cancel <input type='radio' id='scheduleStatus' name='scheduleStatus' value='Cancel' checked/>";
+                                            }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="noOfJoined" value="<?= $schedule->noOfJoined ?>"/>
+                                            <input type="hidden" name="eventID" value="<?= $schedule->eventID ?>"/>
+                                            <input type="hidden" name="scheduleID" value="<?= $schedule->scheduleID ?>"/>
+                                            <button type="submit" class="btn btn-primary"onclick="return confirm('Save?')" onclick='editManage(this.value, true)' class='btn btn-primary' name="updateSchedule">Save</button>
+                                            <button type='reset' class="btn btn-danger" value='scheduleID:<?= $schedule->scheduleID ?>' onclick='editManage(this.value, true)' class='btn btn-primary'>Cancel</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </fieldset>
                         </form>
+                        <script>
+                            function editManage(id, value) {
+                                document.getElementById(id).disabled = value;
+                            }
+                        </script>
+
                         <?php
                         $count++;
                     }

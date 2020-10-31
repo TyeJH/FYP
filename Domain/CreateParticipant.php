@@ -1,6 +1,5 @@
 <?php
 
-include_once '../Domain/SessionManagement.php';
 include_once '../Domain/Participants.php';
 include_once '../Domain/Validation.php';
 include_once '../DataAccess/ParticipantsDA.php';

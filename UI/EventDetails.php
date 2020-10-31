@@ -1,6 +1,5 @@
 <?php
 require '../DataAccess/SocietyEventDA.php';
-require '../Domain/CreateParticipant.php';
 require '../DataAccess/ScheduleDA.php';
 ?>
 
