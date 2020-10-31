@@ -30,16 +30,16 @@ and open the template in the editor.
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            $('#start').datepicker({
+            $('.start').datepicker({
                 onSelect: function (dateText) {
-                    $('#end').datepicker('option', 'minDate', new Date(dateText));
-                    $("#start").datepicker("option", "dateFormat", 'yy-mm-dd');
+                    $('.end').datepicker('option', 'minDate', new Date(dateText));
+                    $(".start").datepicker("option", "dateFormat", 'yy-mm-dd');
                 }
             });
-            $('#end').datepicker({
+            $('.end').datepicker({
                 onSelect: function (dateText) {
-                    $('#start').datepicker('option', 'maxDate', new Date(dateText));
-                    $("#end").datepicker("option", "dateFormat", 'yy-mm-dd');
+                    $('.start').datepicker('option', 'maxDate', new Date(dateText));
+                    $(".end").datepicker("option", "dateFormat", 'yy-mm-dd');
                 }
             });
         });
@@ -102,14 +102,14 @@ and open the template in the editor.
                                     <tr>
                                         <td>Date Time :</td>
                                         <td>
-                                            Start Date : <input type="text" id="start" name="startDate" value="<?= $schedule->startDate ?>"/>
+                                            Start Date : <input type="text" class="start" name="startDate" value="<?= $schedule->startDate ?>"/>
                                             Time : <input type="time" name="startTime" value="<?= $schedule->startTime ?>"/>
                                         </td>
                                     </tr>
                                     <tr>            
                                         <td></td>
                                         <td>
-                                            End Date : <input type="text" id="end" name="endDate" value="<?= $schedule->endDate ?>"/>
+                                            End Date : <input type="text" class="end" name="endDate" value="<?= $schedule->endDate ?>"/>
                                             Time : <input type="time" name="endTime" value="<?= $schedule->endTime ?>"/>
                                         </td>
                                     </tr>
@@ -161,7 +161,7 @@ and open the template in the editor.
                                             <input type="hidden" name="eventID" value="<?= $schedule->eventID ?>"/>
                                             <input type="hidden" name="scheduleID" value="<?= $schedule->scheduleID ?>"/>
                                             <button type="submit" class="btn btn-primary"onclick="return confirm('Save?')" onclick='editManage(this.value, true)' class='btn btn-primary' name="updateSchedule">Save</button>
-                                            <button type='reset' class="btn btn-danger" value='scheduleID:<?= $schedule->scheduleID ?>' onclick='editManage(this.value, true)' class='btn btn-primary'>Cancel</button>
+                                            <a href='ManageSchedule.php?eventID=<?= $schedule->eventID ?>' class='btn btn-danger'>Cancel</a>
                                         </td>
                                     </tr>
                                 </table>
