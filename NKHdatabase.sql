@@ -20,7 +20,6 @@ CREATE TABLE society(
     societyID      varchar(10)  not null,
     societyName    varchar(20)  not null,
     societyDesc    varchar(300) not null,
-    societyMember  varchar(300) not null,
     societyPass    varchar(300) not null,
     PRIMARY KEY(societyID)
 );
@@ -28,6 +27,7 @@ CREATE TABLE society(
 CREATE TABLE student(
     userID        varchar(10)  not null,
     password      varchar(12)  not null,
+    studEmail     varchar(300) not null,
     studID        int(10)      not null,
     PRIMARY KEY(userID),
     FOREIGN KEY(studID) references uniStudent(studID)

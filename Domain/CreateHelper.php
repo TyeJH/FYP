@@ -1,6 +1,5 @@
 <?php
 
-include_once '../Domain/SessionManagement.php';
 include_once '../Domain/Helpers.php';
 include_once '../Domain/Validation.php';
 include_once '../DataAccess/HelpersDA.php';
@@ -17,9 +16,9 @@ if (isset($_POST['applyHelper'])) {
     } else if (empty($studID)) {
         //Student have to be logged in first.
     } else {
-        $participant = new Participants($eventID = "", $userID, $applyStatus, $applyDate);
-        $participantDA = new ParticipantsDA();
-        if ($participantDA->execute($participant)) {
+        $helper = new Helpers($eventID = "", $userID, $applyStatus, $applyDate);
+        $helperDA = new HelpersDA();
+        if ($helperDA->create($helper)) {
             $_SESSION['message'] = "<script>alert('Thanks for joining us as Helper! An email had send to you.');</script>";
             header("location:../FYP/UI/EventDetails.php?eventID=$eventID");
         } else {
