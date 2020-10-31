@@ -173,7 +173,13 @@ and open the template in the editor.
                                     if ($num > 0) {
                                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                             extract($row);
-                                            echo "<option value={$venueID}>{$venueName}</option>";
+                                            //if user chosed from Venue List then make default option for user.
+                                            if (strcmp($_GET['venueID'],$venueID) == 0) {
+                                                echo strcmp($venueID,$_GET['venueID']);
+                                                echo "<option selected='selected' value='{$venueID}'>{$venueName}</option>";
+                                            } else {
+                                                echo "<option value='{$venueID}'>{$venueName}</option>";
+                                            }
                                         }
                                     }
                                     ?>
