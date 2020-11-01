@@ -85,7 +85,7 @@ and open the template in the editor.
                     foreach ($scheduleArray as $schedule) {
                         echo "<h3>Schedule $count</h3>";
                         ?>
-                        <form action="../Domain/UpdateSchedule.php" method="post" enctype="multipart/form-data">
+                        <form action="../Domain/UpdateSchedule.php" method="post" id="form:scheduleID:<?= $schedule->scheduleID ?>" enctype="multipart/form-data">
                             <p>
                                 <button type="button" class="btn btn-info btn-lg" value="scheduleID:<?= $schedule->scheduleID ?>" onclick='editManage(this.value, false)'>
                                     <span class="glyphicon glyphicon-edit"></span> Edit
@@ -160,8 +160,9 @@ and open the template in the editor.
                                             <input type="hidden" name="noOfJoined" value="<?= $schedule->noOfJoined ?>"/>
                                             <input type="hidden" name="eventID" value="<?= $schedule->eventID ?>"/>
                                             <input type="hidden" name="scheduleID" value="<?= $schedule->scheduleID ?>"/>
-                                            <button type="submit" class="btn btn-primary"onclick="return confirm('Save?')" onclick='editManage(this.value, true)' class='btn btn-primary' name="updateSchedule">Save</button>
-                                            <a href='ManageSchedule.php?eventID=<?= $schedule->eventID ?>' class='btn btn-danger'>Cancel</a>
+                                            <button type="submit" class="btn btn-primary"onclick="return confirm('Save?')" class='btn btn-primary' name="updateSchedule">Save</button>
+                                            <button type="reset" class="btn btn-danger" value="Reset" id="scheduleID:<?= $schedule->scheduleID ?>" onclick='editManage(this.id, true)' class='btn btn-primary' name="Reset">Cancel</button>
+                                            <!--<a href='ManageSchedule.php?eventID=<?= $schedule->eventID ?>' class='btn btn-danger'>Cancel</a>-->
                                         </td>
                                     </tr>
                                 </table>
@@ -170,6 +171,10 @@ and open the template in the editor.
                         <script>
                             function editManage(id, value) {
                                 document.getElementById(id).disabled = value;
+                                if (value == true) {
+                                    //Reset button value function will be overwrite by onClick. Therefore, need a statement to reset the value.
+                                    document.getElementById("form:"+id).reset();
+                                }
                             }
                         </script>
 
