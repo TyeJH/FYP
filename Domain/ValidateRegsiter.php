@@ -1,4 +1,5 @@
 <?php
+
 include_once '../Domain/Admin.php';
 include_once '../Domain/Student.php';
 include_once '../Domain/Validation.php';
@@ -14,7 +15,8 @@ if (isset($_POST['staffSubmit'])) {
     $cpass = $val->test_input($_POST['cpass']);
 
     if (empty($id) || empty($pass) || empty($cpass)) {
-        echo'cannot leave it empty';
+        $_SESSION['error'] = 'Please fill in all the blanks';
+        header("Location:../UI/Register.php");
     } else {
         if ($val->passwordIsValid($pass)) {
             if ($val->passwordIsValid($cpass)) {
@@ -24,19 +26,23 @@ if (isset($_POST['staffSubmit'])) {
                         $ad = new Admin($id, $pass);
                         $create->register($ad);
                         unset($_SESSION['status']);
-                        $_SESSION['role']='staff';
+                        $_SESSION['role'] = 'staff';
                         echo '<script>alert("Account Register Successfully");location.href = "../UI/Login.php";</script>';
                     } else {
-                        echo'Account had been registered';
+                        $_SESSION['error'] = 'Account had been registered';
+                        header("Location:../UI/Register.php");
                     }
                 } else {
-                    echo'Password and Confirm Password must match';
+                    $_SESSION['error'] = 'Password and Confirm Password must match';
+                    header("Location:../UI/Register.php");
                 }
             } else {
-                echo'Confirm Password invalid format';
+                $_SESSION['error'] = 'Confirm Password invalid format';
+                header("Location:../UI/Register.php");
             }
         } else {
-            echo'Password invalid format';
+            $_SESSION['error'] = 'Password invalid format';
+            header("Location:../UI/Register.php");
         }
     }
 } else if (isset($_POST['studentSubmit'])) {
@@ -47,7 +53,8 @@ if (isset($_POST['staffSubmit'])) {
     $stud = $val->test_input($_POST['studid']);
 
     if (empty($id) || empty($pass) || empty($cpass) || empty($stud)) {
-        echo "cannot empty";
+        $_SESSION['error'] = 'Please fill in all the blanks';
+        header("Location:../UI/Register.php");
     } else {
         if ($val->passwordIsValid($pass)) {
             if ($val->passwordIsValid($cpass)) {
@@ -58,22 +65,27 @@ if (isset($_POST['staffSubmit'])) {
                             $st = new Student($id, $pass, $stud);
                             $create->register($st);
                             unset($_SESSION['status']);
-                            $_SESSION['role']='student';
+                            $_SESSION['role'] = 'student';
                             echo '<script>alert("Account Register Successfully");location.href = "../UI/Login.php";</script>';
                         } else {
-                            echo'Account had been registered';
+                            $_SESSION['error'] = 'Account had been registered';
+                            header("Location:../UI/Register.php");
                         }
                     } else {
-                        echo'Invalid Student ID';
+                        $_SESSION['error'] = 'Invalid Student ID';
+                        header("Location:../UI/Register.php");
                     }
                 } else {
-                    echo'Password and Confirm Password must match';
+                    $_SESSION['error'] = 'Password and Confirm Password must match';
+                    header("Location:../UI/Register.php");
                 }
             } else {
-                echo'Confirm Password invalid format';
+                $_SESSION['error'] = 'Confirm Password invalid format';
+                header("Location:../UI/Register.php");
             }
         } else {
-            echo'Password invalid format';
+            $_SESSION['error'] = 'Password invalid format';
+            header("Location:../UI/Register.php");
         }
     }
 } else {

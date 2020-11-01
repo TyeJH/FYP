@@ -13,17 +13,24 @@ if (isset($_POST['staffSubmit'])) {
     $apass = $val->test_input($_POST['adminpass']);
 
     if (empty($aID) || empty($apass)) {
-        echo "Cannot leave it empty";
+        $_SESSION['error'] = "Please enter your id and password";
+        header("Location:../UI/Login.php");
     } else {
         $db = new AdminDA();
         $result = $db->login($aID);
-        if ($apass == $result->password) {
-            $_SESSION['result'] = $result;
-            $_SESSION['current'] = "Admin";
-            unset($_SESSION['role']);
-            echo'<script>alert("Login Successfully");location.href = "../UI/HomePage.php";</script>';
+        if (empty($result)) {
+            $_SESSION['error'] = "Invalid ID";
+            header("Location:../UI/Login.php");
         } else {
-            echo "password invalid";
+            if ($apass == $result->password) {
+                $_SESSION['result'] = $result;
+                $_SESSION['current'] = "Admin";
+                unset($_SESSION['role']);
+                echo'<script>alert("Login Successfully");location.href = "../UI/HomePage.php";</script>';
+            } else {
+                $_SESSION['error'] = "Invalid Password";
+                header("Location:../UI/Login.php");
+            }
         }
     }
 } else if (isset($_POST['societySubmit'])) {
@@ -32,17 +39,24 @@ if (isset($_POST['staffSubmit'])) {
     $scpass = $val->test_input($_POST['societypass']);
 
     if (empty($scID) || empty($scpass)) {
-        echo "Cannot leave it empty";
+        $_SESSION['error'] = "Please enter your id and password";
+        header("Location:../UI/Login.php");
     } else {
         $db = new SocietyDA();
         $result = $db->login($scID);
-        if ($scpass == $result->societyPass) {
-            $_SESSION['result'] = $result;
-            $_SESSION['current'] = "Society";
-            unset($_SESSION['role']);
-            echo'<script>alert("Login Successfully");location.href = "../UI/EventOrganizerHome.php";</script>';
+        if (empty($result)) {
+            $_SESSION['error']='Invalid ID';
+            header("Location:../UI/Login.php");
         } else {
-            echo "password invalid";
+            if ($scpass == $result->societyPass) {
+                $_SESSION['result'] = $result;
+                $_SESSION['current'] = "Society";
+                unset($_SESSION['role']);
+                echo'<script>alert("Login Successfully");location.href = "../UI/EventOrganizerHome.php";</script>';
+            } else {
+                $_SESSION['error'] = "Invalid Password";
+                header("Location:../UI/Login.php");
+            }
         }
     }
 } else if (isset($_POST['studentSubmit'])) {
@@ -51,15 +65,24 @@ if (isset($_POST['staffSubmit'])) {
     $stpass = $val->test_input($_POST['studentpass']);
 
     if (empty($stID) || empty($stpass)) {
-        echo "Cannot leave it empty";
+        $_SESSION['error'] = "Please enter your id and password";
+        header("Location:../UI/Login.php");
     } else {
         $db = new StudentDA();
         $result = $db->login($stID);
-        if ($stpass == $result->password) {
-            $_SESSION['result'] = $result;
-            $_SESSION['current'] = "Student";
-            unset($_SESSION['role']);
-            echo'<script>alert("Login Successfully");location.href = "../UI/HomePage.php";</script>';
+        if (empty($result)) {
+            $_SESSION['error']='Invalid ID';
+            header("Location:../UI/Login.php");
+        } else {
+            if ($stpass == $result->password) {
+                $_SESSION['result'] = $result;
+                $_SESSION['current'] = "Student";
+                unset($_SESSION['role']);
+                echo'<script>alert("Login Successfully");location.href = "../UI/HomePage.php";</script>';
+            }else{
+                $_SESSION['error'] = "Invalid Password";
+                header("Location:../UI/Login.php");
+            }
         }
     }
 } else {
@@ -68,3 +91,4 @@ if (isset($_POST['staffSubmit'])) {
 
 
 
+    

@@ -5,7 +5,7 @@ include_once '../Domain/Venue.php';
 include_once '../DataAccess/VenueDA.php';
 include_once '../Domain/Society.php';
 session_start();
-require 'header.php';
+//require 'header.php';
 ?>
 <!DOCTYPE html>
 <html> 
@@ -24,12 +24,12 @@ require 'header.php';
                     <br><br> 
                     <a href="../UI/HomePage.php">Back</a>
                     <div class="container" style="width:700px;">  
-                        <h3 align="center">Venue For Booking</h3>  
+                        <h3 align="center"><b>Venue</b></h3>  
                         <br>  
                         <div class="table-responsive"> 
                             <!--Add Button-->
                             <div align="right">  
-                                <button type="button" name="add" id="add" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-warning">Add</button>  
+                                <button type="button" name="add" id="add" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-success">Add</button>  
                             </div>  
                             <br />
                             <!--Display All Venue List-->
@@ -54,7 +54,7 @@ require 'header.php';
                                             ?>
                                             <tr>
                                                 <td><?= $venue->venueName ?></td>
-                                                <td><input type="button" name="edit" value="Edit" id="<?= $venue->venueID ?>" class="btn btn-info btn-xs edit_data" /></td>  
+                                                <td><input type="button" name="edit" value="Edit" id="<?= $venue->venueID ?>" class="btn btn-warning btn-xs edit_data" /></td>  
                                                 <td><input type="button" name="view" value="View" id="<?= $venue->venueID ?>" class="btn btn-info btn-xs view_data" /></td>
                                                 <?php
                                             }

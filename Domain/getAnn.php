@@ -17,11 +17,7 @@ if (isset($_POST['annid'])) {
       <div class="table-responsive">  
            <table class="table table-bordered">';
      $output .= '
-     <tr>  
-            <td width="30%"><label>Announcement ID</label></td>  
-            <td width="70%">'.$edit->annID.'</td>  
-        </tr>
-        <tr>  
+     <tr>    
             <td width="30%"><label>Announcement Title</label></td>  
             <td width="70%">'.$edit->annTitle.'</td>  
         </tr>

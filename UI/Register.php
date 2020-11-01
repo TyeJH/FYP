@@ -25,6 +25,12 @@ require 'header.php';
                 if ($_SESSION['status'] == 'staff') {
                     ?>
                     <h1>Staff Account Register</h1>
+                    <?php
+                        if(isset($_SESSION['error'])){
+                            echo '<h5 style=color:red>'.$_SESSION['error'].'</h5>';
+                            unset($_SESSION['error']);
+                        }
+                    ?>
                     <form action="../Domain/ValidateRegsiter.php" method="post">
                         <label>Admin ID:</label>
                         <select name="adminid">
@@ -45,6 +51,12 @@ require 'header.php';
                     $sID = $stu->generateRandomId();
                     ?>
                     <h1>Student Account Register</h1>
+                    <?php
+                        if(isset($_SESSION['error'])){
+                             echo '<h5 style=color:red>'.$_SESSION['error'].'</h5>';
+                            unset($_SESSION['error']);
+                        }
+                    ?>
                     <form method="post" action="../Domain/ValidateRegsiter.php">
                         <label>User ID: </label> <input type="text" name="id" value="<?= $sID ?>" readonly=""/><br>
                         <label>Password: </label> <input type="password" name="pass" placeholder="Enter your password"/><br>

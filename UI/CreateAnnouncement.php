@@ -31,7 +31,7 @@ session_start();
                     <br><br> 
                     <a href="../UI/HomePage.php">Back</a>
                     <div class="container" style="width:700px;">  
-                        <h3 align="center">Announcement</h3>  
+                        <h3 align="center"><b>Announcement</b></h3>  
                         <br>  
                         <div class="table-responsive"> 
                             <!--Add Button-->
@@ -62,8 +62,8 @@ session_start();
                                             ?>
                                             <tr>
                                                 <td><?= $ann->annTitle ?></td>
-                                                <td><input type="button" name="edit" value="Edit" id="<?= $ann->annID ?>" class="btn btn-info btn-xs edit_data" /></td>  
-                                                <td><input type="button" name="view" value="View" id="<?= $ann->annID ?>" class="btn btn-warning btn-xs view_data" /></td>
+                                                <td><input type="button" name="edit" value="Edit" id="<?= $ann->annID ?>" class="btn btn-warning btn-xs edit_data" /></td>  
+                                                <td><input type="button" name="view" value="View" id="<?= $ann->annID ?>" class="btn btn-info btn-xs view_data" /></td>
                                                 <td><input type="button" name="delete" value="Delete" id="<?= $ann->annID ?>" class="btn btn-danger btn-xs delete_data" /></td>
                                                 <?php
                                             }
@@ -81,7 +81,7 @@ session_start();
                         <div class="modal-content">  
                             <div class="modal-header">  
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                <h4 class="modal-title">Venue Details</h4>  
+                                <h4 class="modal-title">Announcement Details</h4>  
                             </div>  
                             <div class="modal-body" id="anndetail">
                             </div>  
@@ -98,7 +98,7 @@ session_start();
                         <div class="modal-content">  
                             <div class="modal-header">  
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                <h4 class="modal-title">Add Venue</h4>  
+                                <h4 class="modal-title">Announcement Details</h4>  
                             </div>  
                             <div class="modal-body">
                                 <?php
@@ -106,9 +106,8 @@ session_start();
                                 $aID = $anno->generateRandomId();
                                 ?>
                                 <form method="POST" id="insert_form">  
-
-                                    <label>Announcement ID</label>  
-                                    <input type="text" name="aid" id="aid" class="form-control" value="<?= $aID ?>" readonly=""/>  
+  
+                                    <input type="hidden" name="aid" id="aid" class="form-control" value="<?= $aID ?>" readonly=""/>  
                                     <br>  
                                     <label>Announcement Title</label> 
                                     <input type="text" name="atitle" id="atitle" class="form-control" placeholder="Enter Announcement Title"><br>  
@@ -279,7 +278,7 @@ session_start();
                         <div class="modal-content">  
                             <div class="modal-header">  
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                <h4 class="modal-title">Venue Details</h4>  
+                                <h4 class="modal-title">Announcement Details</h4>  
                             </div>  
                             <div class="modal-body" id="anndetail">
                             </div>  
@@ -311,13 +310,7 @@ session_start();
                     });
                 </script>
                 <?php
-            } else if ($_SESSION['current'] == "Student") {
-                ?>
-                <?php
-            } else {
-                ?>
-                <?php
-            }
+            } 
         } else {
             $_SESSION['current'] = '';
             header("Location:../UI/HomePage.php");
