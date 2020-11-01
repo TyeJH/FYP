@@ -3,6 +3,9 @@
 require_once '../Domain/Participants.php';
 require_once '../DataAccess/ParticipantsDA.php';
 require_once '../DataAccess/ScheduleDA.php';
+require_once '../DataAccess/SocietyEventDA.php';
+require_once '../Domain/SocietyEvent.php';
+require '../Domain/Email.php';
 
 if (isset($_POST['type']) && isset($_POST['scheduleID']) && isset($_POST['userID']) && isset($_POST['applyDate']) && isset($_POST['applyStatus']) && isset($_POST['attendanceStatus'])) {
 
@@ -27,10 +30,25 @@ if (isset($_POST['type']) && isset($_POST['scheduleID']) && isset($_POST['userID
     $participantDA = new ParticipantsDA();
     if ($participantDA->update($participant)) {
         if ($type == 'approval') {
-            echo $participant->userID . ' application status is marked as ' . $participant->applyStatus;
             //Update noOfJoined in Schedule table.
             $scheduleDA = new ScheduleDA();
             $scheduleDA->updateNoOfJoined($scheduleID);
+
+            //Send email after approved participant.
+            $eventDA = new SocietyEventDA();
+            $event = $eventDA->retrieveByEventID(1);
+            $to = 'n.kianhee99@gmail.com';
+            $toName = 'Participant';
+            $subject = "$event->eventName - Approval of event application";
+            $message = "Hi you have approved for joining $event->eventName for more information. \nLog in your account to view the event details.";
+            $from = "eventmanagementsystemtaruc@gmail.com";
+            $sender = "TAR UC Event Management System";
+            $mail = new Email($to, $toName, $subject, $message, $from, $sender);
+            if ($mail->setting()) {
+                echo $participant->userID . ' application status is marked as ' . $participant->applyStatus;
+            } else {
+                echo "Unepected error occur. Email couldn't be sent.";
+            }
         } else {
             echo $participant->userID . ' attendance status is marked as ' . $participant->attendanceStatus;
         }
@@ -38,4 +56,5 @@ if (isset($_POST['type']) && isset($_POST['scheduleID']) && isset($_POST['userID
         echo "Unexpected error occur. Please contact system administrator.";
     }
 }
+
 

@@ -56,10 +56,11 @@ session_start();
                                                 <td><?= $venue->venueName ?></td>
                                                 <td><input type="button" name="edit" value="Edit" id="<?= $venue->venueID ?>" class="btn btn-warning btn-xs edit_data" /></td>  
                                                 <td><input type="button" name="view" value="View" id="<?= $venue->venueID ?>" class="btn btn-info btn-xs view_data" /></td>
-                                                <?php
-                                            }
+                                            </tr>
+                                            <?php
                                         }
-                                        ?>
+                                    }
+                                    ?>
                                 </table>
                             </div> 
                         </div>  
@@ -204,7 +205,8 @@ session_start();
                                 <table class="table table-bordered">  
                                     <tr>  
                                         <th width="70%">Venue Name</th>
-                                        <th width="15%">View</th>  
+                                        <th width="15%">View</th>
+                                        <th width="15%">Book Now</th>  
                                     </tr>
                                     <?php
                                     $venueda = new VenueDA();
@@ -214,11 +216,13 @@ session_start();
                                             ?>
                                             <tr>
                                                 <td><?= $venue->venueName ?></td>
-                                                <td><input type="button" name="view" value="View" id="<?= $venue->venueID ?>" class="btn btn-info btn-xs view_data" /></td>
-                                                <?php
-                                            }
+                                                <td><input type="button" name="view" value="View" id="<?= $venue->venueID ?>" class="btn btn-info btn-xs view_data"></td>
+                                                <td><a href = 'BookVenue.php?venueID=<?= $venue->venueID ?>' class='btn btn-outline-primary btn-xs'>Click here</a></td>
+                                            </tr>
+                                            <?php
                                         }
-                                        ?>
+                                    }
+                                    ?>
                                 </table>
                             </div> 
                         </div>  

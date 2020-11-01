@@ -72,7 +72,7 @@ and open the template in the editor.
                     echo "<td>{$event->eventID}</td>";
                     echo "<td>{$event->eventName}</td>";
                     echo "<td> <a href = 'EditEvent.php?eventID={$event->eventID}' class='btn btn-primary m-r-1em'>View</a> "
-                    . "<a href = 'EditSchedule.php?eventID={$event->eventID}' class = 'btn btn-primary'>Manage Schedule</a> "
+                    . "<a href = 'ManageSchedule.php?eventID={$event->eventID}' class = 'btn btn-primary'>Manage Schedule</a> "
                     . "<a href = 'ViewParticipantsApplication.php?eventID={$event->eventID}' class = 'btn btn-primary'>Participants</a> "
                     . "<a href='ManageAttendance.php?eventID={$event->eventID}' class='btn btn-primary'>Attendance</a></td>";
                     echo "</tr>";
