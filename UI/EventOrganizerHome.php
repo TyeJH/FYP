@@ -7,7 +7,6 @@ if (!isset($_SESSION['result'])) {
     header('location:Login.php');
 }
 require 'header.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +20,8 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-        、
+        、<!-- Add icon library -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>Home</title>
         <!--Data Table-->
         <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -45,7 +45,6 @@ and open the template in the editor.
             <a href="SocietyCreateEvent.php" class="btn btn-primary">Create Event</a>
             <a href="BookVenue.php" class="btn btn-primary">Book Venue</a>
             <a href="ViewBooking.php" class="btn btn-primary">View Booking</a>
-            <a href="/FYP/UI/HomePage.php" class="btn btn-primary">HOME</a>
             <h2>Your created Events</h2>
 
             <?php
