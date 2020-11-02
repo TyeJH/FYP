@@ -21,8 +21,7 @@ require 'header.php';
             if ($_SESSION['current'] == "Admin") {
                 ?>
                 <div id="bigcontainer">
-                    <br><br> 
-                    <a href="../UI/HomePage.php">Back</a>
+                    <br><br>
                     <div class="container" style="width:700px;">  
                         <h3 align="center"><b>Venue</b></h3>  
                         <br>  
@@ -35,9 +34,9 @@ require 'header.php';
                             <!--Display All Venue List-->
                             <div id="venuetable">
                                 <?php
-                                if (isset($_SESSION['message'])) {
-                                    echo '<label class="text-success">' . $_SESSION['message'] . '</label>';
-                                    unset($_SESSION['message']);
+                                if (isset($_SESSION['venmessage'])) {
+                                    echo '<label class="text-success">' . $_SESSION['venmessage'] . '</label>';
+                                    unset($_SESSION['venmessage']);
                                 }
                                 ?>
                                 <table class="table table-bordered">  
@@ -48,7 +47,7 @@ require 'header.php';
                                     </tr>
                                     <?php
                                     $venueda = new VenueDA();
-                                    $test = $venueda->getAll();
+                                    $test = $venueda->getAllByAdmin();
                                     if (!empty($test)) {
                                         foreach ($test as $venue) {
                                             ?>
@@ -107,6 +106,9 @@ require 'header.php';
                                     <label>Venue Desc</label> 
                                     <textarea name="vDesc" id="vdesc" class="form-control" placeholder="Enter Venue Description" style="resize: none;"></textarea> 
                                     <br />
+                                    <label>Venue Status</label> 
+                                    <input type="text" name="vstatus" id="vstatus" class="form-control" placeholder="Enter Venue Status">
+                                    <br />
                                     <input type="hidden" name="venueid" id="venueid"/>
                                     <input type="submit" name="vSubmit" id="insert" value="Insert" class="btn btn-success" />  
                                 </form>  
@@ -137,6 +139,7 @@ require 'header.php';
                                     $('#vid').val(data.venueID);
                                     $('#vname').val(data.venueName);
                                     $('#vdesc').val(data.venueDesc);
+                                    $('#vstatus').val(data.venueStatus);
                                     $('#venueid').val(data.venueID);
                                     $('#insert').val("Update");
                                     $('#add_data_Modal').modal('show');
@@ -153,7 +156,10 @@ require 'header.php';
                             } else if ($('#vdesc').val() === '')
                             {
                                 alert("Venue Description is required");
-                            } else
+                            } else if ($('#vstatus').val() === '')
+                            {
+                                alert("Venue Status is required");
+                            }else
                             {
                                 $.ajax({
                                     url: "../Domain/ValidateVenue.php",
@@ -193,8 +199,7 @@ require 'header.php';
             } else if ($_SESSION['current'] == "Society") {
                 ?>
                 <div id="bigcontainer">
-                    <br><br> 
-                    <a href="../UI/HomePage.php">Back</a>
+                    <br><br>
                     <div class="container" style="width:700px;">  
                         <h3 align="center">Venue For Booking</h3>  
                         <br>  
@@ -217,7 +222,7 @@ require 'header.php';
                                             <tr>
                                                 <td><?= $venue->venueName ?></td>
                                                 <td><input type="button" name="view" value="View" id="<?= $venue->venueID ?>" class="btn btn-info btn-xs view_data"></td>
-                                                <td><a href = 'BookVenue.php?venueID=<?= $venue->venueID ?>' class='btn btn-outline-primary btn-xs'>Click here</a></td>
+                                                <td><a href = 'BookVenue.php?venueID=<?= $venue->venueID ?>' class='btn btn-success btn-xs'>Click here</a></td>
                                             </tr>
                                             <?php
                                         }

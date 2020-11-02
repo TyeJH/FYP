@@ -29,6 +29,10 @@ if (isset($_POST['venueid'])) {
             <td width="30%"><label>Venue Description</label></td>  
             <td width="70%">'.$edit->venueDesc.'</td>  
         </tr>
+        <tr>  
+            <td width="30%"><label>Venue Status</label></td>  
+            <td width="70%">'.$edit->venueStatus.'</td>  
+        </tr>
      ';
     
     $output .= '</table></div>';

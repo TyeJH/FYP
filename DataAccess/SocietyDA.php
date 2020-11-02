@@ -17,41 +17,71 @@ class SocietyDA {
             return null;
         } else {
             $s = $stmt->fetch(PDO::FETCH_ASSOC);
-            $soc = new Society($s['societyID'], $s['societyName'], $s['societyDesc'], $s['societyPass']);
+            $soc = new Society($s['societyID'], $s['societyName'], $s['societyDesc'], $s['societyPass'], $s['societyAcc']);
             DatabaseConnection::closeConnection($db);
             return $soc;
         }
     }
 
+    public function getAll() {
+        $db = DatabaseConnection::getInstance()->getDb();
+        $query = "SELECT * FROM society";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $soc = $stmt->fetchAll();
+            $sList = [];
+            foreach ($soc as $s) {
+                $sList[] = new Society($s['societyID'], $s['societyName'], $s['societyDesc'], $s['societyPass'], $s['societyAcc']);
+            }
+            DatabaseConnection::closeConnection($db);
+            return $sList;
+        }
+    }
+
+    public function retrieveJSON($socid) {
+        $db = DatabaseConnection::getInstance()->getDb();
+        $query = "SELECT * FROM society WHERE societyID = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $socid, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $s = $stmt->fetch(PDO::FETCH_ASSOC);
+            DatabaseConnection::closeConnection($db);
+            return $s;
+        }
+    }
+
     public function regsiter(Society $sc) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'INSERT INTO society VALUES(?,?,?,?)';
+        $query = 'INSERT INTO society VALUES(?,?,?,?,?)';
         $stmt = $db->prepare($query);
         $stmt->bindParam(1, $sc->societyID, PDO::PARAM_STR);
         $stmt->bindParam(2, $sc->societyName, PDO::PARAM_STR);
         $stmt->bindParam(3, $sc->societyDesc, PDO::PARAM_STR);
         $stmt->bindParam(4, $sc->societyPass, PDO::PARAM_STR);
+        $stmt->bindParam(5, $sc->societyAcc, PDO::PARAM_STR);
         $stmt->execute();
         DatabaseConnection::closeConnection($db);
     }
 
     public function update(Society $sc) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'UPDATE society SET societyName = ?, societyDesc = ?, societyPass = ? WHERE societyID = ?';
+        $query = 'UPDATE society SET societyName = ?, societyDesc = ?, societyPass = ?, societyAcc = ? WHERE societyID = ?';
         $stmt = $db->prepare($query);
         $stmt->bindParam(1, $sc->societyName, PDO::PARAM_STR);
         $stmt->bindParam(2, $sc->societyDesc, PDO::PARAM_STR);
         $stmt->bindParam(3, $sc->societyPass, PDO::PARAM_STR);
-        $stmt->bindParam(4, $sc->societyID, PDO::PARAM_STR);
-        $stmt->execute();
-        DatabaseConnection::closeConnection($db);
-    }
-
-    public function delete(Society $sc) {
-        $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'DELETE FROM society WHERE societyID = ?';
-        $stmt = $db->prepare($query);
-        $stmt->bindParam(1, $sc->societyID, PDO::PARAM_STR);
+        $stmt->bindParam(4, $sc->societyAcc, PDO::PARAM_STR);
+        $stmt->bindParam(5, $sc->societyID, PDO::PARAM_STR);
         $stmt->execute();
         DatabaseConnection::closeConnection($db);
     }

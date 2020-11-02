@@ -1,4 +1,5 @@
 <?php
+
 include_once '../DataAccess/SocietyDA.php';
 
 class Society {
@@ -7,12 +8,14 @@ class Society {
     private $societyName;
     private $societyDesc;
     private $societyPass;
+    private $societyAcc;
 
-    public function __construct($societyID = "", $societyName = "", $societyDesc = "", $societyPass = "") {
+    public function __construct($societyID = "", $societyName = "", $societyDesc = "", $societyPass = "", $societyAcc = 0.00) {
         $this->societyID = $societyID;
         $this->societyName = $societyName;
         $this->societyDesc = $societyDesc;
         $this->societyPass = $societyPass;
+        $this->societyAcc = $societyAcc;
     }
 
     public function __set($name, $value) {
@@ -31,7 +34,7 @@ class Society {
             return false;
         }
     }
-    
+
     public function generateRandomId() {
         $newId = 'SOC' . rand(0, 99999);
         if ($this->isIdDuplicate($newId)) {
@@ -45,4 +48,5 @@ class Society {
         $sc = new SocietyDA();
         return $sc->checkID($newId);
     }
+
 }
