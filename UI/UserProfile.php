@@ -39,7 +39,7 @@ require 'header.php';
                             </tr>
                             <tr>
                                 <th>Admin Password</th>
-                                <td><input type="text" name="password" class="pass" value="<?= $admin->password ?>" readonly="" style="border: none;outline:none"></td>
+                                <td><input type="password" name="password" class="pass" value="<?= $admin->password ?>" readonly="" style="border: none;outline:none"></td>
                             </tr>
                         </table>
                         <input type="submit" name="staffUpdate" value="Save" class="save btn btn-primary" style="display: none"/>
@@ -151,7 +151,7 @@ require 'header.php';
                             </tr>
                             <tr>
                                 <th>User Password</th>
-                                <td><input type="text" name="password" class="pass" value="<?= $stud->password ?>" readonly="" style="border: none; outline:none"></td>
+                                <td><input type="password" name="password" class="pass" value="<?= $stud->password ?>" readonly="" style="border: none; outline:none"></td>
                             </tr>
                             <tr>
                                 <th>Student ID:</th>

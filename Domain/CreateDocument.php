@@ -1,6 +1,4 @@
 <?php
-
-include_once '../Domain/SessionManagement.php';
 include_once '../Domain/Documentation.php';
 include_once '../Domain/Validation.php';
 include_once '../Domain/Society.php';

@@ -103,7 +103,7 @@ and open the template in the editor.
                                 <label for="bookTime">Time Duration</label>
                             </td>
                             <td>
-                                From: <select id="startTime" name="startTime"  onchange="CompareTime();" required>
+                                From: <select id="startTime" name="startTime"  onchange="CompareTime()" required>
                                     <!--                                    <option  disabled selected>Start Time:</option>-->
                                     <?php
                                     $startTime = 800;
@@ -128,7 +128,7 @@ and open the template in the editor.
                                     }
                                     ?>
                                 </select>
-                                To: <select id="endTime" name="endTime" onchange="CompareTime();" required>
+                                To: <select id="endTime" name="endTime" onchange="CompareTime()" required>
                                     <!--                                    <option  disabled selected>End Time:</option>-->
                                     <?php
                                     $startTime = 830;

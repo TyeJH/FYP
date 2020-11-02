@@ -237,7 +237,6 @@ require '../UI/header.php';
                 ?>
                 <div id="bigcontainer">
                     <br><br> 
-                    <a href="../UI/HomePage.php">Back</a>
                     <div class="container" style="width:700px;">  
                         <h3 align="center">Announcement</h3>  
                         <br>  

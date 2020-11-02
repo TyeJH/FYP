@@ -25,7 +25,7 @@ CREATE TABLE society(
 );
 
 CREATE TABLE student(
-    userID        varchar(10)  not null,
+    userID        varchar(300)  not null,
     password      varchar(12)  not null,
     studEmail     varchar(300) not null,
     studID        int(10)      not null,
@@ -109,7 +109,7 @@ CREATE TABLE Schedule(
     FOREIGN KEY (eventID) REFERENCES SocietyEvent(eventID)
 );
 
-CREATE TABLE feedbacks(
+CREATE TABLE feedback(
     feedbackID    int(6)      not null auto_increment,
     content       varchar(20) not null,
     adminID       varchar(10) not null,
@@ -121,6 +121,17 @@ CREATE TABLE feedbacks(
     FOREIGN KEY(docID)     references documentation(docID)
 );
 
+CREATE TABLE feedbackBooking(
+    feedbackVenueID int(6)      not null auto_increment,
+    content         varchar(20) not null,
+    adminID         varchar(10) not null,
+    bookingID       int(6)      not null,
+    societyID       varchar(10) not null,
+    PRIMARY KEY(feedbackID),
+    FOREIGN KEY(adminID)   REFERENCES admin(adminID),
+    FOREIGN KEY(societyID) REFERENCES society(societyID),
+    FOREIGN KEY(bookingID) REFERENCES booking(bookingID)
+);
 
 CREATE TABLE participants(
     scheduleID       INT(6)       not null,
