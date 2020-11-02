@@ -12,15 +12,15 @@ CREATE TABLE uniStudent(
 CREATE TABLE admin(
     adminID      varchar(10)   not null,
     password     varchar(12)   not null,
-    role         varchar(10)   not null,
     PRIMARY KEY(adminID)
 );
 
 CREATE TABLE society(
-    societyID      varchar(10)  not null,
-    societyName    varchar(20)  not null,
-    societyDesc    varchar(300) not null,
-    societyPass    varchar(300) not null,
+    societyID      varchar(10)    not null,
+    societyName    varchar(100)    not null,
+    societyDesc    varchar(300)   not null,
+    societyPass    varchar(20)   not null,
+    societyAcc     decimal(10,2)  not null,
     PRIMARY KEY(societyID)
 );
 
@@ -45,10 +45,9 @@ CREATE TABLE venue(
 
 CREATE TABLE announcement(
     annID         varchar(10)    not null,
-    annTitle      varchar(20)    not null,
+    annTitle      varchar(200)    not null,
     annContent    varchar(500)   not null,
     annDate       date           not null,
-    annAuthor     varchar(50)    not null,
     adminID       varchar(10)    not null,
     PRIMARY KEY(annID),
     FOREIGN KEY(adminID) references admin(adminID)

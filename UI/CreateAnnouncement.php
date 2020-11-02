@@ -7,17 +7,13 @@ include_once '../DataAccess/VenueDA.php';
 include_once '../DataAccess/AnnounceDA.php';
 include_once '../Domain/Society.php';
 session_start();
-//require '../UI/header.php';
+require '../UI/header.php';
 ?>
 <!DOCTYPE html>
 
 <html>
     <head>  
         <title>Announcement Page</title>
-        <!--        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>--> 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
@@ -28,8 +24,7 @@ session_start();
             if ($_SESSION['current'] == "Admin") {
                 ?>
                 <div id="bigcontainer">
-                    <br><br> 
-                    <a href="../UI/HomePage.php">Back</a>
+                    <br><br>
                     <div class="container" style="width:700px;">  
                         <h3 align="center"><b>Announcement</b></h3>  
                         <br>  
@@ -42,9 +37,9 @@ session_start();
                             <!--Display All Venue List-->
                             <div id="anntable">
                                 <?php
-                                if (isset($_SESSION['message'])) {
-                                    echo '<label class="text-success">' . $_SESSION['message'] . '</label>';
-                                    unset($_SESSION['message']);
+                                if (isset($_SESSION['annmessage'])) {
+                                    echo '<label class="text-success">' . $_SESSION['annmessage'] . '</label>';
+                                    unset($_SESSION['annmessage']);
                                 }
                                 ?>
                                 <table class="table table-bordered">  
@@ -56,7 +51,7 @@ session_start();
                                     </tr>
                                     <?php
                                     $annda = new AnnounceDA();
-                                    $test = $annda->getAll();
+                                    $test = $annda->getAllByAdmin($_SESSION['result']->adminID);
                                     if (!empty($test)) {
                                         foreach ($test as $ann) {
                                             ?>
@@ -104,9 +99,11 @@ session_start();
                                 <?php
                                 $anno = new Announcement();
                                 $aID = $anno->generateRandomId();
+                                date_default_timezone_set("Asia/Kuala_Lumpur");
+                                $annDate = date('Y-m-d');
                                 ?>
                                 <form method="POST" id="insert_form">  
-  
+
                                     <input type="hidden" name="aid" id="aid" class="form-control" value="<?= $aID ?>" readonly=""/>  
                                     <br>  
                                     <label>Announcement Title</label> 
@@ -116,10 +113,10 @@ session_start();
                                     <textarea name="acontent" id="acontent" class="form-control" placeholder="Enter Announcement Details" style="resize: none;"></textarea> 
                                     <br>
                                     <label>Announcement Date:</label>
-                                    <input type="date" name="adate" id="adate" class="form-control"><br>
+                                    <input type="text" name="adate" id="adate" class="form-control" value="<?= $annDate ?>" readonly=""><br>
                                     <br>
                                     <label>Announcement Author:</label>
-                                    <input type="text" name="aauthor" id="aauthor" class="form-control" placeholder="Enter Author ID"><br>
+                                    <input type="text" name="aauthor" id="aauthor" class="form-control" value="<?= $_SESSION['result']->adminID ?>" readonly=""><br>
                                     <br>
                                     <input type="hidden" name="announceid" id="announceid"/>
                                     <input type="submit" name="aSubmit" id="insert" value="Insert" class="btn btn-success" />  
@@ -290,7 +287,7 @@ session_start();
                 </div>
 
                 <script>
-                     $(document).ready(function () {
+                    $(document).ready(function () {
                         //        View Announcement Details
                         $(document).on('click', '.view_data', function () {
                             var annid = $(this).attr("id");
@@ -310,7 +307,7 @@ session_start();
                     });
                 </script>
                 <?php
-            } 
+            }
         } else {
             $_SESSION['current'] = '';
             header("Location:../UI/HomePage.php");

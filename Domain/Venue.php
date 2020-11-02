@@ -7,11 +7,13 @@ class Venue {
     private $venueID;
     private $venueName;
     private $venueDesc;
+    private $venueStatus;
 
-    public function __construct($venueID = "", $venueName = "", $venueDesc = "") {
+    public function __construct($venueID = "", $venueName = "", $venueDesc = "", $venueStatus="") {
         $this->venueID = $venueID;
         $this->venueName = $venueName;
         $this->venueDesc = $venueDesc;
+        $this->venueStatus = $venueStatus;
     }
 
     public function __set($name, $value) {

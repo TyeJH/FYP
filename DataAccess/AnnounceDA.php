@@ -25,6 +25,27 @@ class AnnounceDA {
         }
     }
     
+    public function getAllByAdmin($adID) {
+        $db = DatabaseConnection::getInstance()->getDb();
+        $query = "SELECT * FROM announcement where adminID = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $adID, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $ann = $stmt->fetchAll();
+            $aList=[];
+            foreach($ann as $a){
+               $aList[] = new Announcement($a['annID'], $a['annTitle'], $a['annContent'], $a['annDate'], $a['adminID']);
+            }
+            DatabaseConnection::closeConnection($db);
+            return $aList;
+        }
+    }
+    
     public function retrieve($annid) {
         $db = DatabaseConnection::getInstance()->getDb();
         $query = "SELECT * FROM announcement WHERE annID = ?";

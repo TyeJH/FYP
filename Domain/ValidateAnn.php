@@ -20,20 +20,20 @@ if (!empty($_POST)) {
         $announcement = new Announcement($id, $title, $content, $date, $author);
         $annda = new AnnounceDA();
         $annda->update($announcement);
-        $_SESSION['message'] = 'Announcement Updated';
+        $_SESSION['annmessage'] = 'Announcement Updated';
         echo '<script>location.href = "../UI/CreateAnnouncement.php";</script>';
         
     } else if ($nul == 'Delete') {
         $annda = new AnnounceDA();
         $annda->delete($id);
-        $_SESSION['message'] = 'Announcement Deleted';
+        $_SESSION['annmessage'] = 'Announcement Deleted';
         echo '<script>location.href = "../UI/CreateAnnouncement.php";</script>';
         
     } else {
         $ann = new Announcement($id, $title, $content, $date, $author);
         $annda = new AnnounceDA();
         $annda->regsiter($ann);
-        $_SESSION['message'] = 'Announcement Created';
+        $_SESSION['annmessage'] = 'Announcement Created';
         echo '<script>location.href = "../UI/CreateAnnouncement.php";</script>';
     }
 }

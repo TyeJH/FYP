@@ -11,18 +11,20 @@ if (!empty($_POST)) {
     $id = $val->test_input($_POST['vid']);
     $name = $val->test_input($_POST['vName']);
     $desc = $val->test_input($_POST['vDesc']);
+    $status = $val->test_input($_POST['vstatus']);
     $nul = $_POST['venueid'];
+    
     if ($nul != '') {
-        $venue = new Venue($id, $name, $desc);
+        $venue = new Venue($id, $name, $desc,$status);
         $venda = new VenueDA();
         $venda->update($venue);
-        $_SESSION['message'] = 'Data Updated';
+        $_SESSION['venmessage'] = 'Data Updated';
         echo '<script>location.href = "../UI/VenueList.php";</script>';
     } else {
-        $venue = new Venue($id, $name, $desc);
+        $venue = new Venue($id, $name, $desc,$status);
         $venda = new VenueDA();
         $venda->regsiter($venue);
-        $_SESSION['message'] = 'Data Inserted';
+        $_SESSION['venmessage'] = 'Data Inserted';
         echo '<script>location.href = "../UI/VenueList.php";</script>';
     }
 }

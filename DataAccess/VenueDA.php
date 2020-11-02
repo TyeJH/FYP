@@ -7,6 +7,26 @@ class VenueDA {
 
     public function getAll() {
         $db = DatabaseConnection::getInstance()->getDb();
+        $query = "SELECT * FROM venue where venueStatus = 'A' ";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $ven = $stmt->fetchAll();
+            $vList =[];
+            foreach($ven as $v) {
+                $vList[] = new Venue($v['venueID'], $v['venueName'], $v['venueDesc'], $v['venueStatus']);
+            }
+            DatabaseConnection::closeConnection($db);
+            return $vList;
+        }
+    }
+    
+    public function getAllByAdmin() {
+        $db = DatabaseConnection::getInstance()->getDb();
         $query = "SELECT * FROM venue";
         $stmt = $db->prepare($query);
         $stmt->execute();
@@ -18,7 +38,7 @@ class VenueDA {
             $ven = $stmt->fetchAll();
             $vList =[];
             foreach($ven as $v) {
-                $vList[] = new Venue($v['venueID'], $v['venueName'], $v['venueDesc']);
+                $vList[] = new Venue($v['venueID'], $v['venueName'], $v['venueDesc'], $v['venueStatus']);
             }
             DatabaseConnection::closeConnection($db);
             return $vList;
@@ -37,7 +57,7 @@ class VenueDA {
             return null;
         } else {
             $v = $stmt->fetch(PDO::FETCH_ASSOC);
-            $ven = new Venue($v['venueID'], $v['venueName'], $v['venueDesc']);
+            $ven = new Venue($v['venueID'], $v['venueName'], $v['venueDesc'], $v['venueStatus']);
             DatabaseConnection::closeConnection($db);
             return $ven;
         }
@@ -62,22 +82,24 @@ class VenueDA {
 
     public function regsiter(Venue $vn) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'INSERT INTO venue VALUES(?,?,?)';
+        $query = 'INSERT INTO venue VALUES(?,?,?,?)';
         $stmt = $db->prepare($query);
         $stmt->bindParam(1, $vn->venueID, PDO::PARAM_STR);
         $stmt->bindParam(2, $vn->venueName, PDO::PARAM_STR);
         $stmt->bindParam(3, $vn->venueDesc, PDO::PARAM_STR);
+        $stmt->bindParam(4, $vn->venueStatus, PDO::PARAM_STR);
         $stmt->execute();
         DatabaseConnection::closeConnection($db);
     }
 
     public function update(Venue $vn) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'UPDATE venue SET venueName = ?, venueDesc = ? WHERE venueID = ?';
+        $query = 'UPDATE venue SET venueName = ?, venueDesc = ?, venueStatus = ? WHERE venueID = ?';
         $stmt = $db->prepare($query);
         $stmt->bindParam(1, $vn->venueName, PDO::PARAM_STR);
         $stmt->bindParam(2, $vn->venueDesc, PDO::PARAM_STR);
-        $stmt->bindParam(3, $vn->venueID, PDO::PARAM_STR);
+        $stmt->bindParam(3, $vn->venueStatus, PDO::PARAM_STR);
+        $stmt->bindParam(4, $vn->venueID, PDO::PARAM_STR);
         $stmt->execute();
         DatabaseConnection::closeConnection($db);
     }
