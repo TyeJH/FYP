@@ -29,26 +29,29 @@ if (isset($_POST['type']) && isset($_POST['scheduleID']) && isset($_POST['userID
     }
     $participantDA = new ParticipantsDA();
     if ($participantDA->update($participant)) {
+        echo $participant->scheduleID . " " . $participant->userID . " " . $participant->attendanceStatus;
+        exit;
         if ($type == 'approval') {
             //Update noOfJoined in Schedule table.
             $scheduleDA = new ScheduleDA();
             $scheduleDA->updateNoOfJoined($scheduleID);
-
             //Send email after approved participant.
             $eventDA = new SocietyEventDA();
-            $event = $eventDA->retrieveByEventID(1);
+            $event = $eventDA->retrieveByEventID($eventID);
             $to = 'n.kianhee99@gmail.com';
             $toName = 'Participant';
             $subject = "$event->eventName - Approval of event application";
             $message = "Hi you have approved for joining $event->eventName for more information. \nLog in your account to view the event details.";
             $from = "eventmanagementsystemtaruc@gmail.com";
             $sender = "TAR UC Event Management System";
+            
             $mail = new Email($to, $toName, $subject, $message, $from, $sender);
-            if ($mail->setting()) {
-                echo $participant->userID . ' application status is marked as ' . $participant->applyStatus;
-            } else {
-                echo "Unepected error occur. Email couldn't be sent.";
-            }
+            echo $participant->userID . ' application status is marked as ' . $participant->applyStatus;
+//            if ($mail->setting()) {
+//                echo $participant->userID . ' application status is marked as ' . $participant->applyStatus;
+//            } else {
+//                echo "Unepected error occur. Email couldn't be sent.";
+//            }
         } else {
             echo $participant->userID . ' attendance status is marked as ' . $participant->attendanceStatus;
         }

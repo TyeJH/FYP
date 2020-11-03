@@ -1,7 +1,8 @@
-<?php require '../DataAccess/ParticipantsDA.php'; ?>
-<?php require '../DataAccess/ScheduleDA.php'; ?>
-
-<?php require '../Domain/UpdateParticipant.php'; ?>
+<?php
+require '../DataAccess/ParticipantsDA.php';
+require '../DataAccess/ScheduleDA.php';
+require '../Domain/UpdateParticipant.php';
+?>
 
 <!DOCTYPE html>
 <!--
@@ -23,14 +24,13 @@ and open the template in the editor.
             $(document).ready(function () {
                 $('#participantsApplication').DataTable();
             });
-            function updateAttendanceStatus(userID) {
-                var checkBox = document.getElementById(userID);
-                var value = document.getElementById(userID).value;
+            function updateAttendanceStatus(scheduleIDuserID) {
+                var checkBox = document.getElementById(scheduleIDuserID);
+                var value = document.getElementById(scheduleIDuserID).value;
                 var valueSpilted = value.split(',');
                 var attendanceStatus = "";
                 var type = 'attendance';
                 if (checkBox.checked === true) {
-                    ;
                     attendanceStatus = "Attended";
                 } else {
                     attendanceStatus = "Absent";
@@ -43,7 +43,7 @@ and open the template in the editor.
                                 "type": type,
                                 "scheduleID": valueSpilted[0],
                                 "eventID": valueSpilted[1],
-                                "userID": userID,
+                                "userID": valueSpilted[2],
                                 "applyDate": valueSpilted[3],
                                 "applyStatus": valueSpilted[4],
                                 "attendanceStatus": attendanceStatus
@@ -63,31 +63,11 @@ and open the template in the editor.
 
             <?php
             if (isset($_GET['eventID'])) {
-                $participantsDA = new ParticipantsDA();
-                $participantArray = $participantsDA->retrieve($_GET['eventID'], 'Approved');
-                $count = 1;
-                echo "<table id=participantsApplication class = 'table table-hover table-responsive table-bordered'>";
-                echo "<thead>";
-                echo "<tr>";
-                echo "<th>No </th>";
-                echo "<th>Student ID</th>";
-                //echo "<th>Name</th>";
-                echo "<th>Schedule Session</th>";
-                echo "<th>Attendance</th>";
-                echo "</tr>";
-                echo "</thead>";
-                echo "<tbody>";
-                if ($participantArray == null) {
-                    echo "<tr>";
-                    echo "<td colspan='5' style=color:red;text-align:center;>No records found.</td>";
-                    echo "</tr>";
-                } else {
-                    foreach ($participantArray as $participant) {
-                        echo "<tr>";
-                        echo "<td>$count</td>";
-                        echo "<td>$participant->userID</td>";
-                        $scheduleDA = new ScheduleDA();
-                        $schedule = $scheduleDA->retrieveByScheduleID($participant->scheduleID);
+                $scheduleDA = new ScheduleDA();
+                $scheduleArray = $scheduleDA->retrieve($_GET['eventID']);
+                if ($scheduleArray != null) {
+                    foreach ($scheduleArray as $schedule) {
+                        echo "<div style='background-color:#FFF5F5'>";
                         //convert format to dd/mm/yyyy 2200
                         $stFormat = $schedule->startDate . " " . $schedule->startTime;
                         $etFormat = $schedule->endDate . " " . $schedule->endTime;
@@ -96,17 +76,47 @@ and open the template in the editor.
                         //convert format to Thursday, 2020--Oct-01 4:00 PM
                         $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
                         $endDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($etFormat));
-                        echo "<td>" . $startDateTimeFormatted . " - " . $endDateTimeFormatted . "</td>";                        //echo "<td>{$studName}</td>";
-                        if ($participant->attendanceStatus == 'Attended') {
-                            echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate,$participant->applyStatus' checked></td>";
+                        echo "<h3><strong>Schedule Session :</strong> $startDateTimeFormatted - $endDateTimeFormatted</h3>";
+                        echo "<p><strong>Venue :</strong> $schedule->venue</p>";
+                        $participantsDA = new ParticipantsDA();
+                        $participantArray = $participantsDA->retrieve($schedule->scheduleID, 'Approved');
+                        $count = 1;
+                        echo "<table id='participantsApplication' class = 'table table-hover table-responsive table-bordered'>";
+                        echo "<thead>";
+                        echo "<tr>";
+                        echo "<th>No </th>";
+                        echo "<th>Student ID</th>";
+                        //echo "<th>Name</th>";
+                        //echo "<th>Schedule Session</th>";
+                        echo "<th>Attendance</th>";
+                        echo "</tr>";
+                        echo "</thead>";
+                        echo "<tbody>";
+                        if ($participantArray == null) {
+                            echo "<p>Currently no participants in this schedule yet.</p>";
                         } else {
-                            echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate,$participant->applyStatus'></td>";
+                            foreach ($participantArray as $participant) {
+                                echo "<tr>";
+                                echo "<td>$count</td>";
+                                echo "<td>$participant->userID</td>";
+                                //echo "<td>{$studName}</td>";
+                                if ($participant->attendanceStatus == 'Attended') {
+                                    echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->scheduleID,$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate,$participant->applyStatus' checked></td>";
+                                } else {
+                                    echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->scheduleID,$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate,$participant->applyStatus'></td>";
+                                }
+                                echo "</tr>";
+                                $count++;
+                            }
                         }
-                        $count++;
+                        echo "</tbody>";
+                        echo "</table>";
+                        echo "</div>";
+                        echo "<hr style='color:black;border-width:10px;'>";
                     }
+                } else {
+                    echo "<a href='..UI/ManageSchedule.php'>No schedule yet. Click here to add schedule</a><br><br>";
                 }
-                echo "</tbody>";
-                echo "</table>";
             } else {
                 header('location:EventOrganizerHome.php');
             }

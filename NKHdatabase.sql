@@ -117,12 +117,12 @@ CREATE TABLE feedback(
 );
 
 CREATE TABLE feedbackBooking(
-    feedbackVenueID int(6)      not null auto_increment,
-    content         varchar(20) not null,
-    adminID         varchar(10) not null,
-    bookingID       int(6)      not null,
-    societyID       varchar(10) not null,
-    PRIMARY KEY(feedbackVenueID),
+    feedbackBookingID int(6)      not null auto_increment,
+    content           varchar(20) not null,
+    adminID           varchar(10) not null,
+    bookingID         int(6)      not null,
+    societyID         varchar(10) not null,
+    PRIMARY KEY(feedbackBookingID),
     FOREIGN KEY(adminID)   REFERENCES admin(adminID),
     FOREIGN KEY(societyID) REFERENCES society(societyID),
     FOREIGN KEY(bookingID) REFERENCES booking(bookingID)
