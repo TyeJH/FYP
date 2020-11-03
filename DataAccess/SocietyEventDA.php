@@ -107,7 +107,6 @@ class SocietyEventDA {
 
         $query = 'SELECT * FROM SocietyEvent WHERE applyID = ?';
         $stmt = $db->prepare($query);
-        $applyID = $_GET['applyID'];
         $stmt->bindParam(1, $applyID, PDO::PARAM_INT);
         $stmt->execute();
         $total = $stmt->rowCount();
