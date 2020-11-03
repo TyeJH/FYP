@@ -47,6 +47,23 @@ class ScheduleDA {
         DatabaseConnection::closeConnection($db);
     }
 
+    public function retrieveByScheduleID($scheduleID) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT * FROM schedule WHERE scheduleID = ?';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $scheduleID);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $schedule = new Schedule($row['scheduleID'], $row['venue'], $row['startDate'], $row['startTime'], $row['endDate'], $row['endTime'], $row['unlimited'], $row['noOfParticipant'], $row['noOfJoined'], $row['scheduleStatus'], $row['eventID']);
+            return $schedule;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+
     public function update(Schedule $schedule) {
         $db = DatabaseConnection::getInstance()->getDB();
         $query = 'UPDATE schedule SET venue = ?, startDate = ?, startTime = ?, endDate = ?, endTime = ?, unlimited = ?, noOfParticipant = ?, noOfJoined = ?, scheduleStatus = ? WHERE scheduleID = ?';
@@ -72,7 +89,7 @@ class ScheduleDA {
     public function updateNoOfJoined($scheduleID) {
         $db = DatabaseConnection::getInstance()->getDB();
         $query = 'UPDATE schedule SET noOfJoined = noOfJoined + ? WHERE scheduleID = ?';
-        $stmt = $db->prepare($query);   
+        $stmt = $db->prepare($query);
         $stmt->bindValue(1, 1, PDO::PARAM_STR);
         $stmt->bindValue(2, $scheduleID, PDO::PARAM_STR);
         if ($stmt->execute()) {

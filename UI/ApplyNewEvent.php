@@ -44,9 +44,13 @@ and open the template in the editor.
     <body>
         <div class="container">
             <?php
-            if (isset($_SESSION['message'])) {
-                echo '<br>' . $_SESSION['message'];
-                unset($_SESSION['message']);
+            if (isset($_SESSION['successMsg'])) {
+                echo "<div class='alert alert-success'><strong>Success! </strong>" . $_SESSION['successMsg'] . '</div>';
+                unset($_SESSION['successMsg']);
+            }
+            if (isset($_SESSION['errorMsg'])) {
+                echo "<div class='alert alert-danger'><strong>Failed! </strong>" . $_SESSION['errorMsg'] . '</div>';
+                unset($_SESSION['errorMsg']);
             }
             //File converted into base64 and stored in text file.
             $myfile = fopen("../applicationFormContent.txt", "r") or die("Unable to open file!");

@@ -1,6 +1,6 @@
 <?php
 require '../DataAccess/DocumentationDA.php';
-require '../Domain/Society.php';
+require '../DataAccess/SocietyEventDA.php';
 session_start();
 ?>
 
@@ -82,19 +82,30 @@ and open the template in the editor.
                         echo "<td><a title='Download File' download='" . $doc->docName . "' href=data:" . $doc->mime . ";base64," . base64_encode($doc->docContent) . ">$doc->docName</a></td>";
                         $dateFormatted = date("Y-M-d", strtotime($doc->applyDate));
                         echo "<td>{$dateFormatted}</td>";
-                        echo "<td>{$doc->status}</td>";
                         if ($doc->status == "Approved") {
-                            echo "<td> <a href = 'SocietyCreateEvent.php?applyID={$doc->docID}' class='btn btn-primary m-r-1em'>Create event</a> </td>";
+                            echo "<td><div style='color:#3c763d;' >{$doc->status}</div></td>";
                         } else if ($doc->status == "Pending") {
-                            echo "<td> <p>Waiting for approval</p> </td>";
+                            echo "<td><div style='color:#8a6d3b;' >{$doc->status}</div></td>";
                         } else if ($doc->status == "Disapproved") {
-                            echo "<td><input type = 'button' name = 'edit' value = 'View Feedback' id = '{$doc->docID}' class = 'btn btn-primary m-r-1em view_data' /></td>";
+                            echo "<td><div style='color:#a94442;' >{$doc->status}</div></td>";
+                        }
+                        $eventDA = new SocietyEventDA();
+                        if ($eventDA->isApplyIdExist($doc->docID)) {
+                            echo "<td> <p class='btn btn-info m-r-1em'>Created</p> </td>";
+                        } else {
+                            if ($doc->status == "Approved") {
+                                echo "<td> <a href = 'SocietyCreateEvent.php?applyID={$doc->docID}' class='btn btn-primary m-r-1em'>Create event</a> </td>";
+                            } else if ($doc->status == "Pending") {
+                                echo "<td> <p>Waiting for approval</p> </td>";
+                            } else if ($doc->status == "Disapproved") {
+                                echo "<td><input type = 'button' name = 'edit' value = 'View Feedback' id = '{$doc->docID}' class = 'btn btn-primary m-r-1em view_data' /></td>";
+                            }
                         }
                     }
                 }
                 echo "</tbody>";
                 echo "</table>";
-            }else{
+            } else {
                 header('Location:EventOrganizerHome.php');
             }
             ?>

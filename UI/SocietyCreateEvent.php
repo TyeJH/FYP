@@ -38,6 +38,28 @@ and open the template in the editor.
                 }
             });
         });
+        function verifySubmit() {
+            if (document.editEventDetailsForm.eventName.value == '') {
+                alert('Please enter the event name.');
+                return false;
+            }
+            if (document.editEventDetailsForm.eventDesc.value == '') {
+                alert('Please enter the event name.');
+                return false;
+            }
+            if (document.editEventDetailsForm.eventCategory.value == '') {
+                alert('Please enter the event name.');
+                return false;
+            }
+            if (document.editEventDetailsForm.noOfHelper.value == '') {
+                alert('Please enter the event name.');
+                return false;
+            }
+            if (document.editEventDetailsForm.myfile.value == '') {
+                alert('Please enter the event name.');
+                return false;
+            }
+        }
     </script>
 
     <body>
@@ -51,19 +73,21 @@ and open the template in the editor.
                 echo "<p>Have your documentation approved yet? <a href='ViewApplyStatus.php'> Click here to view </a></p>";
             } else {
                 $applyID = $_GET['applyID'];
-
                 $eventDA = new SocietyEventDA();
                 if ($eventDA->isApplyIdExist($applyID)) {
                     //If event already created by user.
+                    if (isset($_SESSION['successMsg'])) {
+                        echo "<div class='alert alert-success'><strong>Success! </strong>" . $_SESSION['successMsg'] . '</div>';
+                        unset($_SESSION['successMsg']);
+                    }
+                    if (isset($_SESSION['errorMsg'])) {
+                        echo "<div class='alert alert-danger'><strong>Failed! </strong>" . $_SESSION['errorMsg'] . '</div>';
+                        unset($_SESSION['errorMsg']);
+                    }
                     echo "<p>You have already created your event. <a href='EventOrganizerHome.php'> Click here to view </a></p>";
                 } else {
-
-                    if (isset($_SESSION['message'])) {
-                        echo '<br>' . $_SESSION['message'];
-                        unset($_SESSION['message']);
-                    }
                     ?>
-                    <form action="../Domain/CreateSocietyEvent.php" method="post" enctype="multipart/form-data">
+                    <form name="createEventDetailsForm" action="../Domain/CreateSocietyEvent.php" method="post" enctype="multipart/form-data" onSubmit="return verifySubmit()">
                         <table class='table table-hover table-responsive table-bordered'>
                             <tr>
                                 <td>Event Name :</td>

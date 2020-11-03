@@ -31,14 +31,15 @@ if (isset($_POST['updateSchedule'])) {
     $st = strtotime($stFormat);
     $et = strtotime($etFormat);
     if ($st > $et || $st == $et) {
-        echo "<script>alert('The end time must be greater than the start time.');location.href = '../UI/EditSchedule.php?eventID=$eventID';</script>";
+        echo "<script>alert('The end time must be greater than the start time.');location.href = '../UI/ManageSchedule.php?eventID=$eventID';</script>";
     } else {
         $schedule = new Schedule($scheduleID, $venue, $startDate, $startTime, $endDate, $endTime, $unlimited, $noOfParticipant, $noOfJoined, $scheduleStatus, $eventID);
         $scheduleDA = new ScheduleDA();
         if ($scheduleDA->update($schedule)) {
-           echo "<script>alert('Successfully Updated.');location.href = '../UI/EditSchedule.php?eventID=$eventID';</script>";
+            $_SESSION['successMsg'] = 'Your schedule just updated.';
+            header("Location:../UI/ManageSchedule.php?eventID=$eventID");
         } else {
-            echo "<script>alert('Unexpected error occur.');location.href = '../UI/EditSchedule.php?eventID=$eventID';</script>";
+            echo "<script>alert('Unexpected error occur.');location.href = '../UI/ManageSchedule.php?eventID=$eventID';</script>";
         }
     }
 }

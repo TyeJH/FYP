@@ -56,12 +56,15 @@ and open the template in the editor.
                 //If user haven't chose which approved document.
                 echo "<p>Have your documentation approved yet? <a href='ViewApplyStatus.php'> Click here to view </a></p>";
             } else {
-                $eventID = $_GET['eventID'];
-
-                if (isset($_SESSION['message'])) {
-                    echo '<br>' . $_SESSION['message'];
-                    unset($_SESSION['message']);
+                if (isset($_SESSION['successMsg'])) {
+                    echo "<div class='alert alert-success'><strong>Success! </strong>" . $_SESSION['successMsg'] . '</div>';
+                    unset($_SESSION['successMsg']);
                 }
+                if (isset($_SESSION['errorMsg'])) {
+                    echo "<div class='alert alert-danger'><strong>Failed! </strong>" . $_SESSION['errorMsg'] . '</div>';
+                    unset($_SESSION['errorMsg']);
+                }
+                $eventID = $_GET['eventID'];
                 ?>
                 <form action="../Domain/CreateSchedule.php" method="post" enctype="multipart/form-data">
                     <table class='table table-hover table-responsive table-bordered'>

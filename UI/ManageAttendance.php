@@ -1,4 +1,6 @@
 <?php require '../DataAccess/ParticipantsDA.php'; ?>
+<?php require '../DataAccess/ScheduleDA.php'; ?>
+
 <?php require '../Domain/UpdateParticipant.php'; ?>
 
 <!DOCTYPE html>
@@ -70,7 +72,7 @@ and open the template in the editor.
                 echo "<th>No </th>";
                 echo "<th>Student ID</th>";
                 //echo "<th>Name</th>";
-                echo "<th>Schedule ID</th>";
+                echo "<th>Schedule Session</th>";
                 echo "<th>Attendance</th>";
                 echo "</tr>";
                 echo "</thead>";
@@ -84,8 +86,17 @@ and open the template in the editor.
                         echo "<tr>";
                         echo "<td>$count</td>";
                         echo "<td>$participant->userID</td>";
-                        echo "<td>$participant->scheduleID</td>";
-                        //echo "<td>{$studName}</td>";
+                        $scheduleDA = new ScheduleDA();
+                        $schedule = $scheduleDA->retrieveByScheduleID($participant->scheduleID);
+                        //convert format to dd/mm/yyyy 2200
+                        $stFormat = $schedule->startDate . " " . $schedule->startTime;
+                        $etFormat = $schedule->endDate . " " . $schedule->endTime;
+                        $st = strtotime($stFormat);
+                        $et = strtotime($etFormat);
+                        //convert format to Thursday, 2020--Oct-01 4:00 PM
+                        $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
+                        $endDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($etFormat));
+                        echo "<td>" . $startDateTimeFormatted . " - " . $endDateTimeFormatted . "</td>";                        //echo "<td>{$studName}</td>";
                         if ($participant->attendanceStatus == 'Attended') {
                             echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate,$participant->applyStatus' checked></td>";
                         } else {

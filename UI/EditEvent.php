@@ -43,6 +43,7 @@ and open the template in the editor.
                 }
             });
         });
+
     </script>
 
     <body>
@@ -53,9 +54,13 @@ and open the template in the editor.
             </div>
 
             <?php
-            if (isset($_SESSION['message'])) {
-                echo '<br>' . $_SESSION['message'];
-                unset($_SESSION['message']);
+            if (isset($_SESSION['successMsg'])) {
+                echo "<div class='alert alert-success'><strong>Success! </strong>" . $_SESSION['successMsg'] . '</div>';
+                unset($_SESSION['successMsg']);
+            }
+            if (isset($_SESSION['errorMsg'])) {
+                echo "<div class='alert alert-danger'><strong>Failed! </strong>" . $_SESSION['errorMsg'] . '</div>';
+                unset($_SESSION['errorMsg']);
             }
             if (isset($_GET['eventID'])) {
                 $eventID = $_GET['eventID'];
@@ -65,12 +70,12 @@ and open the template in the editor.
                     header('location:EventOrganizerHome.php');
                 }
                 ?>
-                <form action="../Domain/UpdateEvent.php" method="post" enctype="multipart/form-data">
+                <form name="editEventDetailsForm"  action="../Domain/UpdateEvent.php" method="post" enctype="multipart/form-data" onSubmit="return verifySubmit(this)">
                     <table class='table table-hover table-responsive table-bordered'>
                         <tr>
                             <td>Event Name :</td>
                             <td>
-                                <input type="text" name="eventName" value="<?= $event->eventName ?>" class='form-control'/><br>
+                                <input type="text" id="eventName" name="eventName"  value="<?= $event->eventName ?>"class='form-control'/><br>
                             </td>
                         </tr>
                         <tr>
@@ -120,11 +125,30 @@ and open the template in the editor.
 
                 </form>
                 <?php
-            }else{
+            } else {
                 header('Location:EventOrganizerHome.php');
             }
             ?>
         </div>
-
     </body>
 </html>
+<script>
+    function verifySubmit(id) {
+        if (document.editEventDetailsForm.eventName.value == '') {
+            alert('Please enter the event name.');
+            return false;
+        }
+        if (document.editEventDetailsForm.eventDesc.value == '') {
+            alert('Please enter the event descriptio.');
+            return false;
+        }
+        if (document.editEventDetailsForm.eventCategory.value == '') {
+            alert('Please enter the event category.');
+            return false;
+        }
+        if (document.editEventDetailsForm.noOfHelper.value == '') {
+            alert('Please enter the number of helper.');
+            return false;
+        }
+    }
+</script>

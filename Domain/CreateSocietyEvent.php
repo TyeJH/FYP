@@ -3,7 +3,6 @@
 include_once '../Domain/Society.php';
 include_once '../Domain/Validation.php';
 include_once '../DataAccess/SocietyEventDA.php';
-include_once '../Domain/SessionManagement.php';
 session_start();
 //Create Event
 if (isset($_POST['createEvent'])) {
@@ -16,35 +15,36 @@ if (isset($_POST['createEvent'])) {
 
     //Event Image file
     $filename = $_FILES['myfile']['name'];
-    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    $mime = $_FILES['myfile']['type'];
     $content = file_get_contents($_FILES['myfile']['tmp_name']);
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        
     $noOfHelper = $_POST['noOfHelper'];
     $contactNo = $_POST['contactNo'];
     $societyID = $_SESSION['result']->societyID;
     $applyID = $_POST['applyID'];
-
     if (empty($eventName)) {
-         $_SESSION['message'] =  "<div class='alert alert-info'><strong>Please enter the event name</strong></div>";
+        $_SESSION['errorMsg'] = 'Please enter the event name.';
         header("location:../UI/SocietyCreateEvent.php?applyID=$applyID");
     } else if (empty($eventDesc)) {
-         $_SESSION['message'] =  "<div class='alert alert-info'><strong>Please enter the event description</strong></div>";
+        $_SESSION['errorMsg'] = 'Please enter the event description.';
         header("location:../UI/SocietyCreateEvent.php?applyID=$applyID");
     } else if ($_FILES['myfile']['error'] == 4) {
         //If file is empty
-         $_SESSION['message'] = "<div class='alert alert-info'><strong>Please select an image</strong></div>";
+        $_SESSION['errorMsg'] = 'Please select an image.';
         header("location:../UI/SocietyCreateEvent.php?applyID=$applyID");
     } else if (!in_array($ext, $allowed)) {
         //If file type is not allowed
-        $_SESSION['message'] =  "<div class='alert alert-info'><strong>Sorry, image file only jpg and png is accepted.</strong></div>";
+        $_SESSION['errorMsg'] = 'Sorry, image file only jpg and png is accepted.';
         header("location:../UI/SocietyCreateEvent.php?applyID=$applyID");
     } else {
         $event = new SocietyEvent($eventID = "", $eventName, $eventDesc, $eventCategory, $content, $noOfHelper, $contactNo, $societyID, $applyID);
         $eventDA = new SocietyEventDA();
         if ($eventDA->create($event)) {
-            $_SESSION['message'] = "<div class='alert alert-success'><strong>Success!</strong> You have posted a new event.</div>";
+            $_SESSION['successMsg'] = 'You have published a new event.';
             header("location:../UI/SocietyCreateEvent.php?applyID=$applyID");
         } else {
-             $_SESSION['message'] = "<div class='alert alert-danger'><strong>Failed!</strong> Sorry, an unexpected error occured.</div>";
+            $_SESSION['errorMsg'] = 'Sorry, an unexpected error occured.';
             header("location:../UI/SocietyCreateEvent.php?applyID=$applyID");
         }
     }
