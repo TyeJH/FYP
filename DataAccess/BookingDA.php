@@ -36,10 +36,44 @@ class BookingDA {
         } else {
             $bookingArray = array();
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $booking = new Booking($row['bookingID'], $row['purpose'], $row['bookDate'], $row['startTime'], $row['endTime'], $row['bookStatus'], $row['societyID'], $row['venueID'],$row['venueName']);
+                $booking = new Booking($row['bookingID'], $row['purpose'], $row['bookDate'], $row['startTime'], $row['endTime'], $row['bookStatus'], $row['societyID'], $row['venueID'], $row['venueName']);
                 $bookingArray[] = $booking;
             }
             return $bookingArray;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+
+    public function retrieveAll() {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT * FROM booking B, venue V WHERE B.venueID = V.venueID';
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $bookingArray = array();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $booking = new Booking($row['bookingID'], $row['purpose'], $row['bookDate'], $row['startTime'], $row['endTime'], $row['bookStatus'], $row['societyID'], $row['venueID'], $row['venueName']);
+                $bookingArray[] = $booking;
+            }
+            return $bookingArray;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+
+    public function updateBooking($bookingID, $bookStatus) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'UPDATE booking SET bookStatus = ? WHERE bookingID = ?';
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(1, $bookStatus);
+        $stmt->bindValue(2, $bookingID);
+        $stmt->execute();
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
         }
         DatabaseConnection::closeConnection($db);
     }

@@ -43,7 +43,7 @@ and open the template in the editor.
                                 "type": type,
                                 "scheduleID": valueSpilted[0],
                                 "eventID": valueSpilted[1],
-                                "userID": userID,
+                                "userID": valueSpilted[2],
                                 "applyDate": valueSpilted[3],
                                 "applyStatus": applyStatus,
                                 "attendanceStatus": attendanceStatus
@@ -78,10 +78,10 @@ and open the template in the editor.
                         echo "<p><strong>Venue :</strong> $schedule->venue</p>";
                         $participantsDA = new ParticipantsDA();
                         $participants = array();
-                        $participants = $participantsDA->retrieve($schedule->scheduleID, 'Pending');
+                        $participantArray = $participantsDA->retrieve($schedule->scheduleID, 'Pending');
                         $count = 1;
-                        if ($participants == null) {
-                               echo "<p>Currently no application in this schedule yet.</p>";
+                        if ($participantArray == null) {
+                            echo "<p>Currently no application in this schedule yet.</p>";
                         } else {
                             echo "<table id=participantsApplication class = 'table table-hover table-responsive table-bordered'>";
                             echo "<thead>";
@@ -95,7 +95,7 @@ and open the template in the editor.
                             echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
-                            foreach ($participants as $participant) {
+                            foreach ($participantArray as $participant) {
                                 echo "<tr>";
                                 echo "<td>$count</td>";
                                 echo "<td>$participant->userID</td>";
@@ -114,16 +114,17 @@ and open the template in the editor.
                                 $dateFormatted = date("Y-M-d", strtotime($participant->applyDate));
                                 echo "<td>{$dateFormatted}</td>";
                                 if ($participant->applyStatus == 'Approved') {
-                                    echo "<td>  <input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate' checked></td>";
+                                    echo "<td>  <input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->scheduleID:$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate' checked></td>";
                                 } else {
-                                    echo "<td>  <input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate'></td>";
+                                    echo "<td>  <input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->scheduleID:$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate'></td>";
                                 }
+                                echo "</tr>";
                                 $count++;
                             }
                         }
                         echo "</tbody>";
                         echo "</table>";
-                        echo "<hr style='color:red;border-width:10px;'>";
+                        echo "<hr style='color:black;border-width:10px;'>";
                     }
                 } else {
                     echo "<a href='..UI/ManageSchedule.php'>No schedule yet. Click here to add schedule</a><br><br>";
