@@ -12,8 +12,15 @@ require 'header.php';
     <head>  
         <title>Venue Page</title>  
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+
+        <!--Data Table-->
+        <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  
     </head>  
     <body>
         <?php
@@ -21,11 +28,10 @@ require 'header.php';
             if ($_SESSION['current'] == "Admin") {
                 ?>
                 <div id="bigcontainer">
-                    <br><br>
                     <div class="container" style="width:700px;">  
                         <h3 align="center"><b>Venue</b></h3>  
                         <br>  
-                        <div class="table-responsive"> 
+                        <div> 
                             <!--Add Button-->
                             <div align="right">  
                                 <button type="button" name="add" id="add" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-success">Add</button>  
@@ -39,27 +45,31 @@ require 'header.php';
                                     unset($_SESSION['venmessage']);
                                 }
                                 ?>
-                                <table class="table table-bordered">  
-                                    <tr>  
-                                        <th width="70%">Venue Name</th>  
-                                        <th width="15%">Edit</th>  
-                                        <th width="15%">View</th>  
-                                    </tr>
-                                    <?php
-                                    $venueda = new VenueDA();
-                                    $test = $venueda->getAllByAdmin();
-                                    if (!empty($test)) {
-                                        foreach ($test as $venue) {
-                                            ?>
-                                            <tr>
-                                                <td><?= $venue->venueName ?></td>
-                                                <td><input type="button" name="edit" value="Edit" id="<?= $venue->venueID ?>" class="btn btn-warning btn-xs edit_data" /></td>  
-                                                <td><input type="button" name="view" value="View" id="<?= $venue->venueID ?>" class="btn btn-info btn-xs view_data" /></td>
-                                            </tr>
-                                            <?php
+                                <table id="vTable" class="table table-bordered">  
+                                    <thead>
+                                        <tr>  
+                                            <th width="70%">Venue Name</th>  
+                                            <th width="15%">Edit</th>  
+                                            <th width="15%">View</th>  
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $venueda = new VenueDA();
+                                        $test = $venueda->getAllByAdmin();
+                                        if (!empty($test)) {
+                                            foreach ($test as $venue) {
+                                                ?>
+                                                <tr>
+                                                    <td><?= $venue->venueName ?></td>
+                                                    <td><input type="button" name="edit" value="Edit" id="<?= $venue->venueID ?>" class="btn btn-warning btn-xs edit_data" /></td>  
+                                                    <td><input type="button" name="view" value="View" id="<?= $venue->venueID ?>" class="btn btn-info btn-xs view_data" /></td>
+                                                </tr>
+                                                <?php
+                                            }
                                         }
-                                    }
-                                    ?>
+                                        ?>
+                                    </tbody>
                                 </table>
                             </div> 
                         </div>  
@@ -121,6 +131,7 @@ require 'header.php';
                 </div>  
                 <script>
                     $(document).ready(function () {
+                        $('#vTable').DataTable();
                         //    Display Insert Form
                         $('#add').click(function () {
                             $('#insert').val("Insert");
@@ -159,7 +170,7 @@ require 'header.php';
                             } else if ($('#vstatus').val() === '')
                             {
                                 alert("Venue Status is required");
-                            }else
+                            } else
                             {
                                 $.ajax({
                                     url: "../Domain/ValidateVenue.php",
@@ -199,35 +210,38 @@ require 'header.php';
             } else if ($_SESSION['current'] == "Society") {
                 ?>
                 <div id="bigcontainer">
-                    <br><br>
                     <div class="container" style="width:700px;">  
                         <h3 align="center">Venue For Booking</h3>  
                         <br>  
-                        <div class="table-responsive">   
+                        <div>   
                             <br />
                             <!--Display All Venue List-->
                             <div id="venuetable">
-                                <table class="table table-bordered">  
-                                    <tr>  
-                                        <th width="70%">Venue Name</th>
-                                        <th width="15%">View</th>
-                                        <th width="15%">Book Now</th>  
-                                    </tr>
-                                    <?php
-                                    $venueda = new VenueDA();
-                                    $test = $venueda->getAll();
-                                    if (!empty($test)) {
-                                        foreach ($test as $venue) {
-                                            ?>
-                                            <tr>
-                                                <td><?= $venue->venueName ?></td>
-                                                <td><input type="button" name="view" value="View" id="<?= $venue->venueID ?>" class="btn btn-info btn-xs view_data"></td>
-                                                <td><a href = 'BookVenue.php?venueID=<?= $venue->venueID ?>' class='btn btn-success btn-xs'>Click here</a></td>
-                                            </tr>
-                                            <?php
+                                <table id="vTable" class="table table-bordered">  
+                                    <thead>
+                                        <tr>  
+                                            <th width="70%">Venue Name</th>
+                                            <th width="15%">View</th>
+                                            <th width="15%">Book Now</th>  
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $venueda = new VenueDA();
+                                        $test = $venueda->getAll();
+                                        if (!empty($test)) {
+                                            foreach ($test as $venue) {
+                                                ?>
+                                                <tr>
+                                                    <td><?= $venue->venueName ?></td>
+                                                    <td><input type="button" name="view" value="View" id="<?= $venue->venueID ?>" class="btn btn-info btn-xs view_data"></td>
+                                                    <td><a href = 'BookVenue.php?venueID=<?= $venue->venueID ?>' class='btn btn-success btn-xs'>Click here</a></td>
+                                                </tr>
+                                                <?php
+                                            }
                                         }
-                                    }
-                                    ?>
+                                        ?>
+                                    </tbody>
                                 </table>
                             </div> 
                         </div>  
@@ -251,6 +265,7 @@ require 'header.php';
                 </div>
                 <script>
                     $(document).ready(function () {
+                        $('#vTable').DataTable();
                         //        View Venue Details
                         $(document).on('click', '.view_data', function () {
                             var venueid = $(this).attr("id");

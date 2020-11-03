@@ -182,7 +182,15 @@ require 'header.php';
                         $('.pass').attr("readonly", "readonly");
                     });
                 </script>
+                <h2>History</h2>
                 <?php
+                $try = new ParticipantsDA();
+                $abc = $try->retrieveStudentEvent($stud->studID);
+                if(!empty($abc)){
+                    foreach($abc as $history){
+                        print_r($history);
+                    }
+                }
             }
         } else {
             $_SESSION['current'] = '';

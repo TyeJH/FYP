@@ -29,7 +29,7 @@ and open the template in the editor.
         <script>
             $(document).on('click', '.view_data', function () {
                 var docID = $(this).attr("id");
-                if (docID != '')
+                if (docID !== '')
                 {
                     $.ajax({
                         url: "../Domain/ViewFeedback.php",

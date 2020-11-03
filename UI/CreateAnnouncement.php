@@ -15,8 +15,15 @@ require '../UI/header.php';
     <head>  
         <title>Announcement Page</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />  
+
+        <!--Data Table-->
+        <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  
     </head>
     <body>
         <?php
@@ -24,17 +31,16 @@ require '../UI/header.php';
             if ($_SESSION['current'] == "Admin") {
                 ?>
                 <div id="bigcontainer">
-                    <br><br>
                     <div class="container" style="width:700px;">  
                         <h3 align="center"><b>Announcement</b></h3>  
                         <br>  
-                        <div class="table-responsive"> 
-                            <!--Add Button-->
+                        <div> 
+                            <!--Add Announcement Button-->
                             <div align="right">  
                                 <button type="button" name="add" id="add" data-toggle="modal" data-target="#add_data_Modal" class="btn btn-success">Add</button>  
                             </div>  
                             <br />
-                            <!--Display All Venue List-->
+                            <!--Display All Announcement List-->
                             <div id="anntable">
                                 <?php
                                 if (isset($_SESSION['annmessage'])) {
@@ -42,35 +48,40 @@ require '../UI/header.php';
                                     unset($_SESSION['annmessage']);
                                 }
                                 ?>
-                                <table class="table table-bordered">  
-                                    <tr>  
-                                        <th width="70%">Announcement Title</th>  
-                                        <th width="10%">Edit</th>  
-                                        <th width="10%">View</th>
-                                        <th width="10%">Delete</th> 
-                                    </tr>
-                                    <?php
-                                    $annda = new AnnounceDA();
-                                    $test = $annda->getAllByAdmin($_SESSION['result']->adminID);
-                                    if (!empty($test)) {
-                                        foreach ($test as $ann) {
-                                            ?>
-                                            <tr>
-                                                <td><?= $ann->annTitle ?></td>
-                                                <td><input type="button" name="edit" value="Edit" id="<?= $ann->annID ?>" class="btn btn-warning btn-xs edit_data" /></td>  
-                                                <td><input type="button" name="view" value="View" id="<?= $ann->annID ?>" class="btn btn-info btn-xs view_data" /></td>
-                                                <td><input type="button" name="delete" value="Delete" id="<?= $ann->annID ?>" class="btn btn-danger btn-xs delete_data" /></td>
+                                <table id="aTable" class="table table-bordered">  
+                                    <thead>
+                                        <tr>  
+                                            <th width="70%">Announcement Title</th>  
+                                            <th width="10%">Edit</th>  
+                                            <th width="10%">View</th>
+                                            <th width="10%">Delete</th> 
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $annda = new AnnounceDA();
+                                        $test = $annda->getAllByAdmin($_SESSION['result']->adminID);
+                                        if (!empty($test)) {
+                                            foreach ($test as $ann) {
+                                                ?>
+                                                <tr>
+                                                    <td><?= $ann->annTitle ?></td>
+                                                    <td><input type="button" name="edit" value="Edit" id="<?= $ann->annID ?>" class="btn btn-warning btn-xs edit_data" /></td>  
+                                                    <td><input type="button" name="view" value="View" id="<?= $ann->annID ?>" class="btn btn-info btn-xs view_data" /></td>
+                                                    <td><input type="button" name="delete" value="Delete" id="<?= $ann->annID ?>" class="btn btn-danger btn-xs delete_data" /></td>
+                                                </tr>
                                                 <?php
                                             }
                                         }
                                         ?>
+                                    </tbody>
                                 </table>
                             </div> 
                         </div>  
                     </div>
                 </div>
 
-                <!--Display Venue Details-->
+                <!--Display Announcement Details-->
                 <div id="dataModal" class="modal fade">  
                     <div class="modal-dialog">  
                         <div class="modal-content">  
@@ -87,7 +98,7 @@ require '../UI/header.php';
                     </div>  
                 </div>
 
-                <!--Add Venue Details-->
+                <!--Add Announcement Details-->
                 <div id="add_data_Modal" class="modal fade">  
                     <div class="modal-dialog">  
                         <div class="modal-content">  
@@ -131,13 +142,14 @@ require '../UI/header.php';
 
                 <script>
                     $(document).ready(function () {
+                        $('#aTable').DataTable();
                         //    Display Insert Form
                         $('#add').click(function () {
                             $('#insert').val("Insert");
                             $('#insert_form')[0].reset();
                         });
 
-                        //        Edit Venue Details
+                        //        Edit Announcement Details
                         $(document).on('click', '.edit_data', function () {
                             var annid = $(this).attr("id");
                             $.ajax({
@@ -158,7 +170,7 @@ require '../UI/header.php';
                             });
                         });
 
-                        //        Delete Venue Details
+                        //        Delete Announcement Details
                         $(document).on('click', '.delete_data', function () {
                             var annid = $(this).attr("id");
                             $.ajax({
@@ -181,7 +193,7 @@ require '../UI/header.php';
                             });
                         });
 
-                        //        Submit Venue Details
+                        //        Submit Announcement Details
                         $('#insert_form').on("submit", function (event) {
                             event.preventDefault();
                             if ($('#atitle').val() === "")
@@ -214,7 +226,7 @@ require '../UI/header.php';
                             }
                         });
 
-                        //        View Venue Details
+                        //        View Announcement Details
                         $(document).on('click', '.view_data', function () {
                             var annid = $(this).attr("id");
                             if (annid !== '')
@@ -240,35 +252,40 @@ require '../UI/header.php';
                     <div class="container" style="width:700px;">  
                         <h3 align="center">Announcement</h3>  
                         <br>  
-                        <div class="table-responsive"> 
+                        <div > 
                             <br />
-                            <!--Display All Venue List-->
+                            <!--Display All Announcement List-->
                             <div id="anntable">
-                                <table class="table table-bordered">  
-                                    <tr>  
-                                        <th width="70%">Announcement Title</th>  
-                                        <th width="10%">View</th>
-                                    </tr>
-                                    <?php
-                                    $annda = new AnnounceDA();
-                                    $test = $annda->getAll();
-                                    if (!empty($test)) {
-                                        foreach ($test as $ann) {
-                                            ?>
-                                            <tr>
-                                                <td><?= $ann->annTitle ?></td>
-                                                <td><input type="button" name="view" value="View" id="<?= $ann->annID ?>" class="btn btn-info btn-xs view_data" /></td>
+                                <table id="aTable" class="table table-bordered">  
+                                    <thead>
+                                        <tr>  
+                                            <th width="70%">Announcement Title</th>  
+                                            <th width="10%">View</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $annda = new AnnounceDA();
+                                        $test = $annda->getAll();
+                                        if (!empty($test)) {
+                                            foreach ($test as $ann) {
+                                                ?>
+                                                <tr>
+                                                    <td><?= $ann->annTitle ?></td>
+                                                    <td><input type="button" name="view" value="View" id="<?= $ann->annID ?>" class="btn btn-info btn-xs view_data" /></td>
+                                                </tr>
                                                 <?php
                                             }
                                         }
                                         ?>
+                                    </tbody>
                                 </table>
                             </div> 
                         </div>  
                     </div>
                 </div>
 
-                <!--Display Venue Details-->
+                <!--Display Announcement Details-->
                 <div id="dataModal" class="modal fade">  
                     <div class="modal-dialog">  
                         <div class="modal-content">  
@@ -284,9 +301,9 @@ require '../UI/header.php';
                         </div>  
                     </div>  
                 </div>
-
                 <script>
                     $(document).ready(function () {
+                        $('#aTable').DataTable();
                         //        View Announcement Details
                         $(document).on('click', '.view_data', function () {
                             var annid = $(this).attr("id");
