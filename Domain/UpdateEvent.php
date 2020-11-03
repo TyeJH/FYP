@@ -35,24 +35,24 @@ if (isset($_POST['updateEvent'])) {
 
 
     if (empty($eventName)) {
-        $_SESSION['message'] = "<div class='alert alert-info'><strong>Please enter the event name</strong></div>";
+        $_SESSION['errorMsg'] = 'Please enter the event name';
         header("location:../UI/EditEvent.php?eventID=$eventID");
     } else if (empty($eventDesc)) {
-        $_SESSION['message'] = "<div class='alert alert-info'><strong>Please enter the event description</strong></div>";
+        $_SESSION['errorMsg'] = 'Please enter the event description';
         header("location:../UI/EditEvent.php?eventID=$eventID");
     } else if (!in_array($ext, $allowed) && $file == 1) {
         //If file type is not allowed
-        $_SESSION['message'] = "<div class='alert alert-info'><strong>Sorry, image file only jpg and png is accepted.</strong></div>";
+        $_SESSION['errorMsg'] = 'Sorry, image file only jpg and png is accepted.';
         header("location:../UI/EditEvent.php?eventID=$eventID");
     } else {
 
         $event = new SocietyEvent($eventID, $eventName, $eventDesc, $eventCategory, $content, $noOfHelper, $contactNo, $societyID, $applyID);
         $eventDA = new SocietyEventDA();
         if ($eventDA->update($event)) {
-            $_SESSION['message'] = "<div class='alert alert-success'><strong>Successfully updated!</strong></div>";
+            $_SESSION['successMsg'] = 'Event details updated.';
             header("location:../UI/EditEvent.php?eventID=$eventID");
         } else {
-            $_SESSION['message'] = "<div class='alert alert-danger'><strong>Failed!</strong> Sorry, an unexpected error occured.</div>";
+            $_SESSION['errorMsg'] ='Sorry, an unexpected error occured';
             header("location:../UI/EditEvent.php?eventID=$eventID");
         }
     }

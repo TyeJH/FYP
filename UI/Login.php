@@ -86,7 +86,7 @@ require 'header.php';
                             header("Location:../UI/HomePage.php");
                         }
                     } else {
-                        header("Location:../UI/HomePage.php");
+                        //header("Location:../UI/HomePage.php");
                     }
                     ?>     
         </div>

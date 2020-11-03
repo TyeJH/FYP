@@ -73,6 +73,16 @@ and open the template in the editor.
             <div class="page-header">
                 <h1>Venue Booking</h1> 
             </div>
+            <?php
+            if (isset($_SESSION['successMsg'])) {
+                echo "<div class='alert alert-success'><strong>Success! </strong>" . $_SESSION['successMsg'] . '</div>';
+                unset($_SESSION['successMsg']);
+            }
+            if (isset($_SESSION['errorMsg'])) {
+                echo "<div class='alert alert-danger'><strong>Failed! </strong>" . $_SESSION['errorMsg'] . '</div>';
+                unset($_SESSION['errorMsg']);
+            }
+            ?>
             <form action="../Domain/CreateBooking.php" method="post" enctype="multipart/form-data">
                 <table class="table table-hover table-responsive table-bordered">
                     <tbody>
@@ -174,8 +184,8 @@ and open the template in the editor.
                                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                             extract($row);
                                             //if user chosed from Venue List then make default option for user.
-                                            if (strcmp($_GET['venueID'],$venueID) == 0) {
-                                                echo strcmp($venueID,$_GET['venueID']);
+                                            if (strcmp($_GET['venueID'], $venueID) == 0) {
+                                                echo strcmp($venueID, $_GET['venueID']);
                                                 echo "<option selected='selected' value='{$venueID}'>{$venueName}</option>";
                                             } else {
                                                 echo "<option value='{$venueID}'>{$venueName}</option>";

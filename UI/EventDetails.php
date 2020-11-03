@@ -1,6 +1,7 @@
 <?php
 require '../DataAccess/SocietyEventDA.php';
 require '../DataAccess/ScheduleDA.php';
+session_start();
 ?>
 
 
@@ -41,9 +42,13 @@ AUTHOR : NGO KIAN HEE
             </div>
 
             <?php
-            if (isset($_SESSION['message'])) {
-                echo '<br>' . $_SESSION['message'];
-                unset($_SESSION['message']);
+            if (isset($_SESSION['successMsg'])) {
+                echo "<div class='alert alert-success'><strong>Success! </strong>" . $_SESSION['successMsg'] . '</div>';
+                unset($_SESSION['successMsg']);
+            }
+            if (isset($_SESSION['errorMsg'])) {
+                echo "<div class='alert alert-danger'><strong>Failed! </strong>" . $_SESSION['errorMsg'] . '</div>';
+                unset($_SESSION['errorMsg']);
             }
             if (isset($_GET['eventID'])) {
                 $eventID = $_GET['eventID'];
@@ -109,6 +114,8 @@ AUTHOR : NGO KIAN HEE
                                         echo "<b>Venue :</b> $schedule->venue  </br>";
                                         if ($schedule->unlimited == 'No') {
                                             echo "Slot: $schedule->noOfJoined/$schedule->noOfParticipant</br>";
+                                        } else {
+                                            echo "Unlimited slots</br>";
                                         }
                                         //convert format to dd/mm/yyyy 2200
                                         $stFormat = $schedule->startDate . " " . $schedule->startTime;
@@ -119,10 +126,29 @@ AUTHOR : NGO KIAN HEE
                                         $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
                                         $endDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($etFormat));
                                         //$et = strtotime($etFormat);
-                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                        
+                                        //NOT YET DONE
+                                        if (isset($_SESSION['result']->studID) != null) {
+                                            //check is exist in participant table , input studID and scheduleID
+                                            $scheduleDA = new ScheduleDA();
+                                            $exist = $scheduleDA->retrieveByScheduleIDStudID($scheduleID, $_SESSION['result']->studID);
+                                            if ($exist) {
+                                                echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-success'>Joined</p></br>";
+                                            }
+                                        } else {
+                                            if ($schedule->unlimited == 'No') {
+                                                if ($schedule->noOfJoined >= $schedule->noOfParticipant) {
+                                                    echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Full</p></br>";
+                                                } else {
+                                                    echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                                }
+                                            } else {
+                                                echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                            }
+                                        }
                                         $count++;
                                     }
-                                }else{
+                                } else {
                                     echo "Waiting for event organizer to upload schedule.";
                                 }
                                 ?>
@@ -138,11 +164,11 @@ AUTHOR : NGO KIAN HEE
                         </tr>
                     </table>
 
-                    <?php
-                } else {
-                    header("Location:HomePage.php");
-                }
-                ?>
+    <?php
+} else {
+    header("Location:HomePage.php");
+}
+?>
 
             </form>
         </div>

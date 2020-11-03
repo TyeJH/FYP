@@ -26,19 +26,24 @@ if (isset($_POST['bookVenue'])) {
     $st = strtotime($stFormat);
     $et = strtotime($etFormat);
     if (empty($purpose)) {
-        echo "<script>alert('Please insert purposes.');</script>";
+        $_SESSION['errorMsg'] = 'Please insert purposes.';
+        header("Location:../UI/BookVenue.php?venueID=$venueID");
     }
     if ($st > $et || $st == $et) {
-        echo "<script>alert('The end time must be greater than the start time.');</script>";
+        $_SESSION['errorMsg'] = 'The end time must be greater than the start time';
+        header("Location:../UI/BookVenue.php?venueID=$venueID");
     } else if (millisecsBetween($stFormat, $etFormat) > 7200000) {
-        echo "<script>alert('Maximum 120 minutes per book.');</script>";
+        $_SESSION['errorMsg'] = 'Maximum 120 minutes per book.';
+        header("Location:../UI/BookVenue.php?venueID=$venueID");
     } else {
         $booking = new Booking($bookingID = "", $purpose, $bookDate, $startTime, $endTime, $bookStatus, $societyID, $venueID);
         $bookingDA = new BookingDA();
         if ($bookingDA->create($booking)) {
-            echo '<script>alert("Successfully Booked");location.href = "../UI/BookVenue.php";</script>';
+            $_SESSION['successMsg'] = 'Successfully Booked. Waiting for staff to approve.';
+            header("Location:../UI/BookVenue.php?venueID=$venueID");
         } else {
-            echo '<script>alert("Unexpected error occur");location.href = "../UI/BookVenue.php";</script>';
+            $_SESSION['errorMsg'] = 'Unexpected error occur';
+            header("Location:../UI/BookVenue.php?venueID=$venueID");
         }
     }
 }

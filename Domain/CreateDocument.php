@@ -16,20 +16,20 @@ if (isset($_POST['apply'])) {
     $status = 'Pending';
     if ($_FILES['myfile']['error'] == 4) {
         //If file is empty
-        $_SESSION['message'] = "<div class='alert alert-info'><strong>Please select a file.</strong></div>";
+        $_SESSION['errorMsg'] = 'Please select a file.';
         header("Location:../UI/ApplyNewEvent.php");
     } else if (!in_array($ext, $allowed)) {
         //If file type is not allowed
-        $_SESSION['message'] ="<div class='alert alert-info'><strong>Sorry, only .docx or .pdf file type is accepted.</strong></div>";
+        $_SESSION['errorMsg'] ='Sorry, only .docx or .pdf file type is accepted.';
         header("Location:../UI/ApplyNewEvent.php");
     } else {
         $document = new Documentation($docID = "", $filename, $mime, $content, $applyDate, $societyID, $status);
         $documentationDA = new DocumentationDA();
         if ($documentationDA->create($document)) {
-            $_SESSION['message'] ="<div class='alert alert-success'><strong>Success!</strong> Your application successfully submitted.</div>";
+            $_SESSION['successMsg'] ='Your application successfully submitted.';
             header("Location:../UI/ApplyNewEvent.php");
         } else {
-            $_SESSION['message'] = "<div class='alert alert-danger'><strong>Failed!</strong> Sorry, currently cannot submit.</div>";
+            $_SESSION['errorMsg'] = 'Sorry, currently cannot submit';
             header("Location:../UI/ApplyNewEvent.php");
         }
     }
