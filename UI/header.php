@@ -34,6 +34,12 @@ require_once '../Domain/Student.php';
                                 <li class="nav-item active">
                                     <a class="nav-link" href="../UI/CreateAnnouncement.php">Announcement</a>
                                 </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="../UI/AdminViewBooking.php">Booking</a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="../UI/AdminViewDocument.php">Document</a>
+                                </li>
                                 <?php
                                 if (isset($_SESSION['result'])) {
                                     if ($_SESSION['result']->adminID === 'DSA') {

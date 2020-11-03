@@ -109,13 +109,13 @@ CREATE TABLE Schedule(
     FOREIGN KEY (eventID) REFERENCES SocietyEvent(eventID)
 );
 
-CREATE TABLE feedback(
-    feedbackID    int(6)      not null auto_increment,
-    content       varchar(20) not null,
-    adminID       varchar(10) not null,
-    docID         int(6)      not null,
-    societyID     varchar(10) not null,
-    PRIMARY KEY(feedbackID),
+CREATE TABLE feedbackDocument(
+    feedbackDocumentID    int(6)      not null auto_increment,
+    content               varchar(20) not null,
+    adminID               varchar(10) not null,
+    docID                 int(6)      not null,
+    societyID             varchar(10) not null,
+    PRIMARY KEY(feedbackDocumentID),
     FOREIGN KEY(adminID)   references admin(adminID),
     FOREIGN KEY(societyID) REFERENCES society(societyID),
     FOREIGN KEY(docID)     references documentation(docID)
