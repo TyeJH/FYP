@@ -236,8 +236,7 @@ require '../UI/header.php';
             } else if ($_SESSION['current'] == "Society") {
                 ?>
                 <div id="bigcontainer">
-                    <br><br> 
-                    <a href="../UI/HomePage.php">Back</a>
+                    <br><br>
                     <div class="container" style="width:700px;">  
                         <h3 align="center">Announcement</h3>  
                         <br>  
