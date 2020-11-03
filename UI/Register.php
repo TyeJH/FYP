@@ -47,8 +47,6 @@ require 'header.php';
                     </form>
                     <?php
                 } else if ($_SESSION['status'] == 'student') {
-                    $stu = new Student();
-                    $sID = $stu->generateRandomId();
                     ?>
                     <h1>Student Account Register</h1>
                     <?php
@@ -58,7 +56,8 @@ require 'header.php';
                         }
                     ?>
                     <form method="post" action="../Domain/ValidateRegsiter.php">
-                        <label>User ID: </label> <input type="text" name="id" value="<?= $sID ?>" readonly=""/><br>
+                        <label>Username: </label> <input type="text" name="id" placeholder="Enter your username"/><br>
+                        <label>Email: </label><input type="email" name="email" placeholder="example@domain.com"/><br>
                         <label>Password: </label> <input type="password" name="pass" placeholder="Enter your password"/><br>
                         <label>Confirm Password: </label><input type="password" name="cpass" placeholder="Re-Type your password"/><br>
                         <label>Student ID: </label> <input type="text" name="studid" placeholder="Enter your student id"/><br>
