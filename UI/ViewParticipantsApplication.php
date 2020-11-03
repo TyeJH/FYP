@@ -1,4 +1,7 @@
-<?php require_once '../DataAccess/ParticipantsDA.php'; ?>
+<?php
+require_once '../DataAccess/ParticipantsDA.php';
+require_once '../DataAccess/ScheduleDA.php';
+?>
 
 <!DOCTYPE html>
 <!--
@@ -57,21 +60,20 @@ and open the template in the editor.
             <div class='page-header'>
                 <h1>Participants Applications</h1>
             </div>
-
             <?php
-            echo "<table id=participantsApplication class = 'table table-hover table-responsive table-bordered'>";
-            echo "<thead>";
-            echo "<tr>";
-            echo "<th>No </th>";
-            echo "<th>Student ID</th>";
-            //echo "<th>Name</th>";
-            echo "<th>Schedule ID</th>";
-            echo "<th>Apply Date</th>";
-            echo "<th>Approval</th>";
-            echo "</tr>";
-            echo "</thead>";
-            echo "<tbody>";
             if (isset($_GET['eventID'])) {
+                echo "<table id=participantsApplication class = 'table table-hover table-responsive table-bordered'>";
+                echo "<thead>";
+                echo "<tr>";
+                echo "<th>No </th>";
+                echo "<th>Student ID</th>";
+                //echo "<th>Name</th>";
+                echo "<th>Schedule Applied</th>";
+                echo "<th>Apply Date</th>";
+                echo "<th>Approval</th>";
+                echo "</tr>";
+                echo "</thead>";
+                echo "<tbody>";
                 $participantsDA = new ParticipantsDA();
                 $participants = array();
                 $participants = $participantsDA->retrieve($_GET['eventID'], 'Pending');
@@ -85,11 +87,20 @@ and open the template in the editor.
                         echo "<tr>";
                         echo "<td>$count</td>";
                         echo "<td>$participant->userID</td>";
-                        echo "<td>$participant->scheduleID</td>";
+                        $scheduleDA = new ScheduleDA();
+                        $schedule = $scheduleDA->retrieveByScheduleID($participant->scheduleID);
+                        //convert format to dd/mm/yyyy 2200
+                        $stFormat = $schedule->startDate . " " . $schedule->startTime;
+                        $etFormat = $schedule->endDate . " " . $schedule->endTime;
+                        $st = strtotime($stFormat);
+                        $et = strtotime($etFormat);
+                        //convert format to Thursday, 2020--Oct-01 4:00 PM
+                        $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
+                        $endDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($etFormat));
+                        echo "<td>" . $startDateTimeFormatted . " - " . $endDateTimeFormatted . "</td>";
                         //echo "<td>{$studName}</td>";
                         $dateFormatted = date("Y-M-d", strtotime($participant->applyDate));
                         echo "<td>{$dateFormatted}</td>";
-
                         if ($participant->applyStatus == 'Approved') {
                             echo "<td>  <input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate' checked></td>";
                         } else {
@@ -100,7 +111,8 @@ and open the template in the editor.
                 }
                 echo "</tbody>";
                 echo "</table>";
-            } else {
+            } 
+            else {
                 header('location:EventOrganizerHome.php');
             }
             ?>

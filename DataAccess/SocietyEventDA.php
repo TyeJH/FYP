@@ -9,14 +9,14 @@ class SocietyEventDA {
         $db = DatabaseConnection::getInstance()->getDB();
         $query = 'INSERT INTO SocietyEvent (eventName, eventDesc, eventCategory, image, noOfHelper, contactNo, societyID, applyID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
         $stmt = $db->prepare($query);
-        $stmt->bindParam(1, $event->eventName, PDO::PARAM_STR);
-        $stmt->bindParam(2, $event->eventDesc, PDO::PARAM_STR);
-        $stmt->bindParam(3, $event->eventCategory, PDO::PARAM_STR);
-        $stmt->bindParam(4, $event->content);
-        $stmt->bindParam(5, $event->noOfHelper);
-        $stmt->bindParam(6, $event->contactNo);
-        $stmt->bindParam(7, $event->societyID);
-        $stmt->bindParam(8, $event->applyID);
+        $stmt->bindValue(1, $event->eventName, PDO::PARAM_STR);
+        $stmt->bindValue(2, $event->eventDesc, PDO::PARAM_STR);
+        $stmt->bindValue(3, $event->eventCategory, PDO::PARAM_STR);
+        $stmt->bindValue(4, $event->image);
+        $stmt->bindValue(5, $event->noOfHelper);
+        $stmt->bindValue(6, $event->contactNo);
+        $stmt->bindValue(7, $event->societyID);
+        $stmt->bindValue(8, $event->applyID);
         if ($stmt->execute()) {
             return true;
         } else {

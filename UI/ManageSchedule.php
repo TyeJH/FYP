@@ -86,7 +86,7 @@ and open the template in the editor.
                 $scheduleArray = $scheduleDA->retrieve($eventID);
                 $count = 1;
                 if ($scheduleArray == null) {
-                    echo "<p style=color:red;text-align:center;>No records found.</p>";
+                    echo "<p style=color:blue;text-align:center;>Schedule your event now !</p>";
                 } else {
                     foreach ($scheduleArray as $schedule) {
                         echo "<h3>Schedule $count</h3>";
