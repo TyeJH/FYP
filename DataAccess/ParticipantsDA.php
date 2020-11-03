@@ -37,10 +37,28 @@ class ParticipantsDA {
             $participantsArray = array();
             $participant = new Participants();
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $participant = new Participants($row['scheduleID'],$row['eventID'], $row['userID'], $row['applyDate'], $row['applyStatus'], $row['attendanceStatus']);
+                $participant = new Participants($row['scheduleID'], $row['eventID'], $row['userID'], $row['applyDate'], $row['applyStatus'], $row['attendanceStatus']);
                 $participantsArray[] = $participant;
             }
             return $participantsArray;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+
+    public function retrieveByScheduleIDUserID($scheduleID, $userID) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT * FROM participants WHERE scheduleID = ? AND userID = ?';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $scheduleID);
+        $stmt->bindParam(2, $userID);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $participant = new Participants($row['scheduleID'], $row['eventID'], $row['userID'], $row['applyDate'], $row['applyStatus'], $row['attendanceStatus']);
+            return $participant;
         }
         DatabaseConnection::closeConnection($db);
     }

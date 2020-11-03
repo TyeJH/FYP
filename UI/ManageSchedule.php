@@ -69,10 +69,16 @@ and open the template in the editor.
             </div>
             <a href = 'EnterSchedule.php?eventID=<?= $_GET['eventID'] ?>' class = 'btn btn-primary'>Add Schedule</a>
             <a href='EventOrganizerHome.php' class='btn btn-danger'>Back</a>
+            <br><br>
+
             <?php
-            if (isset($_SESSION['message'])) {
-                echo '<br>' . $_SESSION['message'];
-                unset($_SESSION['message']);
+            if (isset($_SESSION['successMsg'])) {
+                echo "<div class='alert alert-success'><strong>Success! </strong>" . $_SESSION['successMsg'] . '</div>';
+                unset($_SESSION['successMsg']);
+            }
+            if (isset($_SESSION['errorMsg'])) {
+                echo "<div class='alert alert-danger'><strong>Failed! </strong>" . $_SESSION['errorMsg'] . '</div>';
+                unset($_SESSION['errorMsg']);
             }
             if (isset($_GET['eventID'])) {
                 $eventID = $_GET['eventID'];
@@ -173,7 +179,7 @@ and open the template in the editor.
                                 document.getElementById(id).disabled = value;
                                 if (value == true) {
                                     //Reset button value function will be overwrite by onClick. Therefore, need a statement to reset the value.
-                                    document.getElementById("form:"+id).reset();
+                                    document.getElementById("form:" + id).reset();
                                 }
                             }
                         </script>

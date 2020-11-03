@@ -10,7 +10,7 @@ if (isset($_GET['eventID']) && isset($_GET['scheduleID'])) {
     date_default_timezone_set("Asia/Kuala_Lumpur");
     $eventID = $_GET['eventID'];
     $scheduleID = $_GET['scheduleID'];
-    $userID = isset($_SESSION['result']->studID);
+    $userID = $_SESSION['result']->studID;
     //$userID = 123;
     $applyStatus = "Pending";
     $applyDate = date('Y-m-d H:i:s'); //2020-10-22 03:53:54 sample format
@@ -33,7 +33,7 @@ if (isset($_GET['eventID']) && isset($_GET['scheduleID'])) {
         header("location:../UI/HomePage.php");
     } else if (empty($userID)) {
         //Student have to be logged in first.
-        echo "<script>alert('Hi student, you are required to log in first.');location.href = '../UI/Login.php';</script>";
+        echo "<script>alert('Hi student, you are required to log in first.');location.href = '../UI/Login.php?student';</script>";
     } else if (date() > $applyDate) {
         $_SESSION['errorMsg'] = "Sorry the event has started.";
         header("location:../UI/EventDetails.php?eventID=$eventID");

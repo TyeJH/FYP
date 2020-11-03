@@ -1,6 +1,8 @@
 <?php
 require '../DataAccess/SocietyEventDA.php';
 require '../DataAccess/ScheduleDA.php';
+require '../DataAccess/ParticipantsDA.php';
+require '../Domain/Student.php';
 session_start();
 ?>
 
@@ -126,16 +128,32 @@ AUTHOR : NGO KIAN HEE
                                         $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
                                         $endDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($etFormat));
                                         //$et = strtotime($etFormat);
-                                        
-                                        //NOT YET DONE
-                                        if (isset($_SESSION['result']->studID) != null) {
-                                            //check is exist in participant table , input studID and scheduleID
-                                            $scheduleDA = new ScheduleDA();
-                                            $exist = $scheduleDA->retrieveByScheduleIDStudID($scheduleID, $_SESSION['result']->studID);
-                                            if ($exist) {
-                                                echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-success'>Joined</p></br>";
+
+                                        //When student logged in
+                                        if (isset($_SESSION['result'])) {
+                                            $participantDA = new ParticipantsDA();
+                                            $result = $participantDA->retrieveByScheduleIDUserID($schedule->scheduleID, $_SESSION['result']->studID);
+                                            //If student already joined or applied
+                                            if ($result != null) {
+                                                if ($result->applyStatus == 'Approved') {
+                                                    echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-success'>Joined</p></br>";
+                                                } else if ($result->applyStatus == 'Pending') {
+                                                    echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-info'>Pending for approval</p></br>";
+                                                }
+                                            } else {
+                                                //If student didn't joined
+                                                if ($schedule->unlimited == 'No') {
+                                                    if ($schedule->noOfJoined >= $schedule->noOfParticipant) {
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Full</p></br>";
+                                                    } else {
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                                    }
+                                                } else {
+                                                    echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                                }
                                             }
                                         } else {
+                                            //When not loggeed in
                                             if ($schedule->unlimited == 'No') {
                                                 if ($schedule->noOfJoined >= $schedule->noOfParticipant) {
                                                     echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Full</p></br>";
@@ -164,11 +182,11 @@ AUTHOR : NGO KIAN HEE
                         </tr>
                     </table>
 
-    <?php
-} else {
-    header("Location:HomePage.php");
-}
-?>
+                    <?php
+                } else {
+                    header("Location:HomePage.php");
+                }
+                ?>
 
             </form>
         </div>
