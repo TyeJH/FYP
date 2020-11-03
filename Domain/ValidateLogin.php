@@ -61,7 +61,7 @@ if (isset($_POST['staffSubmit'])) {
     }
 } else if (isset($_POST['studentSubmit'])) {
     $val = new Validation();
-    $stID = "STU" . $val->test_input($_POST['userid']);
+    $stID = $val->test_input($_POST['userid']);
     $stpass = $val->test_input($_POST['studentpass']);
 
     if (empty($stID) || empty($stpass)) {

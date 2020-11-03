@@ -1,11 +1,6 @@
 CREATE TABLE uniStudent(
     studID        int(10)      not null,
     studName      varchar(50)  not null,
-    studGender    varchar(1)   not null,
-    birthDate     date         not null,
-    faculty       varchar(5)   not null,
-    programme     varchar(5)   not null,
-    email         varchar(50)  not null,
     PRIMARY KEY(studID)
 );
 
@@ -17,15 +12,15 @@ CREATE TABLE admin(
 
 CREATE TABLE society(
     societyID      varchar(10)    not null,
-    societyName    varchar(100)    not null,
+    societyName    varchar(100)   not null,
     societyDesc    varchar(300)   not null,
-    societyPass    varchar(20)   not null,
+    societyPass    varchar(20)    not null,
     societyAcc     decimal(10,2)  not null,
     PRIMARY KEY(societyID)
 );
 
 CREATE TABLE student(
-    userID        varchar(300)  not null,
+    userID        varchar(300) not null,
     password      varchar(12)  not null,
     studEmail     varchar(300) not null,
     studID        int(10)      not null,
@@ -45,7 +40,7 @@ CREATE TABLE venue(
 
 CREATE TABLE announcement(
     annID         varchar(10)    not null,
-    annTitle      varchar(200)    not null,
+    annTitle      varchar(200)   not null,
     annContent    varchar(500)   not null,
     annDate       date           not null,
     adminID       varchar(10)    not null,
@@ -127,7 +122,7 @@ CREATE TABLE feedbackBooking(
     adminID         varchar(10) not null,
     bookingID       int(6)      not null,
     societyID       varchar(10) not null,
-    PRIMARY KEY(feedbackID),
+    PRIMARY KEY(feedbackVenueID),
     FOREIGN KEY(adminID)   REFERENCES admin(adminID),
     FOREIGN KEY(societyID) REFERENCES society(societyID),
     FOREIGN KEY(bookingID) REFERENCES booking(bookingID)

@@ -128,6 +128,7 @@ require_once '../Domain/Student.php';
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="../UI/UserProfile.php">View Profile</a>
+                                        <a class="dropdown-item" href="../UI/eventHistory.php">History</a>
                                         <a class="dropdown-item" href="../UI/Logout.php">Logout</a>
                                     </div>
                                 </li>

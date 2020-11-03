@@ -6,11 +6,13 @@ class Student {
 
     private $studID;
     private $password;
+    private $studEmail;
     private $uniStudID;
 
-    public function __construct($studID = "", $password = "", $uniStudID = "") {
+    public function __construct($studID = "", $password = "", $studEmail = "", $uniStudID = "") {
         $this->studID = $studID;
         $this->password = $password;
+        $this->studEmail = $studEmail;
         $this->uniStudID = $uniStudID;
     }
 
@@ -29,20 +31,6 @@ class Student {
         } else {
             return false;
         }
-    }
-
-    public function generateRandomId() {
-        $newId = 'STU' . rand(0, 99999);
-        if ($this->isIdDuplicate($newId)) {
-            $this->generateRandomId();
-        } else {
-            return $newId;
-        }
-    }
-
-    public function isIdDuplicate($newId) {
-        $st = new StudentDA();
-        return $st->checkID($newId);
     }
 
 }

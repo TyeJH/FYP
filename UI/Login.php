@@ -77,7 +77,7 @@ require 'header.php';
                     }
                     ?>
                     <form method="post" action="../Domain/validateLogin.php">
-                        <label>User ID: </label> <input type="text" placeholder="Enter user id (number only)" name="userid" autofocus=""/><br>
+                        <label>Username: </label> <input type="text" placeholder="Enter username" name="userid" autofocus=""/><br>
                         <label>Password: </label> <input type="password" placeholder="Enter your password" name ="studentpass"/><br>
                         <input type="submit" name="studentSubmit" value="Login"/> <input type="reset" name="reset" value="Cancel"/><br>
                     </form>
