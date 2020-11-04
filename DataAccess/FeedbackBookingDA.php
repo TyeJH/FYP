@@ -21,4 +21,23 @@ class FeedbackBookingDA {
         DatabaseConnection::closeConnection($db);
     }
 
+    public function retrieve($bookingID, $societyID) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT * FROM feedbackBooking WHERE bookingID = ? AND societyID = ?';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $bookingID, PDO::PARAM_STR);
+        $stmt->bindParam(2, $societyID, PDO::PARAM_STR);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $feedbackBooking = new FeedbackBooking($result['feedbackBookingID'], $result['content'], $result['adminID'], $result['bookingID'], $result['societyID']);
+            DatabaseConnection::closeConnection($db);
+            return $feedbackBooking;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+
 }

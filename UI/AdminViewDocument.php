@@ -1,5 +1,5 @@
 <?php
-require '../DataAccess/BookingDA.php';
+require '../DataAccess/DocumentationDA.php';
 require '../Domain/SocietyEvent.php';
 session_start();
 ?>
@@ -13,7 +13,7 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Booking History</title>
+        <title>Document History</title>
         <!--        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet">
         
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -30,9 +30,9 @@ and open the template in the editor.
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
         <script>
             $(document).ready(function () {
-                $('#bookingApplication').DataTable();
+                $('#documentApplication').DataTable();
             });
-            function approveBooking(value) {
+            function approveDocument(value) {
                 var valueSpilted = value.split(':');
                 var existCol = document.getElementById(valueSpilted[0] + ":existCol");
                 var hiddenCol = document.getElementById(valueSpilted[0] + ":hiddenCol");
@@ -41,10 +41,10 @@ and open the template in the editor.
                 $.ajax
                         ({
                             type: "POST",
-                            url: "../Domain/UpdateBooking.php",
+                            url: "../Domain/UpdateDocument.php",
                             data: {
-                                "bookingID": valueSpilted[0],
-                                "bookStatus": valueSpilted[1],
+                                "docID": valueSpilted[0],
+                                "status": valueSpilted[1],
                             },
                             success: function (data) {
                                 alert(data);
@@ -53,22 +53,22 @@ and open the template in the editor.
             }
             function openFeedbackForm(value) {
                 var valueSpilted2 = value.split(':');
-                $('#bookingID').val(valueSpilted2[0]);
+                $('#docID').val(valueSpilted2[0]);
                 $('#societyID').val(valueSpilted2[1]);
                 $('#add_data_Modal').modal('show');
             }
-            function disapproveBooking() {
-                var bookingID = document.getElementById("bookingID").value;
+            function disapproveDocument() {
+                var docID = document.getElementById("docID").value;
                 var societyID = document.getElementById("societyID").value;
                 var feedback = document.getElementById("feedback").value;
 
                 $.ajax
                         ({
                             type: "POST",
-                            url: "../Domain/UpdateBooking.php",
+                            url: "../Domain/UpdateDocument.php",
                             data: {
-                                "bookingID": bookingID,
-                                "bookStatus": 'Disapproved',
+                                "docID": docID,
+                                "status": 'Disapproved',
                                 "feedback": feedback,
                                 "societyID": societyID
                             },
@@ -83,46 +83,42 @@ and open the template in the editor.
 
     <body>
         <div class='container'>
-            <h2>Booking Application</h2>
+            <h2>Document Application</h2>
             <?php
-            echo "<table id='bookingApplication' class='table table-striped table-bordered'>";
-            echo "<thead>";
-            echo "<tr>";
-            echo "<th>No</th>";
-            echo "<th>Booking ID</th>";
-            echo "<th>Venue</th>";
-            echo "<th>Date</th>";
-            echo "<th>Duration</th>";
-            echo "<th>Status</th>";
-            echo "<th>Action</th>";
-            echo "</thead>";
-            echo "<tbody>";
-            echo "</tr>";
             if (isset($_SESSION['result'])) {
-                $bookingDA = new BookingDA();
-                $bookingArray = $bookingDA->retrieveAll();
-                if ($bookingArray == null) {
+                echo "<table id='documentsTable' class = 'table table-hover table-responsive table-bordered'>";
+                echo "<thead>";
+                echo "<tr>";
+                echo "<th>Document ID</th>";
+                echo "<th>Name</th>";
+                echo "<th>Date Applied</th>";
+                echo "<th>Status</th>";
+                echo "<th>Action</th>";
+                echo "</tr>";
+                echo "<thead>";
+                echo "<tbody>";
+
+                $societyID = $_SESSION['result']->societyID;
+                $documentationDA = new DocumentationDA();
+                $docArray = $documentationDA->retrieveAll();
+                if ($docArray == null) {
                     echo "<tr>";
-                    echo "<td colspan='6' style=color:red;text-align:center;>No records found.</td>";
+                    echo "<td colspan='4' style=color:red;text-align:center;>No records found.</td>";
                     echo "</tr>";
                 } else {
-                    //class= 'table table-hover table-responsive table-bordered'
                     $count = 1;
-                    foreach ($bookingArray as $booking) {
+                    foreach ($docArray as $doc) {
                         echo "<tr>";
-                        echo "<td>$count</td>";
-                        echo "<td>{$booking->bookID}</td>";
-                        echo "<td>{$booking->venueName}</td>";
-                        echo "<td>{$booking->bookDate}</td>";
-                        $stFormatted = date("g:i A", strtotime($booking->startTime));
-                        $etFormatted = date("g:i A", strtotime($booking->endTime));
-                        echo "<td>{$stFormatted}-{$etFormatted}</td>";
-                        echo "<td>{$booking->bookStatus}</td>";
-                        if ($booking->bookStatus == 'Pending') {
-                            echo "<td id='$booking->bookID:existCol' >  "
-                            . "<a id='$booking->bookID:Approved' onClick='approveBooking(this.id)' class='btn btn-success m-r-1em'>Approve</a> "
-                            . "<p id='$booking->bookID:$booking->societyID:Disapproved' onClick='openFeedbackForm(this.id)' class='btn btn-danger m-r-1em'>Disapprove</p> </td>";
-                            echo "<td id='$booking->bookID:hiddenCol' style='display:none;'>  <a id='$booking->bookID' class='btn btn-info m-r-1em'>Processed</a> ";
+                        echo "<td>{$doc->docID}</td>";
+                        echo "<td><a title='Download File' download='" . $doc->docName . "' href=data:" . $doc->mime . ";base64," . base64_encode($doc->docContent) . ">$doc->docName</a></td>";
+                        $dateFormatted = date("Y-M-d", strtotime($doc->applyDate));
+                        echo "<td>{$dateFormatted}</td>";
+                        echo "<td>{$doc->status}</td>";
+                        if ($doc->status == 'Pending') {
+                            echo "<td id='$doc->docID:existCol' >  "
+                            . "<a id='$doc->docID:Approved' onClick='approveDocument(this.id)' class='btn btn-success m-r-1em'>Approve</a> "
+                            . "<p id='$doc->docID:$doc->societyID:Disapproved' onClick='openFeedbackForm(this.id)' class='btn btn-danger m-r-1em'>Disapprove</p> </td>";
+                            echo "<td id='$doc->docID:hiddenCol' style='display:none;'>  <a id='$doc->docID' class='btn btn-info m-r-1em'>Processed</a> ";
                         } else {
                             echo "<td> <a href = '' class='btn btn-info m-r-1em'>Processed</a> </td>";
                         }
@@ -130,10 +126,10 @@ and open the template in the editor.
                         $count++;
                     }
                 }
-                echo "<tbody>";
+                echo "</tbody>";
                 echo "</table>";
             } else {
-                header('location:HomePage.php');
+                header('Location:HomePage.php');
             }
             ?>
             <a href = "HomePage.php" class = "btn btn-danger">Back</a>
@@ -151,9 +147,9 @@ and open the template in the editor.
                             <label>Feedback</label> 
                             <textarea name="feedback" id="feedback" class="form-control" placeholder="Enter feedback details" style="resize: none;"></textarea> 
                             <br />
-                            <input type="hidden" name="bookingID" id="bookingID"/>
+                            <input type="hidden" name="docID" id="docID"/>
                             <input type="hidden" name="societyID" id="societyID"/>
-                            <input type="submit" name="vSubmit" id="insert" onClick='disapproveBooking()' value="Insert" class="btn btn-success" />  
+                            <input type="submit" name="vSubmit" id="insert" onClick='disapproveDocument()' value="Insert" class="btn btn-success" />  
                         </form>  
                     </div>  
                     <div class="modal-footer">  

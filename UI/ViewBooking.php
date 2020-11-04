@@ -22,7 +22,25 @@ and open the template in the editor.
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+        <!--Display Modal-->
+        <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' type='text/javascript'></script>
         <script>
+            $(document).on('click', '.view_data', function () {
+                var bookingID = $(this).attr("id");
+                if (bookingID != '')
+                {
+                    $.ajax({
+                        url: "../Domain/ViewFeedBackBooking.php",
+                        method: "POST",
+                        data: {bookingID: bookingID},
+                        success: function (data) {
+                            //alert("hi");
+                            $('#feedbackDetails').html(data);
+                            $('#myModal').modal('show');
+                        }
+                    });
+                }
+            });
             $(document).ready(function () {
                 $('#BookingHistory').DataTable();
             });
@@ -43,7 +61,7 @@ and open the template in the editor.
             echo "<th>Date</th>";
             echo "<th>Duration</th>";
             echo "<th>Status</th>";
-            //echo "<th>Action</th>";
+            echo "<th>Action</th>";
             echo "</thead>";
             echo "<tbody>";
             echo "</tr>";
@@ -67,6 +85,13 @@ and open the template in the editor.
                         $etFormatted = date("g:i A", strtotime($booking->endTime));
                         echo "<td>{$stFormatted}-{$etFormatted}</td>";
                         echo "<td>{$booking->bookStatus}</td>";
+                        if ($booking->bookStatus == "Approved") {
+                            echo "<td> <p>N/A</p> </td>";
+                        } else if ($booking->bookStatus == "Pending") {
+                            echo "<td> <p>Waiting for approval</p> </td>";
+                        } else if ($booking->bookStatus == "Disapproved") {
+                            echo "<td><input type = 'button' name = 'edit' value = 'View Feedback' id = '{$booking->bookID}' class = 'btn btn-primary m-r-1em view_data' /></td>";
+                        }
                         //echo "<td> <a href = '' class='btn btn-danger m-r-1em'>Delete</a> </td>";
                         echo "</tr>";
                         $count++;
@@ -79,6 +104,22 @@ and open the template in the editor.
             }
             ?>
             <a href = "EventOrganizerHome.php" class = "btn btn-danger">Back</a>
+        </div>
+        <!--Display Feedback Modal-->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Feedback</h4>
+                    </div>
+                    <div class="modal-body" id="feedbackDetails">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

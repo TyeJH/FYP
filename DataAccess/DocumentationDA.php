@@ -43,5 +43,37 @@ class DocumentationDA {
         }
         DatabaseConnection::closeConnection($db);
     }
-
+    public function retrieveAll() {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT * FROM documentation';
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $documentArray = array();
+            while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $document = new Documentation($result['docID'], $result['docName'], $result['mime'], $result['docContent'], $result['applyDate'], $result['societyID'], $result['status']);
+                $documentArray[] = $document;
+            }
+            return $documentArray;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+    public function updateDocument($docID, $status) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'UPDATE documentation SET status = ? WHERE docID = ?';
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(1, $status);
+        $stmt->bindValue(2, $docID);
+        $stmt->execute();
+     
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
 }
