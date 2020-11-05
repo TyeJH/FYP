@@ -45,7 +45,7 @@ if (isset($_POST['staffSubmit'])) {
         $db = new SocietyDA();
         $result = $db->login($scID);
         if (empty($result)) {
-            $_SESSION['error']='Invalid ID and Password';
+            $_SESSION['error'] = 'Invalid ID and Password';
             header("Location:../UI/Login.php");
         } else {
             if ($scpass == $result->societyPass) {
@@ -71,15 +71,15 @@ if (isset($_POST['staffSubmit'])) {
         $db = new StudentDA();
         $result = $db->login($stID);
         if (empty($result)) {
-            $_SESSION['error']='Invalid ID';
+            $_SESSION['error'] = 'Invalid ID';
             header("Location:../UI/Login.php");
         } else {
-            if ($stpass == $result->password) {
+            if ($stpass== $result->password) {
                 $_SESSION['result'] = $result;
                 $_SESSION['current'] = "Student";
                 unset($_SESSION['role']);
                 echo'<script>alert("Login Successfully");location.href = "../UI/HomePage.php";</script>';
-            }else{
+            } else {
                 $_SESSION['error'] = "Invalid Password";
                 header("Location:../UI/Login.php");
             }
