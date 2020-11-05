@@ -22,9 +22,7 @@ and open the template in the editor.
     </head>
     <body>
         <div class="container">
-            <button onclick="show()" class="btn btn-success">Add</button>  
                             
-            <div id="chgpass" style="display: none;">
                 <div class="page-header">
                     <h1>Change password</h1>
                 </div>
@@ -71,26 +69,16 @@ and open the template in the editor.
                         </tr>
                     </table>
                 </form>
-            </div>
         </div>
     </body>
 
     <script>
-function show() {
-  var x = document.getElementById("chgpass");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
-        
         function verifySubmit() {
             if (document.changePasswordForm.currentPassword.value == '') {
                 alert('Please fill in the current password.');
                 return false;
             }
-            if (document.changePasswordForm.newPassword.value == '' || document.changePasswordForm.confirmPassword.value) {
+            if (document.changePasswordForm.newPassword.value == '' || document.changePasswordForm.confirmPassword.value == '') {
                 alert('Please fill in the new password.');
                 return false;
             }
@@ -98,8 +86,8 @@ function show() {
                 alert('The password is not match.');
                 return false;
             }
-            if (document.changePasswordForm.currentPassword.value == document.changePasswordForm.currentPassword.value) {
-                alert('Please fill in the current password.');
+            if (document.changePasswordForm.currentPassword.value == document.changePasswordForm.newPassword.value) {
+                alert('New password cannot same as current.');
                 return false;
             }
         }
