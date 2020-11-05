@@ -60,7 +60,6 @@ and open the template in the editor.
             <div class='page-header'>
                 <h1>Manage Attendance</h1>
             </div>
-
             <?php
             if (isset($_GET['eventID'])) {
                 $scheduleDA = new ScheduleDA();

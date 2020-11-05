@@ -33,7 +33,7 @@ and open the template in the editor.
                 if (checkBox.checked === true) {
                     applyStatus = "Approved";
                 } else {
-                    applyStatus = "Disapprove";
+                    applyStatus = "Disapproved";
                 }
                 $.ajax
                         ({
@@ -60,7 +60,34 @@ and open the template in the editor.
             <div class='page-header'>
                 <h1>Participants Applications</h1>
             </div>
+            <form action="" method="post">
+                <label>
+                    Display Status: 
+                </label>
+                <select name="displayBy" onchange="this.form.submit()">
+                    <?php
+                    $status = array('Pending', 'Approved', 'Disapproved');
+                    foreach ($status as $s) {
+                        if (isset($_POST['displayBy'])) {
+                            if ($_POST['displayBy'] == $s) {
+                                echo "<option value='$s' selected>$s</option>";
+                            } else {
+                                echo "<option value='$s'>$s</option>";
+                            }
+                        } else {
+                            echo "<option value='$s'>$s</option>";
+                        }
+                    }
+                    ?>
+                </select>
+            </form>
+
             <?php
+            if (isset($_POST['displayBy'])) {
+                $status = $_POST['displayBy'];
+            } else {
+                $status = "Pending";
+            }
             if (isset($_GET['eventID'])) {
                 $scheduleDA = new ScheduleDA();
                 $scheduleArray = $scheduleDA->retrieve($_GET['eventID']);
@@ -78,7 +105,7 @@ and open the template in the editor.
                         echo "<p><strong>Venue :</strong> $schedule->venue</p>";
                         $participantsDA = new ParticipantsDA();
                         $participants = array();
-                        $participantArray = $participantsDA->retrieve($schedule->scheduleID, 'Pending');
+                        $participantArray = $participantsDA->retrieve($schedule->scheduleID, $status);
                         $count = 1;
                         if ($participantArray == null) {
                             echo "<p>Currently no application in this schedule yet.</p>";
