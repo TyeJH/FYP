@@ -97,8 +97,6 @@ and open the template in the editor.
                 echo "</tr>";
                 echo "<thead>";
                 echo "<tbody>";
-
-                $societyID = $_SESSION['result']->societyID;
                 $documentationDA = new DocumentationDA();
                 $docArray = $documentationDA->retrieveAll();
                 if ($docArray == null) {
