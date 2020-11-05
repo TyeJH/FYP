@@ -37,7 +37,7 @@ class Schedule {
         }
     }
 
-    public function __get($name) {
+    public function &__get($name) {
         if (property_exists($this, $name)) {
             return $this->$name;
         } else {

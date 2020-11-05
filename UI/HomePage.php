@@ -3,6 +3,8 @@ include_once '../Domain/Admin.php';
 include_once '../Domain/Student.php';
 include_once '../Domain/Society.php';
 include_once '../DataAccess/SocietyEventDA.php';
+include_once '../DataAccess/ScheduleDA.php';
+
 session_start();
 require '../UI/header.php';
 ?>
@@ -21,17 +23,29 @@ require '../UI/header.php';
                 $('#eventTable').DataTable();
             });
         </script> 
+        <style>
+            .visitButton{
+                background-color:#ffedf7;
+                color:#000000;
+            }
+            .contentHeader{
+                background-color:#ff8f94;
+            }
+            .content{
+                font-family:verdana;
+            }
+        </style>
     </head>
     <body>
 <!--        original table class <table id='eventTable' class ='table table-hover table-responsive table-bordered'>-->
         <div class='container'>
             <div class='page-header'>
-                <h1>Events Happening</h1>
+                <h1 style="font-family: helvetica;">Events Happening</h1>
             </div>
             <?php
             //table clsas removed table-responsive
             echo "<table id='eventTable' class ='table table-hover  table-bordered'>";
-            echo "<thead>";
+            echo "<thead class='contentHeader'>";
             echo "<tr>";
             echo "<th>Name</th>";
             echo "<th>Action</th>";
@@ -47,15 +61,24 @@ require '../UI/header.php';
             } else {
                 foreach ($eventArray as $event) {
                     echo "<tr>";
-                    echo "<td>{$event->eventName}</td>";
-                    echo "<td> <a href = 'EventDetails.php?eventID={$event->eventID}' class='btn btn-primary m-r-1em'>View</a> ";
+                    $scheduleDA = new ScheduleDA();
+                    $schedule = $scheduleDA->retrieveLowestDateByEventID($event->eventID);
+                    if ($schedule != null) {
+                        $stFormat = $schedule->startDate . " " . $schedule->startTime;
+                        $st = strtotime($stFormat);
+                        //convert format to Thursday, 2020--Oct-01 4:00 PM
+                        $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
+                    } else {
+                        $startDateTimeFormatted = '';
+                    }
+                    echo "<td class='content'>$event->eventName <p style='color:#c95f66'>$startDateTimeFormatted </p></td>";
+                    echo "<td> <a href = 'EventDetails.php?eventID={$event->eventID}' class='btn btn-primary m-r-1em visitButton'>Visit</a> ";
                     echo "</tr>";
                 }
             }
             echo "</tbody>";
             echo "</table>";
             ?>
-            <a href="HomePage.php" class="btn btn-danger">Back</a>
         </div>
     </body>
 </html>

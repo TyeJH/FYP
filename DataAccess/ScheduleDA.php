@@ -47,6 +47,24 @@ class ScheduleDA {
         DatabaseConnection::closeConnection($db);
     }
 
+    public function retrieveLowestDateByEventID($eventID) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT * FROM schedule WHERE eventID = ? AND startDate = (SELECT MIN(startDate) FROM schedule where eventID = ?)';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $eventID);
+        $stmt->bindParam(2, $eventID);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $schedule = new Schedule($row['scheduleID'], $row['venue'], $row['startDate'], $row['startTime'], $row['endDate'], $row['endTime'], $row['unlimited'], $row['noOfParticipant'], $row['noOfJoined'], $row['scheduleStatus'], $row['eventID']);
+            return $schedule;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+
     public function retrieveByScheduleID($scheduleID) {
         $db = DatabaseConnection::getInstance()->getDB();
         $query = 'SELECT * FROM schedule WHERE scheduleID = ?';
