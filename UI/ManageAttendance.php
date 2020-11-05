@@ -60,13 +60,50 @@ and open the template in the editor.
             <div class='page-header'>
                 <h1>Manage Attendance</h1>
             </div>
+            <form action="" method="post">
+                <label>
+                    Session : 
+                </label>
+                <select name="sessionFilter">
+                    <?php
+                    $scheduleDA = new ScheduleDA();
+                    $scheduleArray = $scheduleDA->retrieve($_GET['eventID']);
+                    if ($scheduleArray != null) {
+                        foreach ($scheduleArray as $schedule) {
+                            //convert format to dd/mm/yyyy 2200
+                            $stFormat = $schedule->startDate . " " . $schedule->startTime;
+                            $etFormat = $schedule->endDate . " " . $schedule->endTime;
+                            $st = strtotime($stFormat);
+                            $et = strtotime($etFormat);
+                            //convert format to Thursday, 2020--Oct-01 4:00 PM
+                            $startDateTimeFormatted = date("D, Y M d h:i A", strtotime($stFormat));
+                            $endDateTimeFormatted = date("D, Y M d h:i A", strtotime($etFormat));
+                            if (isset($_POST['sessionFilter'])) {
+                                if ($_POST['sessionFilter'] == $schedule->scheduleID) {
+                                    echo "<option value='$schedule->scheduleID' selected>$startDateTimeFormatted - $endDateTimeFormatted</option>";
+                                } else {
+                                    echo "<option value='$schedule->scheduleID'>$startDateTimeFormatted - $endDateTimeFormatted</option>";
+                                }
+                            } else {
+                                echo "<option value='$schedule->scheduleID'>$startDateTimeFormatted - $endDateTimeFormatted</option>";
+                            }
+                        }
+                    }
+                    ?>
+                </select>
+                <button type="submit">Display</button>
+            </form>
             <?php
             if (isset($_GET['eventID'])) {
+                echo "<hr style='color:black;border-width:10px;'>";
+
                 $scheduleDA = new ScheduleDA();
-                $scheduleArray = $scheduleDA->retrieve($_GET['eventID']);
-                if ($scheduleArray != null) {
-                    foreach ($scheduleArray as $schedule) {
-                        echo "<div style='background-color:#FFF5F5'>";
+                $schedule = $scheduleDA->retrieve($_GET['eventID']);
+                if (isset($_POST['sessionFilter'])) {
+                    $scheduleID = $_POST['sessionFilter'];
+                    $scheduleDA = new ScheduleDA();
+                    $schedule = $scheduleDA->retrieveByScheduleID($scheduleID);
+                    if ($schedule != null) {
                         //convert format to dd/mm/yyyy 2200
                         $stFormat = $schedule->startDate . " " . $schedule->startTime;
                         $etFormat = $schedule->endDate . " " . $schedule->endTime;
@@ -80,20 +117,19 @@ and open the template in the editor.
                         $participantsDA = new ParticipantsDA();
                         $participantArray = $participantsDA->retrieve($schedule->scheduleID, 'Approved');
                         $count = 1;
-                        echo "<table id='participantsApplication' class = 'table table-hover table-responsive table-bordered'>";
-                        echo "<thead>";
-                        echo "<tr>";
-                        echo "<th>No </th>";
-                        echo "<th>Student ID</th>";
-                        //echo "<th>Name</th>";
-                        //echo "<th>Schedule Session</th>";
-                        echo "<th>Attendance</th>";
-                        echo "</tr>";
-                        echo "</thead>";
-                        echo "<tbody>";
                         if ($participantArray == null) {
-                            echo "<p>Currently no participants in this schedule yet.</p>";
+                            echo "<p>No participant in this schedule yet.</p>";
                         } else {
+                            echo "<table id='participantsApplication' class = 'table table-hover table-responsive table-bordered'>";
+                            echo "<thead>";
+                            echo "<tr>";
+                            echo "<th>No </th>";
+                            echo "<th>Student ID</th>";
+                            //echo "<th>Name</th>";
+                            echo "<th>Attendance</th>";
+                            echo "</tr>";
+                            echo "</thead>";
+                            echo "<tbody>";
                             foreach ($participantArray as $participant) {
                                 echo "<tr>";
                                 echo "<td>$count</td>";
@@ -107,14 +143,10 @@ and open the template in the editor.
                                 echo "</tr>";
                                 $count++;
                             }
+                            echo "</tbody>";
+                            echo "</table>";
                         }
-                        echo "</tbody>";
-                        echo "</table>";
-                        echo "</div>";
-                        echo "<hr style='color:black;border-width:10px;'>";
                     }
-                } else {
-                    echo "<a href='..UI/ManageSchedule.php'>No schedule yet. Click here to add schedule</a><br><br>";
                 }
             } else {
                 header('location:EventOrganizerHome.php');

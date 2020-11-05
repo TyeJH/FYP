@@ -29,8 +29,6 @@ if (isset($_POST['type']) && isset($_POST['scheduleID']) && isset($_POST['userID
     }
     $participantDA = new ParticipantsDA();
     if ($participantDA->update($participant)) {
-        echo $participant->scheduleID . " " . $participant->userID . " " . $participant->attendanceStatus;
-        exit;
         if ($type == 'approval') {
             //Update noOfJoined in Schedule table.
             $scheduleDA = new ScheduleDA();
@@ -50,7 +48,7 @@ if (isset($_POST['type']) && isset($_POST['scheduleID']) && isset($_POST['userID
 //            if ($mail->setting()) {
 //                echo $participant->userID . ' application status is marked as ' . $participant->applyStatus;
 //            } else {
-//                echo "Unepected error occur. Email couldn't be sent.";
+//                echo "Marked as approved but email couldn't be sent.";
 //            }
         } else {
             echo $participant->userID . ' attendance status is marked as ' . $participant->attendanceStatus;
