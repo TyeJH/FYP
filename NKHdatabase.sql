@@ -6,7 +6,7 @@ CREATE TABLE uniStudent(
 
 CREATE TABLE admin(
     adminID      varchar(10)   not null,
-    password     varchar(12)   not null,
+    password     varchar(255)   not null,
     PRIMARY KEY(adminID)
 );
 
@@ -14,14 +14,14 @@ CREATE TABLE society(
     societyID      varchar(10)    not null,
     societyName    varchar(100)   not null,
     societyDesc    varchar(300)   not null,
-    societyPass    varchar(20)    not null,
+    societyPass    varchar(255)    not null,
     societyAcc     decimal(10,2)  not null,
     PRIMARY KEY(societyID)
 );
 
 CREATE TABLE student(
     userID        varchar(300) not null,
-    password      varchar(12)  not null,
+    password      varchar(255)  not null,
     studEmail     varchar(300) not null,
     studID        int(10)      not null,
     PRIMARY KEY(userID),

@@ -10,7 +10,7 @@ require '../UI/header.php';
     <head>
         <meta charset="UTF-8">
         <title>Home Page</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
         <!--Data Table-->
         <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet">
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>

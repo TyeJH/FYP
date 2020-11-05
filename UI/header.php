@@ -9,7 +9,7 @@ require_once '../Domain/Student.php';
         <!--        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
         <link rel="stylesheet" href="../css/headerStackpath.css">
 
-<!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />-->
+        <!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />-->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <!--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>-->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
@@ -34,16 +34,16 @@ require_once '../Domain/Student.php';
                                 <li class="nav-item active">
                                     <a class="nav-link" href="../UI/CreateAnnouncement.php">Announcement</a>
                                 </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="../UI/AdminViewBooking.php">Booking</a>
-                                </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="../UI/AdminViewDocument.php">Document</a>
-                                </li>
                                 <?php
                                 if (isset($_SESSION['result'])) {
                                     if ($_SESSION['result']->adminID === 'DSA') {
                                         ?>
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="../UI/AdminViewBooking.php">Booking</a>
+                                        </li>
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="../UI/AdminViewDocument.php">Document</a>
+                                        </li>
                                         <li class="nav-item active">
                                             <a class="nav-link" href="../UI/VenueList.php">Venue</a>
                                         </li>
@@ -105,7 +105,8 @@ require_once '../Domain/Student.php';
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="../UI/UserProfile.php">View Profile</a>
-                                        <a class="dropdown-item" href="ChangePassword.php">Change Password</a>
+                                        <a class="dropdown-item" href="../UI/ChangePassword.php">Change Password</a>
+                                        <a class="dropdown-item" href="../UI/eventHistory.php">History</a>
                                         <a class="dropdown-item" href="../UI/Logout.php">Logout</a>
                                     </div>
                                 </li>

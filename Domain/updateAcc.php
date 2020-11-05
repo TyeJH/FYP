@@ -52,13 +52,14 @@ if (isset($_POST['staffUpdate'])) {
     $val = new Validation();
     $id = $val->test_input($_POST['uID']);
     $pass = $val->test_input($_POST['password']);
+    $email = $val->test_input($_POST['email']);
     $studid = $val->test_input($_POST['studid']);
 
     if (empty($pass)) {
         echo "password cannot be empty";
     } else {
         if ($val->passwordIsValid($pass)) {
-            $stu = new Student($id, $pass, $studid);
+            $stu = new Student($id, $pass, $email, $studid);
             $studa = new StudentDA();
             $studa->update($stu);
             $_SESSION['result'] = $stu;

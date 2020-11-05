@@ -36,15 +36,14 @@ and open the template in the editor.
     </head>
     <body>
         <div class='container'>
-            <div class='page-header'>
                 <h1>Home</h1>
-            </div>
-            <?php echo "<p>Welcome back, " . $_SESSION['result']->societyName . "</p>"; ?>
+            <?php echo "<p style='font-size:15px;'>Welcome back, " . $_SESSION['result']->societyName . "</p>"; ?>
             <a href="ApplyNewEvent.php" class="btn btn-primary">Apply New Event</a>
             <a href="ViewApplyStatus.php" class="btn btn-primary">View Apply Status</a>
             <a href="SocietyCreateEvent.php" class="btn btn-primary">Create Event</a>
             <a href="BookVenue.php" class="btn btn-primary">Book Venue</a>
             <a href="ViewBooking.php" class="btn btn-primary">View Booking</a>
+            <br><br>
             <h2>Your created Events</h2>
 
             <?php

@@ -24,7 +24,42 @@ require 'header.php';
             if ($_SESSION['current'] == "Society") {
                 $society = $_SESSION['result'];
                 ?>
-        <h1>HI</h1>
+                <div class="container">
+                    <br>
+                    <h1 style="text-align: center;font-size: 50px;">History</h1>
+                    <br>
+                    <?php
+                    include_once '../DataAccess/ParticipantsDA.php';
+                    include_once '../DataAccess/SocietyEventDA.php';
+                    $a = new SocietyEventDA();
+                    $b = $a->retrieveBySocietyID($society->societyID)
+                    ?>
+                    <table id="eventhistory" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="50%">Event ID</th>
+                                <th width="50%">Event Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if (!empty($b)) {
+                                foreach ($b as $history) {
+                                    echo"<tr>";
+                                    echo "<td>" . $history->eventID . "</td>";
+                                    echo "<td>" . $history->eventName . "</td>";
+                                    echo"</tr>";
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+                <script>
+                    $(document).ready(function () {
+                        $('#eventhistory').DataTable();
+                    });
+                </script>
                 <?php
             } else if ($_SESSION['current'] == "Student") {
                 $stud = $_SESSION['result'];
