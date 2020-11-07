@@ -14,11 +14,8 @@ if (isset($_POST['scheduleID']) && isset($_POST['userID']) && isset($_POST['appl
     $applyStatus = $_POST['applyStatus'];
     $helper = new Helpers($eventID, $userID, $applyDate, $applyStatus);
     $helperDA = new HelpersDA();
-    if ($helperDA->update($participant)) {
-        //Update noOfJoined in Schedule table.
-        $scheduleDA = new ScheduleDA();
-        $scheduleDA->updateNoOfJoined($scheduleID);
-        //Send email after approved participant.
+    if ($helperDA->update($helper)) {
+        //Send email after approved helper.
         $eventDA = new SocietyEventDA();
         $event = $eventDA->retrieveByEventID($eventID);
         $to = $_SESSION['result']->studEmail;

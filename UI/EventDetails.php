@@ -128,7 +128,6 @@ AUTHOR : NGO KIAN HEE
                                         $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
                                         $endDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($etFormat));
                                         //$et = strtotime($etFormat);
-
                                         //When student logged in
                                         if (isset($_SESSION['result'])) {
                                             $participantDA = new ParticipantsDA();
@@ -176,7 +175,9 @@ AUTHOR : NGO KIAN HEE
                             <td>
                             </td>
                             <td>
-                                <button onclick="JSalert()" type="submit" class='btn btn-primary' name="applyHelper">Register as Helper!</button>
+                                <?php
+                                echo "<a href ='../Domain/CreateHelper.php?eventID=$event->eventID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'helper'>Register as Helper!</a></br>";
+                                ?>
                                 <a href='HomePage.php' class='btn btn-danger'>Back</a>
                             </td>
                         </tr>
