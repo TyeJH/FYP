@@ -41,7 +41,7 @@ if (isset($_GET['eventID']) && isset($_GET['scheduleID'])) {
         $participant = new Participants($scheduleID, $eventID, $userID, $applyDate, $applyStatus);
         $participantDA = new ParticipantsDA();
         if ($participantDA->create($participant)) {
-            $_SESSION['succeessMsg'] = 'Thanks for joining us! An email had send to you.';
+            $_SESSION['succeessMsg'] = 'Thanks for joining us! We will approve you as soon as possible.';
             header("location:../UI/EventDetails.php?eventID=$eventID");
         } else {
             $_SESSION['errorMsg'] = "Unexpected error occur.";

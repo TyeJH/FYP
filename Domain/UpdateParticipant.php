@@ -36,25 +36,24 @@ if (isset($_POST['type']) && isset($_POST['scheduleID']) && isset($_POST['userID
             //Send email after approved participant.
             $eventDA = new SocietyEventDA();
             $event = $eventDA->retrieveByEventID($eventID);
-            $to = 'n.kianhee99@gmail.com';
+            $to = $_SESSION['result']->studEmail;
             $toName = 'Participant';
-            $subject = "$event->eventName - Approval of event application";
+            $subject = "$event->eventName - Participant Application : Approved";
             $message = "Hi you have approved for joining $event->eventName for more information. \nLog in your account to view the event details.";
             $from = "eventmanagementsystemtaruc@gmail.com";
             $sender = "TAR UC Event Management System";
-            
+
             $mail = new Email($to, $toName, $subject, $message, $from, $sender);
-            echo $participant->userID . ' application status is marked as ' . $participant->applyStatus;
-//            if ($mail->setting()) {
-//                echo $participant->userID . ' application status is marked as ' . $participant->applyStatus;
-//            } else {
-//                echo "Marked as approved but email couldn't be sent.";
-//            }
+            if ($mail->setting()) {
+                echo $participant->userID . ' application status is marked as ' . $participant->applyStatus;
+            } else {
+                echo "Marked as $participant->applyStatus but email couldn't be sent.";
+            }
         } else {
             echo $participant->userID . ' attendance status is marked as ' . $participant->attendanceStatus;
         }
     } else {
-        echo "Unexpected error occur. Please contact system administrator.";
+        echo "Unexpected error occur. Couldn't update currenlty. Please contact system administrator.";
     }
 }
 
