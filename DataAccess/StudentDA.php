@@ -7,7 +7,7 @@ class StudentDA {
 
     public function login($studid) {
         $db = DatabaseConnection::getInstance()->getDb();
-        $query = "SELECT * FROM student WHERE userID = ?";
+        $query = "SELECT * FROM student WHERE username = ?";
         $stmt = $db->prepare($query);
         $stmt->bindParam(1, $studid, PDO::PARAM_STR);
         $stmt->execute();
@@ -16,7 +16,7 @@ class StudentDA {
             return null;
         } else {
             $s = $stmt->fetch(PDO::FETCH_ASSOC);
-            $std = new Student($s['userID'], $s['password'], $s['studEmail'], $s['studID']);
+            $std = new Student($s['userID'], $s['username'], $s['password'], $s['studEmail'], $s['studID']);
             DatabaseConnection::closeConnection($db);
             return $std;
         }
@@ -24,24 +24,26 @@ class StudentDA {
 
     public function register(Student $st) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'INSERT INTO student VALUES(?,?,?,?)';
+        $query = 'INSERT INTO student VALUES(?,?,?,?,?)';
         $stmt = $db->prepare($query);
         $stmt->bindParam(1, $st->studID, PDO::PARAM_STR);
-        $stmt->bindParam(2, $st->password, PDO::PARAM_STR);
-        $stmt->bindParam(3, $st->studEmail, PDO::PARAM_STR);
-        $stmt->bindParam(4, $st->uniStudID, PDO::PARAM_STR);
+        $stmt->bindParam(2, $st->username, PDO::PARAM_STR);
+        $stmt->bindParam(3, $st->password, PDO::PARAM_STR);
+        $stmt->bindParam(4, $st->studEmail, PDO::PARAM_STR);
+        $stmt->bindParam(5, $st->uniStudID, PDO::PARAM_STR);
         $stmt->execute();
         DatabaseConnection::closeConnection($db);
     }
 
     public function update(Student $st) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'UPDATE student SET password = ?, studEmail = ?, studID = ? WHERE userID=?';
+        $query = 'UPDATE student SET username = ?, password = ?, studEmail = ?, studID = ? WHERE userID=?';
         $stmt = $db->prepare($query);
-        $stmt->bindParam(1, $st->password, PDO::PARAM_STR);
-        $stmt->bindParam(2, $st->studEmail, PDO::PARAM_STR);
-        $stmt->bindParam(3, $st->uniStudID, PDO::PARAM_STR);
-        $stmt->bindParam(4, $st->studID, PDO::PARAM_STR);
+        $stmt->bindParam(1, $st->username, PDO::PARAM_STR);
+        $stmt->bindParam(2, $st->password, PDO::PARAM_STR);
+        $stmt->bindParam(3, $st->studEmail, PDO::PARAM_STR);
+        $stmt->bindParam(4, $st->uniStudID, PDO::PARAM_STR);
+        $stmt->bindParam(5, $st->studID, PDO::PARAM_STR);
         $stmt->execute();
         DatabaseConnection::closeConnection($db);
     }
@@ -60,6 +62,34 @@ class StudentDA {
         DatabaseConnection::closeConnection($db);
     }
 
+    public function checkUsername($newname) {
+        $db = DatabaseConnection::getInstance()->getDb();
+        $stmt = $db->prepare("SELECT username FROM student WHERE username = ?");
+        $stmt->bindParam(1, $newname, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$result) {
+            return true;
+        } else {
+            return false;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+    
+    public function checkEmail($email) {
+        $db = DatabaseConnection::getInstance()->getDb();
+        $stmt = $db->prepare("SELECT studEmail FROM student WHERE studEmail = ?");
+        $stmt->bindParam(1, $email, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$result) {
+            return true;
+        } else {
+            return false;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+    
     public function checkStudID($studID) {
         $db = DatabaseConnection::getInstance()->getDb();
         $stmt = $db->prepare("SELECT studID FROM student WHERE studID = ?");

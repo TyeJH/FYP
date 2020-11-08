@@ -10,65 +10,123 @@ include_once '../DataAccess/StudentDA.php';
 
 session_start();
 
-if (isset($_POST['staffUpdate'])) {
-    $val = new Validation();
-    $id = $val->test_input($_POST['aID']);
-    $pass = $val->test_input($_POST['password']);
-
-    if (empty($pass)) {
-        echo "password cannot be empty";
-    } else {
-        if ($val->passwordIsValid($pass)) {
-            $admin = new Admin($id, $pass);
-            $adminda = new AdminDA();
-            $adminda->update($admin);
-            $_SESSION['result'] = $admin;
-            echo '<script>alert("Password Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
-        } else {
-            echo "password format invalid";
-        }
-    }
-} else if (isset($_POST['societyUpdate'])) {
+if (isset($_POST['societyUpdate'])) {
     $val = new Validation();
     $id = $val->test_input($_POST['sID']);
     $name = $val->test_input($_POST['sName']);
     $desc = $val->test_input($_POST['sDesc']);
     $pass = $val->test_input($_POST['sPass']);
+    $acc = $val->test_input($_POST['sAcc']);
 
-    if (empty($pass)) {
-        echo "password cannot be empty";
+    if (empty($name) || empty($desc)) {
+        echo "Please do not leave it empty";
     } else {
-        if ($val->passwordIsValid($pass)) {
-            $soc = new Society($id, $name, $desc, $pass);
-            $socda = new SocietyDA();
-            $socda->update($soc);
-            $_SESSION['result'] = $soc;
-            echo '<script>alert("Society Details Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
-        } else {
-            echo "password format invalid";
-        }
+        $soc = new Society($id, $name, $desc, $pass, $acc);
+        $socda = new SocietyDA();
+        $socda->update($soc);
+        $_SESSION['result'] = $soc;
+        echo '<script>alert("Society Details Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
     }
 } else if (isset($_POST['studentUpdate'])) {
     $val = new Validation();
     $id = $val->test_input($_POST['uID']);
+    $name = $val->test_input($_POST['uname']);
     $pass = $val->test_input($_POST['password']);
     $email = $val->test_input($_POST['email']);
     $studid = $val->test_input($_POST['studid']);
 
-    if (empty($pass)) {
-        echo "password cannot be empty";
+    if (empty($name) || empty($email)) {
+        echo "Please fill in all the empty box";
     } else {
-        if ($val->passwordIsValid($pass)) {
-            $stu = new Student($id, $pass, $email, $studid);
-            $studa = new StudentDA();
-            $studa->update($stu);
-            $_SESSION['result'] = $stu;
-            echo '<script>alert("Password Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
+        $studa = new StudentDA();
+
+        if ($name == $_SESSION['result']->username && $email == $_SESSION['result']->studEmail) {
+            header("Location:../UI/UserProfile.php");
+        } else if ($name !== $_SESSION['result']->username && $email == $_SESSION['result']->studEmail) {
+            if ($studa->checkUsername($name)) {
+                $stu = new Student($id, $name, $pass, $email, $studid);
+                $studa->update($stu);
+                $_SESSION['result'] = $stu;
+                echo '<script>alert("User Details Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
+            } else {
+                $_SESSION['error'] = 'Username had been registered';
+                header("Location:../UI/UserProfile.php");
+            }
+        } else if ($name == $_SESSION['result']->username && $email !== $_SESSION['result']->studEmail) {
+            if ($studa->checkEmail($email)) {
+                $stu = new Student($id, $name, $pass, $email, $studid);
+                $studa->update($stu);
+                $_SESSION['result'] = $stu;
+                echo '<script>alert("User Details Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
+            } else {
+                $_SESSION['error'] = 'Email had been used';
+                header("Location:../UI/UserProfile.php");
+            }
         } else {
-            echo "password format invalid";
+            if ($studa->checkUsername($name)) {
+                if ($studa->checkEmail($email)) {
+                    $stu = new Student($id, $name, $pass, $email, $studid);
+                    $studa->update($stu);
+                    $_SESSION['result'] = $stu;
+                    echo '<script>alert("User Details Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
+                } else {
+                    $_SESSION['error'] = 'Email had been used';
+                    header("Location:../UI/UserProfile.php");
+                }
+            } else {
+                $_SESSION['error'] = 'Username had been registered';
+                header("Location:../UI/UserProfile.php");
+            }
         }
+
+//        if ($name == $_SESSION['result']->username) {
+//            if ($email == $_SESSION['result']->studEmail) {
+//                header("Location:../UI/UserProfile.php");
+//            } else {
+//                if ($studa->checkEmail($email)) {
+//                    $stu = new Student($id, $name, $pass, $email, $studid);
+//                    $studa->update($stu);
+//                    $_SESSION['result'] = $stu;
+//                    echo '<script>alert("User Details Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
+//                } else {
+//                    $_SESSION['error'] = 'Email had been used';
+//                    header("Location:../UI/UserProfile.php");
+//                }
+//            }
+//        } else if ($email == $_SESSION['result']->studEmail) {
+//            if ($name == $_SESSION['result']->username) {
+//                header("Location:../UI/UserProfile.php");
+//            } else {
+//                if ($studa->checkUsername($name)) {
+//                    $stu = new Student($id, $name, $pass, $email, $studid);
+//                    $studa->update($stu);
+//                    $_SESSION['result'] = $stu;
+//                    echo '<script>alert("User Details Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
+//                } else {
+//                    $_SESSION['error'] = 'Username had been registered';
+//                    header("Location:../UI/UserProfile.php");
+//                }
+//            }
+//        } else {
+//            if ($studa->checkUsername($name)) {
+//                if ($studa->checkEmail($email)) {
+//                    $stu = new Student($id, $name, $pass, $email, $studid);
+//                    $studa->update($stu);
+//                    $_SESSION['result'] = $stu;
+//                    echo '<script>alert("User Details Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
+//                } else {
+//                    $_SESSION['error'] = 'Email had been used';
+//                    header("Location:../UI/UserProfile.php");
+//                }
+//            } else {
+//                $_SESSION['error'] = 'Username had been registered';
+//                header("Location:../UI/UserProfile.php");
+//            }
+//        }
     }
 }
+
+
 
 //Society Update Password
 if (isset($_POST['societyUpdatePassword'])) {

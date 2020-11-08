@@ -20,7 +20,8 @@ CREATE TABLE society(
 );
 
 CREATE TABLE student(
-    userID        varchar(300) not null,
+    userID        varchar(10) not null,
+    username      varchar(300) not null,
     password      varchar(255)  not null,
     studEmail     varchar(300) not null,
     studID        int(10)      not null,

@@ -26,10 +26,10 @@ require 'header.php';
                     ?>
                     <h1>Staff Account Register</h1>
                     <?php
-                        if(isset($_SESSION['error'])){
-                            echo '<h5 style=color:red>'.$_SESSION['error'].'</h5>';
-                            unset($_SESSION['error']);
-                        }
+                    if (isset($_SESSION['error'])) {
+                        echo '<h5 style=color:red>' . $_SESSION['error'] . '</h5>';
+                        unset($_SESSION['error']);
+                    }
                     ?>
                     <form action="../Domain/ValidateRegsiter.php" method="post">
                         <label>Admin ID:</label>
@@ -47,16 +47,19 @@ require 'header.php';
                     </form>
                     <?php
                 } else if ($_SESSION['status'] == 'student') {
+                    $stu = new Student();
+                    $uid = $stu->generateRandomId();
                     ?>
                     <h1>Student Account Register</h1>
                     <?php
-                        if(isset($_SESSION['error'])){
-                             echo '<h5 style=color:red>'.$_SESSION['error'].'</h5>';
-                            unset($_SESSION['error']);
-                        }
+                    if (isset($_SESSION['error'])) {
+                        echo '<h5 style=color:red>' . $_SESSION['error'] . '</h5>';
+                        unset($_SESSION['error']);
+                    }
                     ?>
                     <form method="post" action="../Domain/ValidateRegsiter.php">
-                        <label>Username: </label> <input type="text" name="id" placeholder="Enter your username"/><br>
+                        <input type="hidden" name="id" value="<?= $uid ?>"/>
+                        <label>Username: </label> <input type="text" name="name" placeholder="Enter your username"/><br>
                         <label>Email: </label><input type="email" name="email" placeholder="example@domain.com"/><br>
                         <label>Password: </label> <input type="password" name="pass" placeholder="Enter your password"/><br>
                         <label>Confirm Password: </label><input type="password" name="cpass" placeholder="Re-Type your password"/><br>

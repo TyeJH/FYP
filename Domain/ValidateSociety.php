@@ -11,22 +11,31 @@ if (!empty($_POST)) {
     if (isset($_SESSION['result'])) {
         if ($_SESSION['result']->adminID == 'DSA') {
             $val = new Validation();
+            
             $id = $val->test_input($_POST['sid']);
             $name = $val->test_input($_POST['sname']);
             $desc = $val->test_input($_POST['sdesc']);
             $pass = $val->test_input($_POST['spass']);
             $acc = $val->test_input($_POST['sacc']);
             $nul = $_POST['societyid'];
+            
+            $socda = new SocietyDA();
 
             if ($nul != '') {
-                $society = new Society($id, $name, $desc, $pass, $acc);
-                $socda = new SocietyDA();
-                $socda->update($society);
-                $_SESSION['societymessage'] = 'Society Updated';
-                echo '<script>location.href = "../UI/CreateSociety.php";</script>';
+                $dbpass = $socda->login($id);
+                if ($pass == $dbpass->societyPass) {
+                    $society = new Society($id, $name, $desc, $pass, $acc);
+                    $socda->update($society);
+                    $_SESSION['societymessage'] = 'Society Updated';
+                    echo '<script>location.href = "../UI/CreateSociety.php";</script>';
+                } else {
+                    $society = new Society($id, $name, $desc, $val->securePassword($pass), $acc);
+                    $socda->update($society);
+                    $_SESSION['societymessage'] = 'Society Updated';
+                    echo '<script>location.href = "../UI/CreateSociety.php";</script>';
+                }
             } else {
-                $soc = new Society($id, $name, $desc, $pass, $acc);
-                $socda = new SocietyDA();
+                $soc = new Society($id, $name, $desc, $val->securePassword($pass), $acc);
                 $socda->regsiter($soc);
                 $_SESSION['societymessage'] = 'Society Created';
                 echo '<script>location.href = "../UI/CreateSociety.php";</script>';
@@ -42,11 +51,10 @@ if (!empty($_POST)) {
 
             if ($nul != '') {
                 $society = new Society($id, $name, $desc, $pass, $acc);
-                $socda = new SocietyDA();
                 $socda->update($society);
                 $_SESSION['societymessage'] = 'Account Balance Updated';
                 echo '<script>location.href = "../UI/CreateSociety.php";</script>';
-            } 
+            }
         }
     }
 }

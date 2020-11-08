@@ -22,7 +22,7 @@ if (isset($_POST['staffSubmit'])) {
             $_SESSION['error'] = "Invalid ID and Password";
             header("Location:../UI/Login.php");
         } else {
-            if ($apass == $result->password) {
+            if ($val->comparePass($apass,$result->password)) {
                 $_SESSION['result'] = $result;
                 $_SESSION['current'] = "Admin";
                 unset($_SESSION['role']);
@@ -48,7 +48,7 @@ if (isset($_POST['staffSubmit'])) {
             $_SESSION['error'] = 'Invalid ID and Password';
             header("Location:../UI/Login.php");
         } else {
-            if ($scpass == $result->societyPass) {
+            if ($val->comparePass($scpass, $result->societyPass)) {
                 $_SESSION['result'] = $result;
                 $_SESSION['current'] = "Society";
                 unset($_SESSION['role']);
@@ -74,7 +74,7 @@ if (isset($_POST['staffSubmit'])) {
             $_SESSION['error'] = 'Invalid ID';
             header("Location:../UI/Login.php");
         } else {
-            if ($stpass== $result->password) {
+            if ($val->comparePass($stpass, $result->password)) {
                 $_SESSION['result'] = $result;
                 $_SESSION['current'] = "Student";
                 unset($_SESSION['role']);

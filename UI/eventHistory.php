@@ -65,7 +65,9 @@ require 'header.php';
                 $stud = $_SESSION['result'];
                 ?>
                 <div class="container">
+                    <br>
                     <h2>History</h2>
+                    <br>
                     <?php
                     include_once '../DataAccess/ParticipantsDA.php';
                     include_once '../DataAccess/SocietyEventDA.php';

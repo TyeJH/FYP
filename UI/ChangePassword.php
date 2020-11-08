@@ -1,5 +1,4 @@
 <?php
-require '../DataAccess/SocietyEventDA.php';
 session_start();
 require 'header.php';
 ?>
@@ -14,7 +13,7 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title>Change password</title>
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />  
 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  
@@ -22,53 +21,52 @@ and open the template in the editor.
     </head>
     <body>
         <div class="container">
-                            
-                <div class="page-header">
-                    <h1>Change password</h1>
-                </div>
-                <p><span>1) Passwords must contain:</span></p>
-                <ul>
-                    <li><span>a minimum of 1 alphabet and</span></li>
-                    <li><span>a minimum of 1 numeric character [0-9] and</span></li>
-                    <li><span>a minimum of 1 special character (symbol)</span></li>
-                    <li><span>Passwords must be at least 8 characters in length.</span></li>
-                </ul>
-                <form action="../Domain/updateAcc.php" name="changePasswordForm" id="changePasswordForm" method="POST" onSubmit="return verifySubmit(this)">
-                    <table>
-                        <tr>
-                            <td>
-                                Current Password:
-                            </td>
-                            <td>
-                                <input type="password" name="currentPassword" placeholder="Current Password">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                New Password:
-                            </td>
-                            <td>
-                                <input type="password" name="newPassword" id="newPassword" placeholder="New Password" maxlength="25" onKeyUp="StrengthPassword2(this.value)" onClick="verifyPwd(this)">
-                                <div style="float:right;padding:2px ;"><div id="PswColor2" style=" background-color:#FFC000; border:1px solid #c5c5c5; width:200px; padding:1px; height:25px; text-align:center" valign="center">Password Strength Level</div>                
-                        </tr>
-                        <tr>
-                            <td>
-                                Confirm Password:
-                            </td>
-                            <td>
-                                <input type="password" name="confirmPassword" placeholder="Confirm Password">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                            </td>
-                            <td>
-                                <button type="submit" class="btn btn-primary" name="societyUpdatePassword">Save</button>
-                                <button type="reset" class="btn btn-light">Reset</button>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+            <div class="page-header">
+                <h1>Change password</h1>
+            </div>
+            <p><span>1) Passwords must contain:</span></p>
+            <ul>
+                <li><span>a minimum of 1 alphabet and</span></li>
+                <li><span>a minimum of 1 numeric character [0-9] and</span></li>
+                <li><span>a minimum of 1 special character (symbol)</span></li>
+                <li><span>Passwords must be at least 8 characters in length.</span></li>
+            </ul>
+            <form action="../Domain/updateAcc.php" name="changePasswordForm" id="changePasswordForm" method="POST" onSubmit="return verifySubmit(this)">
+                <table>
+                    <tr>
+                        <td>
+                            Current Password:
+                        </td>
+                        <td>
+                            <input type="password" name="currentPassword" placeholder="Current Password">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            New Password:
+                        </td>
+                        <td>
+                            <input type="password" name="newPassword" id="newPassword" placeholder="New Password" maxlength="25" onKeyUp="StrengthPassword2(this.value)" onClick="verifyPwd(this)">
+                            <div style="float:right;padding:2px ;"><div id="PswColor2" style=" background-color:#FFC000; border:1px solid #c5c5c5; width:200px; padding:1px; height:25px; text-align:center" valign="center">Password Strength Level</div>                
+                    </tr>
+                    <tr>
+                        <td>
+                            Confirm Password:
+                        </td>
+                        <td>
+                            <input type="password" name="confirmPassword" placeholder="Confirm Password">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary" name="societyUpdatePassword">Save</button>
+                            <button type="reset" class="btn btn-light">Reset</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
     </body>
 

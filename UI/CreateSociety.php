@@ -10,7 +10,7 @@ require 'header.php';
 <!DOCTYPE html>
 <html> 
     <head>  
-        <title>Venue Page</title>  
+        <title>Society Page</title>  
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
 
@@ -78,7 +78,7 @@ require 'header.php';
                         </div>
                     </div>
 
-                    <!--Display Venue Details-->
+                    <!--Display Society Details-->
                     <div id="dataModal" class="modal fade">  
                         <div class="modal-dialog">  
                             <div class="modal-content">  
@@ -95,7 +95,7 @@ require 'header.php';
                         </div>  
                     </div>
 
-                    <!--Add Venue Details-->
+                    <!--Add/Edit Society Details-->
                     <div id="add_data_Modal" class="modal fade">  
                         <div class="modal-dialog">  
                             <div class="modal-content">  
@@ -141,7 +141,7 @@ require 'header.php';
                                 $('#insert_form')[0].reset();
                             });
 
-                            //        Edit Venue Details
+                            //        Edit Society Details
                             $(document).on('click', '.edit_data', function () {
                                 var socid = $(this).attr("id");
                                 $.ajax({
@@ -163,10 +163,9 @@ require 'header.php';
                                 });
                             });
 
-                            //        Submit Venue Details
+                            //        Submit Society Details
                             $('#insert_form').on("submit", function (event) {
                                 event.preventDefault();
-                                var pass = /^(?=.*[0-9])(?=.*[A-Z]).{8,20}$/;
                                 if ($('#sname').val() === "")
                                 {
                                     alert("Society Name is required");
@@ -176,9 +175,7 @@ require 'header.php';
                                 } else if ($('#spass').val() === '')
                                 {
                                     alert("Society Password is required");
-                                } else if (!pass.test($('#spass').val()))
-                                {
-                                    alert("Society Password must within 8 to 20 character (at least 1 digit and 1 character)");
+
                                 } else
                                 {
                                     $.ajax({
@@ -197,7 +194,7 @@ require 'header.php';
                                 }
                             });
 
-                            //        View Venue Details
+                            //        View Society Details
                             $(document).on('click', '.view_data', function () {
                                 var socid = $(this).attr("id");
                                 if (socid !== '')
@@ -264,7 +261,7 @@ require 'header.php';
                         </div>
                     </div>
 
-                    <!--Display Venue Details-->
+                    <!--Display Society Details-->
                     <div id="dataModal" class="modal fade">  
                         <div class="modal-dialog">  
                             <div class="modal-content">  
@@ -281,7 +278,7 @@ require 'header.php';
                         </div>  
                     </div>
 
-                    <!--Add Venue Details-->
+                    <!--Add/Edit Society Details-->
                     <div id="add_data_Modal" class="modal fade">  
                         <div class="modal-dialog">  
                             <div class="modal-content">  
@@ -321,7 +318,7 @@ require 'header.php';
                                 $('#insert_form')[0].reset();
                             });
 
-                            //        Edit Venue Details
+                            //        Edit Society Details
                             $(document).on('click', '.edit_data', function () {
                                 var socid = $(this).attr("id");
                                 $.ajax({
@@ -343,7 +340,7 @@ require 'header.php';
                                 });
                             });
 
-                            //        Submit Venue Details
+                            //        Submit Society Details
                             $('#insert_form').on("submit", function (event) {
                                 event.preventDefault();
                                 var validate = /^\d+(\.\d{2})?$/;
@@ -371,7 +368,7 @@ require 'header.php';
                                 }
                             });
 
-                            //        View Venue Details
+                            //        View Society Details
                             $(document).on('click', '.view_data', function () {
                                 var socid = $(this).attr("id");
                                 if (socid !== '')
