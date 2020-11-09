@@ -2,7 +2,9 @@
 require '../DataAccess/SocietyEventDA.php';
 require '../DataAccess/ScheduleDA.php';
 require '../DataAccess/ParticipantsDA.php';
+require '../DataAccess/HelpersDA.php';
 require '../Domain/Student.php';
+
 session_start();
 ?>
 
@@ -173,11 +175,32 @@ AUTHOR : NGO KIAN HEE
                         </tr>
                         <tr>
                             <td>
+                                Register for Helper!
                             </td>
                             <td>
                                 <?php
-                                echo "<a href ='../Domain/CreateHelper.php?eventID=$event->eventID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'helper'>Register as Helper!</a></br>";
+                                if (isset($_SESSION['result'])) {
+                                    $helpersDA = new HelpersDA();
+                                    $result2 = $helpersDA->retrieveByUserID($_SESSION['result']->studID);
+                                    //If student already joined or applied
+                                    if ($result2 != null) {
+                                        if ($result2->applyStatus == 'Approved') {
+                                            echo "<a class = 'btn btn-info' name = 'helper'>Registered</a></br>";
+                                        } else if ($result2->applyStatus == 'Pending') {
+                                            echo "<a href ='../Domain/CreateHelper.php?eventID=$event->eventID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'helper'>Register here</a></br>";
+                                        } else if ($result2->applyStatus == 'Disapproved') {
+                                            echo "<a class = 'btn btn-info' name = 'helper'>Disapproved</a></br>";
+                                        }
+                                    }
+                                } else {
+                                    echo "<a href ='../Domain/CreateHelper.php?eventID=$event->eventID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'helper'>Register here</a></br>";
+                                }
                                 ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>                  
                                 <a href='HomePage.php' class='btn btn-danger'>Back</a>
                             </td>
                         </tr>
