@@ -1,6 +1,13 @@
 <?php
 require_once '../Domain/Helpers.php';
 require_once '../DataAccess/HelpersDA.php';
+session_start();
+if (!isset($_SESSION['result'])) {
+    $_SESSION['current'] = 'Society';
+    $_SESSION['role'] = 'society';
+    header('location:Login.php');
+}
+require 'header.php';
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +28,7 @@ and open the template in the editor.
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
         <script>
             $(document).ready(function () {
-                $('#participantsApplication').DataTable();
+                $('#helpersApplication').DataTable();
             });
             function updateApplyStatus(userID) {
                 var checkBox = document.getElementById(userID);
@@ -58,7 +65,6 @@ and open the template in the editor.
                 <h1>Helpers Applications</h1>
             </div>
             <?php
-            echo "<hr style='color:black;border-width:10px;'>";
             if (isset($_GET['eventID'])) {
                 $eventID = $_GET['eventID'];
                 $helpersDA = new HelpersDA();
@@ -67,7 +73,7 @@ and open the template in the editor.
                 if ($helperArray == null) {
                     echo "<p>No helper applied yet.</p>";
                 } else {
-                    echo "<table id='helpersApplication' class = 'table table-hover table-responsive table-bordered'>";
+                    echo "<table id='helpersApplication' class = 'table table-hover table-bordered'>";
                     echo "<thead>";
                     echo "<tr>";
                     echo "<th>No </th>";

@@ -2,6 +2,13 @@
 require '../DataAccess/ParticipantsDA.php';
 require '../DataAccess/ScheduleDA.php';
 require '../Domain/UpdateParticipant.php';
+session_start();
+if (!isset($_SESSION['result'])) {
+    $_SESSION['current'] = 'Society';
+    $_SESSION['role'] = 'society';
+    header('location:Login.php');
+}
+require 'header.php';
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +98,7 @@ and open the template in the editor.
                     }
                     ?>
                 </select>
-                <button type="submit">Display</button>
+                <button type="submit" class="btn btn-info m-r-1em">Display</button>
             </form>
             <?php
             if (isset($_GET['eventID'])) {
@@ -120,7 +127,7 @@ and open the template in the editor.
                         if ($participantArray == null) {
                             echo "<p>No participant in this schedule yet.</p>";
                         } else {
-                            echo "<table id='participantsApplication' class = 'table table-hover table-responsive table-bordered'>";
+                            echo "<table id='participantsApplication' class = 'table table-hover  table-bordered'>";
                             echo "<thead>";
                             echo "<tr>";
                             echo "<th>No </th>";

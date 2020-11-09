@@ -1,6 +1,13 @@
 <?php
 require_once '../DataAccess/ParticipantsDA.php';
 require_once '../DataAccess/ScheduleDA.php';
+session_start();
+if (!isset($_SESSION['result'])) {
+    $_SESSION['current'] = 'Society';
+    $_SESSION['role'] = 'society';
+    header('location:Login.php');
+}
+require 'header.php';
 ?>
 
 <!DOCTYPE html>
@@ -142,7 +149,7 @@ and open the template in the editor.
                         if ($participantArray == null) {
                             echo "<p>No participant in '$status' yet.</p>";
                         } else {
-                            echo "<table id=participantsApplication class = 'table table-hover table-responsive table-bordered'>";
+                            echo "<table id=participantsApplication class = 'table table-hover table-bordered'>";
                             echo "<thead>";
                             echo "<tr>";
                             echo "<th>No </th>";
