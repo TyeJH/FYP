@@ -2,7 +2,12 @@
 
 include_once '../Domain/Schedule.php';
 include_once '../DataAccess/ScheduleDA.php';
+include_once '../DataAccess/ParticipantsDA.php';
 include_once '../Domain/Society.php';
+include_once '../Domain/Participants.php';
+include_once '../Domain/Student.php';
+
+require '../Domain/Email.php';
 
 session_start();
 if (isset($_POST['updateSchedule'])) {
@@ -36,6 +41,26 @@ if (isset($_POST['updateSchedule'])) {
         $schedule = new Schedule($scheduleID, $venue, $startDate, $startTime, $endDate, $endTime, $unlimited, $noOfParticipant, $noOfJoined, $scheduleStatus, $eventID);
         $scheduleDA = new ScheduleDA();
         if ($scheduleDA->update($schedule)) {
+            $participantsDA = new ParticipantsDA();
+
+            $participantArray = $participantsDA->retrieveByScheduleID($eventID);
+            //Notify students schedule updates.
+            if ($participantArray != null) {
+                foreach ($participantArray as $participant) {
+                    $studDA = new StudentDA();
+                    $stud = $studDA->retrieveByStudID($participant->userID);
+                    $to = $stud->studEmail;
+                    echo $participant->userID;
+                    echo $to;
+                    $toName = 'Participant';
+                    $subject = "Schedule Updates";
+                    $message = "Venue : $venue\nStart Date : $startDate\nStart Time : $startTime\nEnd Date : $endDate\nEnd Time : $endTime\n ";
+                    $from = "eventmanagementsystemtaruc@gmail.com";
+                    $sender = "TAR UC Event Management System";
+                    $mail = new Email($to, $toName, $subject, $message, $from, $sender);
+                    $mail->setting();
+                }
+            }
             $_SESSION['successMsg'] = 'Your schedule just updated.';
             header("Location:../UI/ManageSchedule.php?eventID=$eventID");
         } else {

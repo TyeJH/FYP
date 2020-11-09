@@ -21,6 +21,23 @@ class StudentDA {
             return $std;
         }
     }
+    
+    public function retrieveByStudID($userID) {
+        $db = DatabaseConnection::getInstance()->getDb();
+        $query = "SELECT * FROM student WHERE userID = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $userID, PDO::PARAM_STR);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $s = $stmt->fetch(PDO::FETCH_ASSOC);
+            $std = new Student($s['userID'], $s['username'], $s['password'], $s['studEmail'], $s['studID']);
+            DatabaseConnection::closeConnection($db);
+            return $std;
+        }
+    }
 
     public function register(Student $st) {
         $db = DatabaseConnection::getInstance()->getDB();

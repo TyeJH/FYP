@@ -36,7 +36,9 @@ if (isset($_POST['type']) && isset($_POST['scheduleID']) && isset($_POST['userID
             //Send email after approved participant.
             $eventDA = new SocietyEventDA();
             $event = $eventDA->retrieveByEventID($eventID);
-            $to = $_SESSION['result']->studEmail;
+            $studDA = new StudentDA();
+            $stud = $studDA->retrieveByStudID($userID);
+            $to = $stud->studEmail;
             $toName = 'Participant';
             $subject = "$event->eventName - Participant Application : Approved";
             $message = "Hi you have approved for joining $event->eventName for more information. \nLog in your account to view the event details.";

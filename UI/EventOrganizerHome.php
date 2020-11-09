@@ -36,7 +36,7 @@ and open the template in the editor.
     </head>
     <body>
         <div class='container'>
-                <h1>Home</h1>
+            <h1>Home</h1>
             <?php echo "<p style='font-size:15px;'>Welcome back, " . $_SESSION['result']->societyName . "</p>"; ?>
             <a href="ApplyNewEvent.php" class="btn btn-primary">Apply New Event</a>
             <a href="ViewApplyStatus.php" class="btn btn-primary">View Apply Status</a>
@@ -72,7 +72,8 @@ and open the template in the editor.
                     echo "<td> <a href = 'EditEvent.php?eventID={$event->eventID}' class='btn btn-primary m-r-1em'>View</a> "
                     . "<a href = 'ManageSchedule.php?eventID={$event->eventID}' class = 'btn btn-primary'>Manage Schedule</a> "
                     . "<a href = 'ViewParticipantsApplication.php?eventID={$event->eventID}' class = 'btn btn-primary'>Participants</a> "
-                    . "<a href='ManageAttendance.php?eventID={$event->eventID}' class='btn btn-primary'>Attendance</a></td>";
+                    . "<a href='ManageAttendance.php?eventID={$event->eventID}' class='btn btn-primary'>Attendance</a> "
+                    . "<a href='ManageHelper.php?eventID={$event->eventID}' class='btn btn-primary'>Helper</a></td>";
                     echo "</tr>";
                 }
             }

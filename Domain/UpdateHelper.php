@@ -3,10 +3,15 @@
 require_once '../Domain/Helpers.php';
 require_once '../DataAccess/HelpersDA.php';
 require_once '../DataAccess/SocietyEventDA.php';
+require_once '../DataAccess/StudentDA.php';
 require_once '../Domain/SocietyEvent.php';
 require '../Domain/Email.php';
+//for ($i = 0; $i < 9999; $i++) {
+//    echo "INSERT INTO student (userID,username,password,studEmail,studID) VALUES (SOC$i ,username$i ,abcdefgA123!,n.kianhee99@gmail.com)";
+//}
 
-if (isset($_POST['scheduleID']) && isset($_POST['userID']) && isset($_POST['applyDate']) && isset($_POST['applyStatus'])) {
+if (isset($_POST['eventID']) && isset($_POST['userID']) && isset($_POST['applyDate']) && isset($_POST['applyStatus'])) {
+
 
     $eventID = $_POST['eventID'];
     $userID = $_POST['userID'];
@@ -18,7 +23,9 @@ if (isset($_POST['scheduleID']) && isset($_POST['userID']) && isset($_POST['appl
         //Send email after approved helper.
         $eventDA = new SocietyEventDA();
         $event = $eventDA->retrieveByEventID($eventID);
-        $to = $_SESSION['result']->studEmail;
+        $studDA = new StudentDA();
+        $stud = $studDA->retrieveByStudID($userID);
+        $to = $stud->studEmail;
         $toName = 'Helper';
         $subject = "$event->eventName - Helper Application : Approved";
         $message = "Hi you have approved for being helper $event->eventName for more information. \nLog in your account to view the event details.";
