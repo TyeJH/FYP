@@ -7,7 +7,7 @@ class HelpersDA {
 
     public function create(Helpers $helper) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'INSERT INTO helpers (eventID, studID, applyDate, applyStatus) VALUES (?, ?, ?, ?)';
+        $query = 'INSERT INTO helpers (eventID, userID, applyDate, applyStatus) VALUES (?, ?, ?, ?)';
         $stmt = $db->prepare($query);
         $stmt->bindParam(1, $helper->eventID, PDO::PARAM_STR);
         $stmt->bindParam(2, $helper->userID, PDO::PARAM_STR);

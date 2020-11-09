@@ -148,6 +148,7 @@ CREATE TABLE helpers(
     userID           VARCHAR(300) not null,
     applyDate        DATETIME     not null,
     applyStatus      VARCHAR(300) not null,
+    PRIMARY KEY(eventID,userID),
     FOREIGN KEY (eventID) REFERENCES SocietyEvent(eventID),
     FOREIGN KEY (userID) REFERENCES student(userID)
 );
