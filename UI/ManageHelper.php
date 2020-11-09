@@ -37,7 +37,7 @@ and open the template in the editor.
                 $.ajax
                         ({
                             type: "POST",
-                            url: "../Domain/UpdateHelpers.php", //can remove URL also fine bcuz I had included the eventProcess.php
+                            url: "../Domain/UpdateHelper.php", //can remove URL also fine bcuz I had included the eventProcess.php
                             data: {
                                 "type": type,
                                 "eventID": valueSpilted[0],

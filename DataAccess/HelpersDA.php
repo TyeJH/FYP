@@ -32,13 +32,13 @@ class HelpersDA {
         if ($total == 0) {
             return null;
         } else {
-            $participantsArray = array();
-            $participant = new Participants();
+            $helpersArray = array();
+            $helper = new Helpers();
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $participant = new Participants($row['eventID'], $row['userID'], $row['applyDate'], $row['applyStatus']);
-                $participantsArray[] = $participant;
+                $helper = new Helpers($row['eventID'], $row['userID'], $row['applyDate'], $row['applyStatus']);
+                $helpersArray[] = $helper;
             }
-            return $participantsArray;
+            return $helpersArray;
         }
         DatabaseConnection::closeConnection($db);
     }
