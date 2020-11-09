@@ -1,6 +1,9 @@
 <?php
-session_start();
-require 'header.php';
+//include_once '../Domain/Admin.php';
+//include_once '../Domain/Society.php';
+//include_once '../Domain/Student.php';
+//session_start();
+//require 'header.php';
 ?>
 <!DOCTYPE html>
 <!--
@@ -60,9 +63,9 @@ and open the template in the editor.
                     <tr>
                         <td>
                         </td>
-                        <td>
-                            <button type="submit" class="btn btn-primary" name="societyUpdatePassword">Save</button>
-                            <button type="reset" class="btn btn-light">Reset</button>
+                        <td style="height: 50px;">
+                            <button type="submit" class="btn btn-success" name="updatePassword">Save</button>
+                            <button type="reset" class="btn btn-danger">Reset</button>
                         </td>
                     </tr>
                 </table>
@@ -214,7 +217,7 @@ and open the template in the editor.
                 document.getElementById("PswColor2").style.backgroundColor = "#FFDE00";
                 DisableSubmit = true;
             }
-            document.changePasswordForm.societyUpdatePassword.disabled = DisableSubmit;
+            document.changePasswordForm.updatePassword.disabled = DisableSubmit;
             document.getElementById("PswColor2").innerHTML = strVerdict;
         }
     </script>

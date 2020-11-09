@@ -126,30 +126,79 @@ if (isset($_POST['societyUpdate'])) {
     }
 }
 
+//Update Password
+if (isset($_POST['updatePassword'])) {
+    if ($_SESSION['current'] == 'Admin') {
+        $val = new Validation();
+        $currentPassword = $val->test_input($_POST['currentPassword']);
+        $newPassword = $val->test_input($_POST['newPassword']);
+        $confirmPassword = $val->test_input($_POST['confirmPassword']);
 
-
-//Society Update Password
-if (isset($_POST['societyUpdatePassword'])) {
-    $val = new Validation();
-    $currentPassword = $val->test_input($_POST['currentPassword']);
-    $newPassword = $val->test_input($_POST['newPassword']);
-    $confirmPassword = $val->test_input($_POST['confirmPassword']);
-    if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
-        echo '<script>alert("Please enter all details.");location.href = "../UI/ChangePassword.php";</script>';
-    } else if ($currentPassword != $_SESSION['result']->societyPass) {
-        echo '<script>alert("Process failed.");location.href = "../UI/ChangePassword.php";</script>';
-    } else if ($newPassword != $confirmPassword) {
-        echo '<script>alert("Password not match.");location.href = "../UI/ChangePassword.php";</script>';
-    } else {
-        if ($val->passwordIsValid($newPassword)) {
-            $soc = new Society($_SESSION['result']->societyID, $_SESSION['result']->societyName, $_SESSION['result']->societyDesc, $newPassword);
-            $socda = new SocietyDA();
-            $socda->update($soc);
-            $_SESSION['result'] = $soc;
-            echo '<script>alert("Password Updated Successfully");location.href = "../UI/ChangePassword.php";</script>';
+        if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
+            echo '<script>alert("Please enter all details.");location.href = "../UI/UserProfile.php";</script>';
+        } else if (!($val->comparePass($currentPassword, $_SESSION['result']->password))) {
+            echo '<script>alert("Incorrect Password.");location.href = "../UI/UserProfile.php";</script>';
+        } else if ($newPassword != $confirmPassword) {
+            echo '<script>alert("Password not match.");location.href = "../UI/UserProfile.php";</script>';
         } else {
-            echo "password format invalid";
+            if ($val->passwordIsValid($newPassword)) {
+                $adm = new Admin($_SESSION['result']->adminID, $val->securePassword($newPassword));
+                $admda = new AdminDA();
+                $admda->update($adm);
+                $_SESSION['result'] = $adm;
+                echo '<script>alert("Password Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
+            } else {
+                echo "password format invalid";
+            }
         }
+    } else if ($_SESSION['current'] == 'Society') {
+        $val = new Validation();
+        $currentPassword = $val->test_input($_POST['currentPassword']);
+        $newPassword = $val->test_input($_POST['newPassword']);
+        $confirmPassword = $val->test_input($_POST['confirmPassword']);
+
+        if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
+            echo '<script>alert("Please enter all details.");location.href = "../UI/UserProfile.php";</script>';
+        } else if (!($val->comparePass($currentPassword, $_SESSION['result']->societyPass))) {
+            echo '<script>alert("Incorrect Password.");location.href = "../UI/UserProfile.php";</script>';
+        } else if ($newPassword != $confirmPassword) {
+            echo '<script>alert("Password not match.");location.href = "../UI/UserProfile.php";</script>';
+        } else {
+            if ($val->passwordIsValid($newPassword)) {
+                $soc = new Society($_SESSION['result']->societyID, $_SESSION['result']->societyName, $_SESSION['result']->societyDesc, $val->securePassword($newPassword), $_SESSION['result']->societyAcc);
+                $socda = new SocietyDA();
+                $socda->update($soc);
+                $_SESSION['result'] = $soc;
+                echo '<script>alert("Password Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
+            } else {
+                echo "password format invalid";
+            }
+        }
+    } else if ($_SESSION['current'] == 'Student') {
+        $val = new Validation();
+        $currentPassword = $val->test_input($_POST['currentPassword']);
+        $newPassword = $val->test_input($_POST['newPassword']);
+        $confirmPassword = $val->test_input($_POST['confirmPassword']);
+
+        if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
+            echo '<script>alert("Please enter all details.");location.href = "../UI/UserProfile.php";</script>';
+        } else if (!($val->comparePass($currentPassword, $_SESSION['result']->societyPass))) {
+            echo '<script>alert("Incorrect Password.");location.href = "../UI/UserProfile.php";</script>';
+        } else if ($newPassword != $confirmPassword) {
+            echo '<script>alert("Password not match.");location.href = "../UI/UserProfile.php";</script>';
+        } else {
+            if ($val->passwordIsValid($newPassword)) {
+                $stu = new Student($_SESSION['result']->studID, $_SESSION['result']->username, $val->securePassword($newPassword), $_SESSION['result']->studEmail, $_SESSION['result']->uniStudID);
+                $studa = new StudentDA();
+                $studa->update($stu);
+                $_SESSION['result'] = $stu;
+                echo '<script>alert("Password Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
+            } else {
+                echo "password format invalid";
+            }
+        }
+    } else {
+        header("Location:../UI/HomePage.php");
     }
 }
     

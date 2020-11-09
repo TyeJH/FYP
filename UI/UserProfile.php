@@ -20,20 +20,19 @@ require 'header.php';
                 $admin = $_SESSION['result'];
                 ?>
                 <div class="container">
-                    <form action="../Domain/updateAcc.php" method="POST">
-                        <br>
-                        <p style="text-align: center; font-size: 30px; font-weight: bold;">Admin Profile</p>
-                        <table class='table table-hover table-bordered'>
-                            <tr>
-                                <th>Admin ID</th>
-                                <td><input type="text" name="aID" value="<?= $admin->adminID ?>" readonly="" style="border:none;outline:none"></td>
-                            </tr>
-                            <tr>
-                                <th>Admin Password</th>
-                                <td><input type="password" name="password" class="pass" value="<?= $admin->password ?>" readonly="" style="border: none;outline:none"></td>
-                            </tr>
-                        </table>
-                    </form>
+                    <br>
+                    <p style="text-align: center; font-size: 30px; font-weight: bold;">Admin Profile</p>
+                    <table class='table table-hover table-bordered'>
+                        <tr>
+                            <th>Admin ID</th>
+                            <td><input type="text" name="aID" value="<?= $admin->adminID ?>" readonly="" style="border:none;outline:none"></td>
+                        </tr>
+                        <tr>
+                            <th>Admin Password</th>
+                            <td><input type="password" name="password" class="pass" value="<?= $admin->password ?>" readonly="" style="border: none;outline:none"></td>
+                        </tr>
+                    </table>
+                    <button onclick="show()" class="btn btn-info">Change Password</button>
                 </div>
                 <?php
             } else if ($_SESSION['current'] == "Society") {
@@ -71,9 +70,10 @@ require 'header.php';
                                 <td><input type="password" name="sPass" class="pass" value="<?= $society->societyPass ?>" readonly="" style="border: none;outline: none"></td>
                             </tr>
                         </table>
-                        <input type="submit" name="societyUpdate" value="Save" class="save btn btn-primary" style="display: none"/>
+                        <input type="submit" name="societyUpdate" value="Save" class="save btn btn-success" style="display: none"/>
                         <input type="reset" value="Cancel" class="cancel btn btn-danger" style="display: none"/> 
                     </form>
+                    <button onclick="show()" class="btn btn-info">Change Password</button>
                 </div>
                 <script>
                     $('.edit').click(function () {
@@ -136,6 +136,7 @@ require 'header.php';
                         <input type="submit" name="studentUpdate" value="Save" class="save btn btn-success" style="display: none"/>
                         <input type="reset" value="Cancel" class="cancel btn btn-danger" style="display: none"/>
                     </form>
+                    <button onclick="show()" class="btn btn-info">Change Password</button>
                 </div>
                 <script>
                     $('.edit').click(function () {
@@ -164,5 +165,20 @@ require 'header.php';
             header("Location:../UI/HomePage.php");
         }
         ?>
+        <div id="chgpass" style="display: none;">
+            <?php
+            include_once '../UI/ChangePassword.php';
+            ?>
+        </div>
+        <script>
+            function show() {
+                var x = document.getElementById("chgpass");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+        </script>
     </body>
 </html>
