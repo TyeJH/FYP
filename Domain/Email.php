@@ -36,6 +36,7 @@ class Email {
         $mail->addAddress($this->to, $this->toName);
         $mail->Subject = $this->subject;
         $mail->Body = $this->message;
+        $mail->IsHTML(true);       // <=== call IsHTML() after $mail->Body has been set.
         if ($mail->send()) {
             return true;
         } else {

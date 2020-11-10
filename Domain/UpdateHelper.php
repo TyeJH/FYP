@@ -28,7 +28,7 @@ if (isset($_POST['eventID']) && isset($_POST['userID']) && isset($_POST['applyDa
         $to = $stud->studEmail;
         $toName = 'Helper';
         $subject = "$event->eventName - Helper Application : Approved";
-        $message = "Hi you have approved for being helper $event->eventName for more information. \nLog in your account to view the event details.";
+        $message = "Hi you have approved for being helper $event->eventName.\n<a href='http://localhost/FYP/UI/login.php'>Click here to login.</a>";
         $from = "eventmanagementsystemtaruc@gmail.com";
         $sender = "TAR UC Event Management System";
         $mail = new Email($to, $toName, $subject, $message, $from, $sender);

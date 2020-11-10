@@ -1,6 +1,7 @@
 <?php
 require_once '../DataAccess/ParticipantsDA.php';
 require_once '../DataAccess/ScheduleDA.php';
+require_once '../DataAccess/StudentDA.php';
 session_start();
 if (!isset($_SESSION['result'])) {
     $_SESSION['current'] = 'Society';
@@ -145,6 +146,7 @@ and open the template in the editor.
                         $participantsDA = new ParticipantsDA();
                         $participants = array();
                         $participantArray = $participantsDA->retrieve($schedule->scheduleID, $status);
+                        $studentDA = new StudentDA();
                         $count = 1;
                         if ($participantArray == null) {
                             echo "<p>No participant in '$status' yet.</p>";
@@ -154,17 +156,20 @@ and open the template in the editor.
                             echo "<tr>";
                             echo "<th>No </th>";
                             echo "<th>Student ID</th>";
-                            //echo "<th>Name</th>";
+                            echo "<th>Name</th>";
+                            echo "<th>Email</th>";
                             echo "<th>Apply Date</th>";
                             echo "<th>Approval</th>";
                             echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
                             foreach ($participantArray as $participant) {
+                                $student = $studentDA->retrieveStudentDetails($participant->userID);
                                 echo "<tr>";
                                 echo "<td>$count</td>";
-                                echo "<td>$participant->userID</td>";
-                                //echo "<td>{$studName}</td>";
+                                echo "<td>{$student['studID']}</td>";
+                                echo "<td>{$student['studName']}</td>";
+                                echo "<td>{$student['studEmail']}</td>";
                                 $dateFormatted = date("Y-M-d", strtotime($participant->applyDate));
                                 echo "<td>{$dateFormatted}</td>";
                                 if ($participant->applyStatus == 'Approved') {

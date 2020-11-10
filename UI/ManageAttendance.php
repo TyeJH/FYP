@@ -1,6 +1,7 @@
 <?php
 require '../DataAccess/ParticipantsDA.php';
 require '../DataAccess/ScheduleDA.php';
+require '../DataAccess/StudentDA.php';
 require '../Domain/UpdateParticipant.php';
 session_start();
 if (!isset($_SESSION['result'])) {
@@ -123,6 +124,7 @@ and open the template in the editor.
                         echo "<p><strong>Venue :</strong> $schedule->venue</p>";
                         $participantsDA = new ParticipantsDA();
                         $participantArray = $participantsDA->retrieve($schedule->scheduleID, 'Approved');
+                        $studentDA = new StudentDA();
                         $count = 1;
                         if ($participantArray == null) {
                             echo "<p>No participant in this schedule yet.</p>";
@@ -132,16 +134,20 @@ and open the template in the editor.
                             echo "<tr>";
                             echo "<th>No </th>";
                             echo "<th>Student ID</th>";
-                            //echo "<th>Name</th>";
+                            echo "<th>Name</th>";
+                            echo "<th>Email</th>";
                             echo "<th>Attendance</th>";
                             echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
                             foreach ($participantArray as $participant) {
+                                $student = $studentDA->retrieveStudentDetails($participant->userID);
                                 echo "<tr>";
                                 echo "<td>$count</td>";
-                                echo "<td>$participant->userID</td>";
-                                //echo "<td>{$studName}</td>";
+                                //echo "<td>$helper->userID</td>";
+                                echo "<td>{$student['studID']}</td>";
+                                echo "<td>{$student['studName']}</td>";
+                                echo "<td>{$student['studEmail']}</td>";
                                 if ($participant->attendanceStatus == 'Attended') {
                                     echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->scheduleID,$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate,$participant->applyStatus' checked></td>";
                                 } else {
