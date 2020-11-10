@@ -21,7 +21,7 @@ class StudentDA {
             return $std;
         }
     }
-    
+
     public function retrieveByStudID($userID) {
         $db = DatabaseConnection::getInstance()->getDb();
         $query = "SELECT * FROM student WHERE userID = ?";
@@ -92,7 +92,7 @@ class StudentDA {
         }
         DatabaseConnection::closeConnection($db);
     }
-    
+
     public function checkEmail($email) {
         $db = DatabaseConnection::getInstance()->getDb();
         $stmt = $db->prepare("SELECT studEmail FROM student WHERE studEmail = ?");
@@ -106,7 +106,7 @@ class StudentDA {
         }
         DatabaseConnection::closeConnection($db);
     }
-    
+
     public function checkStudID($studID) {
         $db = DatabaseConnection::getInstance()->getDb();
         $stmt = $db->prepare("SELECT studID FROM student WHERE studID = ?");
@@ -131,6 +131,24 @@ class StudentDA {
             return false;
         } else {
             return true;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+
+    public function retrieveStudentDetails($userID) {
+        $db = DatabaseConnection::getInstance()->getDb();
+        $stmt = $db->prepare("SELECT * FROM unistudent U, student S WHERE S.userID = ? AND U.studID = S.studID");
+        $stmt->bindParam(1, $userID, PDO::PARAM_STR);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $student = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $student;
+//            $soc = new Society($s['societyID'], $s['societyName'], $s['societyDesc'], $s['societyPass'], $s['societyAcc']);
+//            DatabaseConnection::closeConnection($db);
+//            return $soc;
         }
         DatabaseConnection::closeConnection($db);
     }

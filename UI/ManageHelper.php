@@ -1,6 +1,8 @@
 <?php
 require_once '../Domain/Helpers.php';
 require_once '../DataAccess/HelpersDA.php';
+require_once '../DataAccess/StudentDA.php';
+
 session_start();
 if (!isset($_SESSION['result'])) {
     $_SESSION['current'] = 'Society';
@@ -69,6 +71,7 @@ and open the template in the editor.
                 $eventID = $_GET['eventID'];
                 $helpersDA = new HelpersDA();
                 $helperArray = $helpersDA->retrieve($eventID);
+                $studentDA = new StudentDA();
                 $count = 1;
                 if ($helperArray == null) {
                     echo "<p>No helper applied yet.</p>";
@@ -78,17 +81,21 @@ and open the template in the editor.
                     echo "<tr>";
                     echo "<th>No </th>";
                     echo "<th>Student ID</th>";
-                    //echo "<th>Name</th>";
+                    echo "<th>Name</th>";
+                    echo "<th>Email</th>";
                     echo "<th>Apply Date</th>";
                     echo "<th>Approval</th>";
                     echo "</tr>";
                     echo "</thead>";
                     echo "<tbody>";
                     foreach ($helperArray as $helper) {
+                        $student = $studentDA->retrieveStudentDetails($helper->userID);
                         echo "<tr>";
                         echo "<td>$count</td>";
-                        echo "<td>$helper->userID</td>";
-                        //echo "<td>{$studName}</td>";
+                        //echo "<td>$helper->userID</td>";
+                        echo "<td>{$student['studID']}</td>";
+                        echo "<td>{$student['studName']}</td>";
+                        echo "<td>{$student['studEmail']}</td>";
                         $dateFormatted = date("Y-M-d", strtotime($helper->applyDate));
                         echo "<td>{$dateFormatted}</td>";
                         if ($helper->applyStatus == 'Approved') {
