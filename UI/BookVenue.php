@@ -6,6 +6,7 @@ if (!isset($_SESSION['result'])) {
     $_SESSION['role'] = 'society';
     header('location:Login.php');
 }
+require 'header.php';
 ?>
 
 <!DOCTYPE html>
@@ -84,7 +85,7 @@ and open the template in the editor.
             }
             ?>
             <form action="../Domain/CreateBooking.php" method="post" enctype="multipart/form-data">
-                <table class="table table-hover table-responsive table-bordered">
+                <table class="table table-hover table-bordered">
                     <tbody>
 
                         <tr>

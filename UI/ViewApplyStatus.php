@@ -2,6 +2,12 @@
 require '../DataAccess/DocumentationDA.php';
 require '../DataAccess/SocietyEventDA.php';
 session_start();
+if (!isset($_SESSION['result'])) {
+    $_SESSION['current'] = 'Society';
+    $_SESSION['role'] = 'society';
+    header('location:Login.php');
+}
+require 'header.php';
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +38,7 @@ and open the template in the editor.
                 if (docID !== '')
                 {
                     $.ajax({
-                        url: "../Domain/ViewFeedback.php",
+                        url: "../Domain/ViewFeedbackDocument.php",
                         method: "POST",
                         data: {docID: docID},
                         success: function (data) {
@@ -56,7 +62,7 @@ and open the template in the editor.
             </div>
             <?php
             if (isset($_SESSION['result'])) {
-                echo "<table id='documentsTable' class = 'table table-hover table-responsive table-bordered'>";
+                echo "<table id='documentsTable' class = 'table table-hover table-bordered'>";
                 echo "<thead>";
                 echo "<tr>";
                 echo "<th>Document ID</th>";

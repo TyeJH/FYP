@@ -2,6 +2,12 @@
 require '../DataAccess/BookingDA.php';
 require '../Domain/SocietyEvent.php';
 session_start();
+if (!isset($_SESSION['result'])) {
+    $_SESSION['current'] = 'Society';
+    $_SESSION['role'] = 'society';
+    header('location:Login.php');
+}
+require 'header.php';
 ?>
 
 <!DOCTYPE html>

@@ -1,12 +1,13 @@
 <?php
 require_once '../DataAccess/SocietyEventDA.php';
-session_start();
 
+session_start();
 if (!isset($_SESSION['result'])) {
     $_SESSION['current'] = 'Society';
     $_SESSION['role'] = 'society';
     header('location:Login.php');
 }
+require 'header.php';
 ?>
 <!DOCTYPE html>
 <!--
@@ -89,7 +90,7 @@ and open the template in the editor.
                 } else {
                     ?>
                     <form name="createEventDetailsForm" action="../Domain/CreateSocietyEvent.php" method="post" enctype="multipart/form-data" onSubmit="return verifySubmit()">
-                        <table class='table table-hover table-responsive table-bordered'>
+                        <table class='table table-hover table-bordered'>
                             <tr>
                                 <td>Event Name :</td>
                                 <td>

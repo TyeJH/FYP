@@ -5,6 +5,12 @@ include_once '../Domain/Student.php';
 require '../DataAccess/BookingDA.php';
 require '../Domain/SocietyEvent.php';
 session_start();
+if (!isset($_SESSION['result'])) {
+    $_SESSION['current'] = 'Admin';
+    $_SESSION['role'] = 'staff';
+    header('location:Login.php');
+}
+require 'header.php';
 ?>
 
 <!DOCTYPE html>
@@ -127,7 +133,7 @@ and open the template in the editor.
                             . "<p id='$booking->bookID:$booking->societyID:Disapproved' onClick='openFeedbackForm(this.id)' class='btn btn-danger m-r-1em'>Disapprove</p> </td>";
                             echo "<td id='$booking->bookID:hiddenCol' style='display:none;'>  <a id='$booking->bookID' class='btn btn-info m-r-1em'>Processed</a> ";
                         } else {
-                            echo "<td> <a href = '' class='btn btn-info m-r-1em'>Processed</a> </td>";
+                            echo "<td> <a class='btn btn-info m-r-1em'>Processed</a> </td>";
                         }
                         echo "</tr>";
                         $count++;

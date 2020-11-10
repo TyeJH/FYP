@@ -5,6 +5,7 @@ if (!isset($_SESSION['result'])) {
     $_SESSION['role'] = 'society';
     header('location:Login.php');
 }
+require 'header.php';
 ?>
 <!DOCTYPE html>
 <!--

@@ -29,7 +29,10 @@ if (isset($_POST['bookVenue'])) {
         $_SESSION['errorMsg'] = 'Please insert purposes.';
         header("Location:../UI/BookVenue.php?venueID=$venueID");
     }
-    if ($st > $et || $st == $et) {
+    if ($st > date()) {
+        $_SESSION['errorMsg'] = 'The date is invalid. Please select date range starting from today.';
+        header("Location:../UI/BookVenue.php?venueID=$venueID");
+    } else if ($st > $et || $st == $et) {
         $_SESSION['errorMsg'] = 'The end time must be greater than the start time';
         header("Location:../UI/BookVenue.php?venueID=$venueID");
     } else if (millisecsBetween($stFormat, $etFormat) > 7200000) {
