@@ -1,4 +1,7 @@
 <?php
+include_once '../Domain/Admin.php';
+include_once '../Domain/Society.php';
+include_once '../Domain/Student.php';
 require '../DataAccess/BookingDA.php';
 require '../Domain/SocietyEvent.php';
 session_start();

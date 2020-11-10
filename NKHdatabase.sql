@@ -6,7 +6,7 @@ CREATE TABLE uniStudent(
 
 CREATE TABLE admin(
     adminID      varchar(10)   not null,
-    password     varchar(255)   not null,
+    password     varchar(255)  not null,
     PRIMARY KEY(adminID)
 );
 
@@ -14,15 +14,15 @@ CREATE TABLE society(
     societyID      varchar(10)    not null,
     societyName    varchar(100)   not null,
     societyDesc    varchar(300)   not null,
-    societyPass    varchar(255)    not null,
+    societyPass    varchar(255)   not null,
     societyAcc     decimal(10,2)  not null,
     PRIMARY KEY(societyID)
 );
 
 CREATE TABLE student(
-    userID        varchar(10) not null,
+    userID        varchar(10)  not null,
     username      varchar(300) not null,
-    password      varchar(255)  not null,
+    password      varchar(255) not null,
     studEmail     varchar(300) not null,
     studID        int(10)      not null,
     PRIMARY KEY(userID),
@@ -51,40 +51,40 @@ CREATE TABLE announcement(
 
 CREATE TABLE booking (
     bookingID  INT(6) auto_increment not null,
-    purpose    VARCHAR(300) not null,
-    bookDate   DATE not null,
-    startTime  TIME not null,
-    endTime    TIME not null,
-    bookStatus VARCHAR(300) not null,
-    societyID  VARCHAR(10) not null,
-    venueID    varchar(10)   not null,
+    purpose    VARCHAR(300)          not null,
+    bookDate   DATE                  not null,
+    startTime  TIME                  not null,
+    endTime    TIME                  not null,
+    bookStatus VARCHAR(300)          not null,
+    societyID  VARCHAR(10)           not null,
+    venueID    varchar(10)           not null,
     PRIMARY KEY (bookingID),
-    FOREIGN KEY (venueID) REFERENCES venue(venueID),
+    FOREIGN KEY (venueID)   REFERENCES venue(venueID),
     FOREIGN KEY (societyID) REFERENCES society(societyID)
 );
 
 CREATE TABLE documentation(
     docID         INT(6) auto_increment not null,
-    docName       VARCHAR(300) not null,
-    mime          VARCHAR(300) not null,
-    docContent    LONGBLOB     not null,
-    applyDate     DATETIME     not null,
-    societyID     VARCHAR(300) not null,
-    status        VARCHAR(300) not null,
+    docName       VARCHAR(300)          not null,
+    mime          VARCHAR(300)          not null,
+    docContent    LONGBLOB              not null,
+    applyDate     DATETIME              not null,
+    societyID     VARCHAR(300)          not null,
+    status        VARCHAR(300)          not null,
     PRIMARY KEY (docID),
     FOREIGN KEY (societyID) REFERENCES society(societyID)
 );
 
 CREATE TABLE SocietyEvent(
     eventID            int(6) auto_increment not null,
-    eventName          varchar(20)       not null,
-    eventDesc          varchar(300)      not null,
-    eventCategory      varchar(20)       not null,
-    image              longblob          not null,
-    noOfHelper         int(255)          not null,
-    contactNo          varchar(300)      not null,
-    societyID          varchar(10)       not null,
-    applyID            int(11)           not null,
+    eventName          varchar(20)           not null,
+    eventDesc          varchar(300)          not null,
+    eventCategory      varchar(20)           not null,
+    image              longblob              not null,
+    noOfHelper         int(255)              not null,
+    contactNo          varchar(300)          not null,
+    societyID          varchar(10)           not null,
+    applyID            int(11)               not null,
     PRIMARY KEY(eventID),
     FOREIGN KEY (societyID) REFERENCES society(societyID)
 );
@@ -138,8 +138,8 @@ CREATE TABLE participants(
     attendanceStatus VARCHAR(300) not null,
     PRIMARY KEY(scheduleID,eventID,userID),
     FOREIGN KEY (scheduleID) REFERENCES Schedule(scheduleID),
-    FOREIGN KEY (eventID) REFERENCES SocietyEvent(eventID),
-    FOREIGN KEY (userID) REFERENCES student(userID)
+    FOREIGN KEY (eventID)    REFERENCES SocietyEvent(eventID),
+    FOREIGN KEY (userID)     REFERENCES student(userID)
 
 );
 

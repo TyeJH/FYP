@@ -33,14 +33,6 @@
                 <table>
                     <tr>
                         <td>
-                            Current Password:
-                        </td>
-                        <td>
-                            <input type="password" name="currentPassword" placeholder="Current Password">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
                             New Password:
                         </td>
                         <td>
@@ -59,7 +51,7 @@
                         <td>
                         </td>
                         <td style="height: 50px;">
-                            <button type="submit" class="btn btn-success" name="updatePassword">Save</button>
+                            <button type="submit" class="btn btn-success" name="resetPassword">Save</button>
                             <button type="reset" class="btn btn-danger">Reset</button>
                         </td>
                     </tr>
@@ -70,10 +62,6 @@
 
     <script>
         function verifySubmit() {
-            if (document.changePasswordForm.currentPassword.value == '') {
-                alert('Please fill in the current password.');
-                return false;
-            }
             if (document.changePasswordForm.newPassword.value == '' || document.changePasswordForm.confirmPassword.value == '') {
                 alert('Please fill in the new password.');
                 return false;
@@ -82,16 +70,11 @@
                 alert('The password is not match.');
                 return false;
             }
-            if (document.changePasswordForm.currentPassword.value == document.changePasswordForm.newPassword.value) {
-                alert('New password cannot same as current.');
-                return false;
-            }
         }
         function StrengthPassword2(passwd)
         {
             var intScore = 0
             var strVerdict = "weak"
-            var oldPassword = document.changePasswordForm.currentPassword.value;
 
             var BadPassword = new Array("asdfg1234", "2222222222222222", "8888888888888888", "aaaaa11111", "asdf1234", "abcd1111", "abcd2222", "1111111111111111", "11111111111111111", "111111111111111111", "1111111111111111111", "11111111111111111111", "1111111111111111111111111", "aaaa1111", "1111aaaa", "abc12345", "abc12346", "abcd1234", "abcd12345", "abcd123456", "abcde123", "abcde1234", "abcdef12", "abcde12345", "abcdef123456", "12345abc", "1234abcd", "123abcde", "123abcdef", "1234abcde", "12345abcdef");
             var DisableSubmit = true;
@@ -207,12 +190,7 @@
                     DisableSubmit = true;
                 }
             }
-            if (oldPassword == document.changePasswordForm.newPassword.value) {
-                strVerdict = "Same password detected!";
-                document.getElementById("PswColor2").style.backgroundColor = "#FFDE00";
-                DisableSubmit = true;
-            }
-            document.changePasswordForm.updatePassword.disabled = DisableSubmit;
+            document.changePasswordForm.resetPassword.disabled = DisableSubmit;
             document.getElementById("PswColor2").innerHTML = strVerdict;
         }
     </script>

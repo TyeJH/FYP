@@ -1,5 +1,4 @@
 <?php
-
 include_once '../Domain/Admin.php';
 include_once '../Domain/Society.php';
 include_once '../Domain/Student.php';

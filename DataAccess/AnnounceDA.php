@@ -7,7 +7,7 @@ class AnnounceDA {
 
     public function getAll() {
         $db = DatabaseConnection::getInstance()->getDb();
-        $query = "SELECT * FROM announcement";
+        $query = "SELECT * FROM announcement ORDER BY annDate desc";
         $stmt = $db->prepare($query);
         $stmt->execute();
 

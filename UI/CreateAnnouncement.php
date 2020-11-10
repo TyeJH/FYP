@@ -259,7 +259,8 @@ require '../UI/header.php';
                                 <table id="aTable" class="table table-bordered">  
                                     <thead>
                                         <tr>  
-                                            <th width="70%">Announcement Title</th>  
+                                            <th width="55%">Announcement Title</th>  
+                                            <th width="30%">Announcement Date</th>
                                             <th width="10%">View</th>
                                         </tr>
                                     </thead>
@@ -272,6 +273,7 @@ require '../UI/header.php';
                                                 ?>
                                                 <tr>
                                                     <td><?= $ann->annTitle ?></td>
+                                                    <td><?= $ann->annDate ?></td>
                                                     <td><input type="button" name="view" value="View" id="<?= $ann->annID ?>" class="btn btn-info btn-xs view_data" /></td>
                                                 </tr>
                                                 <?php
