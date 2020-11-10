@@ -1,10 +1,17 @@
 <?php
 require '../DataAccess/SocietyEventDA.php';
 session_start();
-if (!isset($_SESSION['result'])) {
-    $_SESSION['current'] = 'Society';
-    $_SESSION['role'] = 'society';
-    header('location:Login.php');
+if ($_SESSION['current'] != 'Society') {
+    if (!isset($_SESSION['result'])) {
+        //$_SESSION['current'] = 'Society';
+        $_SESSION['role'] = 'society';
+        header('location:Login.php');
+    } else if (isset($_SESSION['result'])) {
+        if ($_SESSION['result']->societyID == null) {
+            $_SESSION['role'] = 'society';
+            header('location:Login.php');
+        }
+    }
 }
 require 'header.php';
 ?>

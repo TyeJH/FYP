@@ -4,8 +4,8 @@ require_once '../DataAccess/HelpersDA.php';
 require_once '../DataAccess/StudentDA.php';
 
 session_start();
-if (!isset($_SESSION['result'])) {
-    $_SESSION['current'] = 'Society';
+if ($_SESSION['current'] != 'Society') {
+    unset($_SESSION['current']);
     $_SESSION['role'] = 'society';
     header('location:Login.php');
 }

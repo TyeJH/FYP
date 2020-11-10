@@ -5,8 +5,8 @@ include_once '../Domain/Student.php';
 require '../DataAccess/DocumentationDA.php';
 require '../Domain/SocietyEvent.php';
 session_start();
-if (!isset($_SESSION['result'])) {
-    $_SESSION['current'] = 'Admin';
+if ($_SESSION['current'] != 'Staff') {
+    unset($_SESSION['current']);
     $_SESSION['role'] = 'staff';
     header('location:Login.php');
 }

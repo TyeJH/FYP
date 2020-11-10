@@ -1,7 +1,13 @@
 <?php
 require_once '../Domain/SocietyEvent.php';
 require_once '../DataAccess/SocietyEventDA.php';
-include_once '../Domain/UpdateEvent.php';
+session_start();
+if ($_SESSION['current'] != 'Society') {
+    unset($_SESSION['current']);
+    $_SESSION['role'] = 'society';
+    header('location:Login.php');
+}
+require 'header.php';
 ?>
 <!DOCTYPE html>
 <!--
@@ -71,7 +77,7 @@ and open the template in the editor.
                 }
                 ?>
                 <form name="editEventDetailsForm"  action="../Domain/UpdateEvent.php" method="post" enctype="multipart/form-data" onSubmit="return verifySubmit(this)">
-                    <table class='table table-hover table-responsive table-bordered'>
+                    <table class='table table-hover table-bordered'>
                         <tr>
                             <td>Event Name :</td>
                             <td>
