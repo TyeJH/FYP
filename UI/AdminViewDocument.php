@@ -10,7 +10,8 @@ if (!isset($_SESSION['result'])) {
     $_SESSION['role'] = 'staff';
     header('location:Login.php');
 }
-require 'header.php';?>
+require 'header.php';
+?>
 
 <!DOCTYPE html>
 <!--
@@ -56,6 +57,8 @@ and open the template in the editor.
                             },
                             success: function (data) {
                                 alert(data);
+                                location.reload();
+
                             }
                         });
             }

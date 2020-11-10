@@ -84,6 +84,7 @@ and open the template in the editor.
                             success: function (data) {
                                 $('#add_data_Modal').modal('hide');
                                 alert(data);
+                                location.reload();
                             }
                         });
             }
