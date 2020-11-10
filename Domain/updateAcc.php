@@ -1,4 +1,5 @@
 <?php
+
 include_once '../Domain/Admin.php';
 include_once '../Domain/Society.php';
 include_once '../Domain/Student.php';
@@ -181,7 +182,7 @@ if (isset($_POST['updatePassword'])) {
 
         if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
             echo '<script>alert("Please enter all details.");location.href = "../UI/UserProfile.php";</script>';
-        } else if (!($val->comparePass($currentPassword, $_SESSION['result']->societyPass))) {
+        } else if (!($val->comparePass($currentPassword, $_SESSION['result']->password))) {
             echo '<script>alert("Incorrect Password.");location.href = "../UI/UserProfile.php";</script>';
         } else if ($newPassword != $confirmPassword) {
             echo '<script>alert("Password not match.");location.href = "../UI/UserProfile.php";</script>';
@@ -200,6 +201,35 @@ if (isset($_POST['updatePassword'])) {
         header("Location:../UI/HomePage.php");
     }
 }
+
+//Reset Password
+if (isset($_POST['resetPassword'])) {
+    if (isset($_SESSION['reset'])) {
+        $val = new Validation();
+        $newPassword = $val->test_input($_POST['newPassword']);
+        $confirmPassword = $val->test_input($_POST['confirmPassword']);
+
+        if (empty($newPassword) || empty($confirmPassword)) {
+            echo '<script>alert("Please enter all details.");location.href = "../UI/ResetPassword.php";</script>';
+        } else if ($newPassword != $confirmPassword) {
+            echo '<script>alert("Password not match.");location.href = "../UI/ResetPassword.php";</script>';
+        } else {
+            if ($val->passwordIsValid($newPassword)) {
+                $stu = new Student($_SESSION['reset']->studID, $_SESSION['reset']->username, $val->securePassword($newPassword), $_SESSION['reset']->studEmail, $_SESSION['reset']->uniStudID);
+                $studa = new StudentDA();
+                $studa->update($stu);
+                unset($_SESSION['reset']);
+                $_SESSION['role']='student';
+                echo '<script>alert("Password Reset Successfully");location.href = "../UI/Login.php";</script>';
+            } else {
+                echo "password format invalid";
+            }
+        }
+    } else {
+        header("Location:../UI/HomePage.php");
+    }
+}
+
     
 
 

@@ -1,16 +1,16 @@
 <?php
-//include_once '../Domain/Admin.php';
-//include_once '../Domain/Society.php';
-//include_once '../Domain/Student.php';
-//session_start();
-//require 'header.php';
+include_once '../Domain/Admin.php';
+include_once '../Domain/Society.php';
+include_once '../Domain/Student.php';
+session_start();
+require_once 'header.php';
 ?>
 <!DOCTYPE html>
 
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Change password</title>
+        <title>Reset password</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />  
 
@@ -20,7 +20,7 @@
     <body>
         <div class="container">
             <div class="page-header">
-                <h1>Change password</h1>
+                <h1>Reset password</h1>
             </div>
             <p><span>1) Passwords must contain:</span></p>
             <ul>
