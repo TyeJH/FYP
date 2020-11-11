@@ -74,6 +74,7 @@ require 'header.php';
                         <input type="reset" value="Cancel" class="cancel btn btn-danger" style="display: none"/> 
                     </form>
                     <button onclick="show()" class="btn btn-info">Change Password</button>
+                    <button onclick="acc()" class="btn btn-info">Account History</button>
                 </div>
                 <script>
                     $('.edit').click(function () {
@@ -184,6 +185,9 @@ require 'header.php';
                 } else {
                     x.style.display = "none";
                 }
+            }
+            function acc(){
+                location.href="../UI/accHistory.php";
             }
         </script>
     </body>

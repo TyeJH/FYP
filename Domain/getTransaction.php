@@ -5,12 +5,16 @@ include_once '../Domain/Admin.php';
 include_once '../Domain/Transaction.php';
 include_once '../DataAccess/SocietyDA.php';
 ?>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
 
-<!--Data Table-->
-<link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+        <!--Data Table-->
+        <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  
 
 <?php
 if (isset($_POST['socid'])) {

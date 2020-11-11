@@ -412,7 +412,7 @@ require 'header.php';
                                 }
                             });
                             
-                            //        View Society Details
+                            //        View Account History
                             $(document).on('click', '.trans_data', function () {
                                 var socid = $(this).attr("id");
                                 if (socid !== '')
