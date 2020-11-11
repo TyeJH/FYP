@@ -44,6 +44,26 @@ class BookingDA {
         DatabaseConnection::closeConnection($db);
     }
 
+    public function checkVenue($vid) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = "SELECT * FROM booking B, venue V WHERE B.venueID = V.venueID AND bookStatus = 'Approved' AND V.venueID = ? AND b.bookDate>=CURDATE() ORDER BY b.bookDate";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $vid, PDO::PARAM_STR);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $bookingArray = array();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $booking = new Booking($row['bookingID'], $row['purpose'], $row['bookDate'], $row['startTime'], $row['endTime'], $row['bookStatus'], $row['societyID'], $row['venueID'], $row['venueName']);
+                $bookingArray[] = $booking;
+            }
+            return $bookingArray;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+    
     public function retrieveAll() {
         $db = DatabaseConnection::getInstance()->getDB();
         $query = 'SELECT * FROM booking B, venue V WHERE B.venueID = V.venueID';

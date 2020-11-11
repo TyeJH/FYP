@@ -111,7 +111,7 @@ require '../UI/header.php';
                                 $anno = new Announcement();
                                 $aID = $anno->generateRandomId();
                                 date_default_timezone_set("Asia/Kuala_Lumpur");
-                                $annDate = date('Y-m-d');
+                                $annDate = date('d/m/Y');
                                 ?>
                                 <form method="POST" id="insert_form">  
 
@@ -270,10 +270,11 @@ require '../UI/header.php';
                                         $test = $annda->getAll();
                                         if (!empty($test)) {
                                             foreach ($test as $ann) {
+                                                $date = new DateTime($ann->annDate);
                                                 ?>
                                                 <tr>
                                                     <td><?= $ann->annTitle ?></td>
-                                                    <td><?= $ann->annDate ?></td>
+                                                    <td><?= date_format($date, 'd/m/Y') ?></td>
                                                     <td><input type="button" name="view" value="View" id="<?= $ann->annID ?>" class="btn btn-info btn-xs view_data" /></td>
                                                 </tr>
                                                 <?php

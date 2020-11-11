@@ -151,10 +151,10 @@ require 'header.php';
                                     $('#vid').val(data.venueID);
                                     $('#vname').val(data.venueName);
                                     $('#vdesc').val(data.venueDesc);
-                                    if(data.venueStatus==='A'){
-                                        $('#vstatusA').attr("checked","checked");
-                                    }else{
-                                        $('#vstatusN').attr("checked","checked")
+                                    if (data.venueStatus === 'A') {
+                                        $('#vstatusA').attr("checked", "checked");
+                                    } else {
+                                        $('#vstatusN').attr("checked", "checked")
                                     }
                                     $('#venueid').val('Update');
                                     $('#insert').val("Update");
@@ -227,6 +227,7 @@ require 'header.php';
                                         <tr>  
                                             <th width="70%">Venue Name</th>
                                             <th width="15%">View</th>
+                                            <th width="15%">Check</th>
                                             <th width="15%">Book Now</th>  
                                         </tr>
                                     </thead>
@@ -240,6 +241,7 @@ require 'header.php';
                                                 <tr>
                                                     <td><?= $venue->venueName ?></td>
                                                     <td><input type="button" name="view" value="View" id="<?= $venue->venueID ?>" class="btn btn-info btn-xs view_data"></td>
+                                                    <td><input type="button" name="check" value="Check" id="<?= $venue->venueID ?>" class="btn btn-info btn-xs check_data"></td>
                                                     <td><a href = 'BookVenue.php?venueID=<?= $venue->venueID ?>' class='btn btn-success btn-xs'>Click here</a></td>
                                                 </tr>
                                                 <?php
@@ -268,6 +270,23 @@ require 'header.php';
                         </div>  
                     </div>  
                 </div>
+                
+                <!--Display Venue Availability-->
+                <div id="dataModal1" class="modal fade">  
+                    <div class="modal-dialog">  
+                        <div class="modal-content">  
+                            <div class="modal-header">  
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                                <h4 class="modal-title">Venue Booked</h4>  
+                            </div>  
+                            <div class="modal-body" id="venueavailability">
+                            </div>  
+                            <div class="modal-footer">  
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>
                 <script>
                     $(document).ready(function () {
                         $('#vTable').DataTable();
@@ -283,6 +302,22 @@ require 'header.php';
                                     success: function (data) {
                                         $('#venuedetail').html(data);
                                         $('#dataModal').modal('show');
+                                    }
+                                });
+                            }
+                        });
+                        
+                        $(document).on('click', '.check_data', function () {
+                            var venueid = $(this).attr("id");
+                            if (venueid !== '')
+                            {
+                                $.ajax({
+                                    url: "../Domain/getAvailability.php",
+                                    method: "POST",
+                                    data: {venueid: venueid},
+                                    success: function (data) {
+                                        $('#venueavailability').html(data);
+                                        $('#dataModal1').modal('show');
                                     }
                                 });
                             }

@@ -16,8 +16,10 @@ if (!empty($_POST)) {
     $author = $val->test_input($_POST['aauthor']);
     $nul = $_POST['announceid'];
     
+    $dbDate = date('Y-m-d', strtotime($date));
+    
     if ($nul == 'Update') {
-        $announcement = new Announcement($id, $title, $content, $date, $author);
+        $announcement = new Announcement($id, $title, $content, $dbDate, $author);
         $annda = new AnnounceDA();
         $annda->update($announcement);
         $_SESSION['annmessage'] = 'Announcement Updated';
@@ -30,7 +32,7 @@ if (!empty($_POST)) {
         echo '<script>location.href = "../UI/CreateAnnouncement.php";</script>';
         
     } else {
-        $ann = new Announcement($id, $title, $content, $date, $author);
+        $ann = new Announcement($id, $title, $content, $dbDate, $author);
         $annda = new AnnounceDA();
         $annda->regsiter($ann);
         $_SESSION['annmessage'] = 'Announcement Created';
