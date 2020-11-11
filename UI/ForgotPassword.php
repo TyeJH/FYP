@@ -58,7 +58,7 @@ require 'header.php';
                     $to = $test->studEmail;
                     $toName = $test->username;
                     $subject = 'Recover Your Password';
-                    $message = 'http://localhost/FYP/UI/checkUsername.php';
+                    $message = '<a href=http://localhost/FYP/UI/checkUsername.php>Reset Password</a>';
                     $from = "admin@system.com";
                     $sender = "Admin";
                     $mail = new Email($to, $toName, $subject, $message, $from, $sender);

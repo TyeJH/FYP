@@ -13,19 +13,31 @@ if (!empty($_POST)) {
     $desc = $val->test_input($_POST['vDesc']);
     $status = $val->test_input($_POST['vstatus']);
     $nul = $_POST['venueid'];
-    
-    if ($nul != '') {
-        $venue = new Venue($id, $name, $desc,$status);
-        $venda = new VenueDA();
-        $venda->update($venue);
-        $_SESSION['venmessage'] = 'Data Updated';
-        echo '<script>location.href = "../UI/VenueList.php";</script>';
+
+    $venda = new VenueDA();
+    if ($nul == 'Update') {
+        $namedb = $venda->retrieve($id);
+        if ($name != $namedb->venueName) {
+            if ($venda->checkName($name)) {
+                $venue = new Venue($id, $name, $desc, $status);
+                $venda->update($venue);
+                $_SESSION['venmessage'] = 'Data Updated';
+                echo '<script>location.href = "../UI/VenueList.php";</script>';
+            } else {
+                echo '<script>alert("Update Failed. Venue name duplicate.");location.href = "../UI/VenueList.php";</script>';
+            }
+        } else {
+            echo '<script>location.href = "../UI/VenueList.php";</script>';
+        }
     } else {
-        $venue = new Venue($id, $name, $desc,$status);
-        $venda = new VenueDA();
-        $venda->regsiter($venue);
-        $_SESSION['venmessage'] = 'Data Inserted';
-        echo '<script>location.href = "../UI/VenueList.php";</script>';
+        if ($venda->checkName($name)) {
+            $venue = new Venue($id, $name, $desc, $status);
+            $venda->regsiter($venue);
+            $_SESSION['venmessage'] = 'Data Inserted';
+            echo '<script>location.href = "../UI/VenueList.php";</script>';
+        } else {
+            echo '<script>alert("Update Failed. Venue name duplicate.");location.href = "../UI/VenueList.php";</script>';
+        }
     }
 }
 

@@ -116,9 +116,10 @@ require 'header.php';
                                     <label>Venue Desc</label> 
                                     <textarea name="vDesc" id="vdesc" class="form-control" placeholder="Enter Venue Description" style="resize: none;"></textarea> 
                                     <br />
-                                    <label>Venue Status</label> 
-                                    <input type="text" name="vstatus" id="vstatus" class="form-control" placeholder="Enter Venue Status">
-                                    <br />
+                                    <label>Venue Status</label><br>
+                                    <input type="radio" name="vstatus" class="form-check-input" id="vstatusA" value="A" checked="">&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-check-label">Available</label>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="vstatus" class="form-check-input" id="vstatusN" value="N/A">&nbsp;&nbsp;&nbsp;&nbsp;<label class="form-check-label">Not Available</label>
+                                    <br><br>
                                     <input type="hidden" name="venueid" id="venueid"/>
                                     <input type="submit" name="vSubmit" id="insert" value="Insert" class="btn btn-success" />  
                                 </form>  
@@ -150,8 +151,12 @@ require 'header.php';
                                     $('#vid').val(data.venueID);
                                     $('#vname').val(data.venueName);
                                     $('#vdesc').val(data.venueDesc);
-                                    $('#vstatus').val(data.venueStatus);
-                                    $('#venueid').val(data.venueID);
+                                    if(data.venueStatus==='A'){
+                                        $('#vstatusA').attr("checked","checked");
+                                    }else{
+                                        $('#vstatusN').attr("checked","checked")
+                                    }
+                                    $('#venueid').val('Update');
                                     $('#insert').val("Update");
                                     $('#add_data_Modal').modal('show');
                                 }

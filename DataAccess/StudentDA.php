@@ -164,9 +164,6 @@ class StudentDA {
         } else {
             $student = $stmt->fetch(PDO::FETCH_ASSOC);
             return $student;
-//            $soc = new Society($s['societyID'], $s['societyName'], $s['societyDesc'], $s['societyPass'], $s['societyAcc']);
-//            DatabaseConnection::closeConnection($db);
-//            return $soc;
         }
         DatabaseConnection::closeConnection($db);
     }

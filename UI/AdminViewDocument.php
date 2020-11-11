@@ -5,6 +5,7 @@ include_once '../Domain/Student.php';
 require '../DataAccess/DocumentationDA.php';
 require '../Domain/SocietyEvent.php';
 session_start();
+require 'header.php';
 ?>
 
 <!DOCTYPE html>
@@ -89,7 +90,7 @@ and open the template in the editor.
             <h2>Document Application</h2>
             <?php
             if (isset($_SESSION['result'])) {
-                echo "<table id='documentsTable' class = 'table table-hover table-responsive table-bordered'>";
+                echo "<table id='documentsTable' class = 'table table-hover table-bordered'>";
                 echo "<thead>";
                 echo "<tr>";
                 echo "<th>Document ID</th>";
@@ -121,7 +122,7 @@ and open the template in the editor.
                             . "<p id='$doc->docID:$doc->societyID:Disapproved' onClick='openFeedbackForm(this.id)' class='btn btn-danger m-r-1em'>Disapprove</p> </td>";
                             echo "<td id='$doc->docID:hiddenCol' style='display:none;'>  <a id='$doc->docID' class='btn btn-info m-r-1em'>Processed</a> ";
                         } else {
-                            echo "<td> <a href = '' class='btn btn-info m-r-1em'>Processed</a> </td>";
+                            echo "<td> <button class='btn btn-secondary m-r-1em' disabled>Processed</button> </td>";
                         }
                         echo "</tr>";
                         $count++;

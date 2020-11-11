@@ -25,7 +25,7 @@ class Validation {
         if (password_verify($pass, $securePass)) {
             return true;
         } else {
-            return true;
+            return false;
         }
     }
 }

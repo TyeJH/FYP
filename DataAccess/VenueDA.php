@@ -118,4 +118,17 @@ class VenueDA {
         DatabaseConnection::closeConnection($db);
     }
 
+    public function checkName($name) {
+        $db = DatabaseConnection::getInstance()->getDb();
+        $stmt = $db->prepare("SELECT venueName FROM venue WHERE venueName = ?");
+        $stmt->bindParam(1, $name, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$result) {
+            return true;
+        } else {
+            return false;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
 }

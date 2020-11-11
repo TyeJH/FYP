@@ -51,6 +51,7 @@ if (!empty($_POST)) {
 
             if ($nul != '') {
                 $society = new Society($id, $name, $desc, $pass, $acc);
+                $socda = new SocietyDA();
                 $socda->update($society);
                 $_SESSION['societymessage'] = 'Account Balance Updated';
                 echo '<script>location.href = "../UI/CreateSociety.php";</script>';

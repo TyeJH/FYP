@@ -2,7 +2,7 @@
 include_once '../Domain/Admin.php';
 include_once '../Domain/Society.php';
 include_once '../Domain/Student.php';
-
+include_once '../DataAccess/StudentDA.php';
 session_start();
 require 'header.php';
 ?>
@@ -113,11 +113,17 @@ require 'header.php';
                             echo '<h5 style=color:red>' . $_SESSION['error'] . '</h5>';
                             unset($_SESSION['error']);
                         }
+                        $studda=new StudentDA();
+                        $fname=$studda->retrieveStudentDetails($stud->studID);
                         ?>
                         <table class='table table-hover table-bordered'>
                             <tr>
                                 <th>Username</th>
                                 <td><input type="text" name="uname" class="uname" value="<?= $stud->username ?>" readonly="" style="border:none; outline: none"></td>
+                            </tr>
+                            <tr>
+                                <th>Full Name</th>
+                                <td><input type="text" name="fname" class="fname" value="<?= $fname['studName'] ?>" readonly="" style="border:none; outline: none"></td>
                             </tr>
                             <tr>
                                 <th>User Email</th>
