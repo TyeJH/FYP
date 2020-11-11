@@ -14,7 +14,7 @@ if (!empty($_POST)) {
     $status = $val->test_input($_POST['vstatus']);
     $nul = $_POST['venueid'];
     
-    if ($nul != '') {
+    if ($nul == 'Update') {
         $venue = new Venue($id, $name, $desc,$status);
         $venda = new VenueDA();
         $venda->update($venue);

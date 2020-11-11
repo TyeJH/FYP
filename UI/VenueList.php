@@ -151,7 +151,7 @@ require 'header.php';
                                     $('#vname').val(data.venueName);
                                     $('#vdesc').val(data.venueDesc);
                                     $('#vstatus').val(data.venueStatus);
-                                    $('#venueid').val(data.venueID);
+                                    $('#venueid').val("Update");
                                     $('#insert').val("Update");
                                     $('#add_data_Modal').modal('show');
                                 }
