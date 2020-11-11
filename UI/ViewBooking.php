@@ -76,11 +76,12 @@ and open the template in the editor.
                     //class= 'table table-hover table-responsive table-bordered'
                     $count = 1;
                     foreach ($bookingArray as $booking) {
+                        $dateFormatted = date("d-M-Y", strtotime($booking->bookDate));
                         echo "<tr>";
                         echo "<td>$count</td>";
                         echo "<td>{$booking->bookID}</td>";
                         echo "<td>{$booking->venueName}</td>";
-                        echo "<td>{$booking->bookDate}</td>";
+                        echo "<td>{$dateFormatted}</td>";
                         $stFormatted = date("g:i A", strtotime($booking->startTime));
                         $etFormatted = date("g:i A", strtotime($booking->endTime));
                         echo "<td>{$stFormatted}-{$etFormatted}</td>";

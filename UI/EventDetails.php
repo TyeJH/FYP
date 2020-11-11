@@ -127,8 +127,8 @@ AUTHOR : NGO KIAN HEE
                                         $st = strtotime($stFormat);
                                         $et = strtotime($etFormat);
                                         //convert format to Thursday, 2020--Oct-01 4:00 PM
-                                        $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
-                                        $endDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($etFormat));
+                                        $startDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($stFormat));
+                                        $endDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($etFormat));
                                         //$et = strtotime($etFormat);
                                         //When student logged in
                                         if (isset($_SESSION['result'])) {

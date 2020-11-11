@@ -96,7 +96,7 @@ and open the template in the editor.
                         echo "<td>{$student['studID']}</td>";
                         echo "<td>{$student['studName']}</td>";
                         echo "<td>{$student['studEmail']}</td>";
-                        $dateFormatted = date("Y-M-d", strtotime($helper->applyDate));
+                        $dateFormatted = date("d-M-Y", strtotime($helper->applyDate));
                         echo "<td>{$dateFormatted}</td>";
                         if ($helper->applyStatus == 'Approved') {
                             echo "<td><input type='checkbox' onclick='updateApplyStatus(this.id)' id='$helper->eventID:$helper->userID' value='$helper->eventID,$helper->userID,$helper->applyDate' checked></td>";

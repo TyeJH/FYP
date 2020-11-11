@@ -80,7 +80,7 @@ and open the template in the editor.
                         echo "<tr>";
                         echo "<td>{$doc->docID}</td>";
                         echo "<td><a title='Download File' download='" . $doc->docName . "' href=data:" . $doc->mime . ";base64," . base64_encode($doc->docContent) . ">$doc->docName</a></td>";
-                        $dateFormatted = date("Y-M-d", strtotime($doc->applyDate));
+                        $dateFormatted = date("d-M-Y", strtotime($doc->applyDate));
                         echo "<td>{$dateFormatted}</td>";
                         if ($doc->status == "Approved") {
                             echo "<td><div style='color:#3c763d;' >{$doc->status}</div></td>";

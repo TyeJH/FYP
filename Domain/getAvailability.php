@@ -43,7 +43,7 @@ if (isset($_POST['venueid'])) {
             $date = new DateTime($a->bookDate);
             $output .= '
         <tr>
-            <td width="20%">' . date_format($date, 'd/m/Y') . '</td>  
+            <td width="20%">' . date_format($date, 'd-M-Y') . '</td>  
             <td width="20%">' . date_format($start, 'H:i') . '</td>  
             <td width="20%">' . date_format($end, 'H:i') . '</td>  
             <td width="20%">' . $a->societyID . '</td>  

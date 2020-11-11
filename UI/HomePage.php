@@ -67,7 +67,7 @@ require '../UI/header.php';
                         $stFormat = $schedule->startDate . " " . $schedule->startTime;
                         $st = strtotime($stFormat);
                         //convert format to Thursday, 2020--Oct-01 4:00 PM
-                        $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
+                        $startDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($stFormat));
                     } else {
                         $startDateTimeFormatted = '';
                     }

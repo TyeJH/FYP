@@ -111,7 +111,7 @@ require '../UI/header.php';
                                 $anno = new Announcement();
                                 $aID = $anno->generateRandomId();
                                 date_default_timezone_set("Asia/Kuala_Lumpur");
-                                $annDate = date('d/m/Y');
+                                $annDate = date('d-M-Y');
                                 ?>
                                 <form method="POST" id="insert_form">  
 
@@ -158,6 +158,7 @@ require '../UI/header.php';
                                 data: {annid: annid},
                                 dataType: "json",
                                 success: function (data) {
+                                    
                                     $('#aid').val(data.annID);
                                     $('#atitle').val(data.annTitle);
                                     $('#acontent').val(data.annContent);
@@ -270,11 +271,11 @@ require '../UI/header.php';
                                         $test = $annda->getAll();
                                         if (!empty($test)) {
                                             foreach ($test as $ann) {
-                                                $date = new DateTime($ann->annDate);
+                                                $date = date("d-M-Y", strtotime($ann->annDate));
                                                 ?>
                                                 <tr>
                                                     <td><?= $ann->annTitle ?></td>
-                                                    <td><?= date_format($date, 'd/m/Y') ?></td>
+                                                    <td><?= $date ?></td>
                                                     <td><input type="button" name="view" value="View" id="<?= $ann->annID ?>" class="btn btn-info btn-xs view_data" /></td>
                                                 </tr>
                                                 <?php

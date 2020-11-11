@@ -84,8 +84,8 @@ and open the template in the editor.
                             $st = strtotime($stFormat);
                             $et = strtotime($etFormat);
                             //convert format to Thursday, 2020--Oct-01 4:00 PM
-                            $startDateTimeFormatted = date("D, Y M d h:i A", strtotime($stFormat));
-                            $endDateTimeFormatted = date("D, Y M d h:i A", strtotime($etFormat));
+                            $startDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($stFormat));
+                            $endDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($etFormat));
                             if (isset($_POST['sessionFilter'])) {
                                 if ($_POST['sessionFilter'] == $schedule->scheduleID) {
                                     echo "<option value='$schedule->scheduleID' selected>$startDateTimeFormatted - $endDateTimeFormatted</option>";
@@ -139,8 +139,8 @@ and open the template in the editor.
                         $st = strtotime($stFormat);
                         $et = strtotime($etFormat);
                         //convert format to Thursday, 2020--Oct-01 4:00 PM
-                        $startDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($stFormat));
-                        $endDateTimeFormatted = date("D, Y-M-d h:i A", strtotime($etFormat));
+                        $startDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($stFormat));
+                        $endDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($etFormat));
                         echo "<p><strong>Schedule Session :</strong> $startDateTimeFormatted - $endDateTimeFormatted</p>";
                         echo "<p><strong>Venue :</strong> $schedule->venue</p>";
                         $participantsDA = new ParticipantsDA();
@@ -170,7 +170,7 @@ and open the template in the editor.
                                 echo "<td>{$student['studID']}</td>";
                                 echo "<td>{$student['studName']}</td>";
                                 echo "<td>{$student['studEmail']}</td>";
-                                $dateFormatted = date("Y-M-d", strtotime($participant->applyDate));
+                                $dateFormatted = date("d-M-Y", strtotime($participant->applyDate));
                                 echo "<td>{$dateFormatted}</td>";
                                 if ($participant->applyStatus == 'Approved') {
                                     echo "<td><input type='checkbox' onclick='updateApplyStatus(this.id)' id='$participant->scheduleID:$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate' checked></td>";
