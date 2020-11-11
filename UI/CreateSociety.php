@@ -156,7 +156,7 @@ require 'header.php';
                                         var acc = Number.parseFloat(data.societyAcc);
                                         $('#sacc').val(acc.toFixed(2));
                                         $('#spass').val(data.societyPass);
-                                        $('#societyid').val(data.societyID);
+                                        $('#societyid').val('Update');
                                         $('#insert').val("Update");
                                         $('#add_data_Modal').modal('show');
                                     }
@@ -229,11 +229,16 @@ require 'header.php';
                                         echo '<label class="text-success">' . $_SESSION['societymessage'] . '</label>';
                                         unset($_SESSION['societymessage']);
                                     }
+                                    if (isset($_SESSION['errmessage'])) {
+                                        echo '<label class="text-danger">' . $_SESSION['errmessage'] . '</label>';
+                                        unset($_SESSION['errmessage']);
+                                    }
                                     ?>
                                     <table id="sTable" class="table table-bordered">  
                                         <thead>
                                             <tr>  
-                                                <th width="70%">Society Name</th>  
+                                                <th width="70%">Society Name</th>
+                                                <th width="15%">Transaction History</th>
                                                 <th width="15%">Edit</th>  
                                                 <th width="15%">View</th>  
                                             </tr>
@@ -247,7 +252,8 @@ require 'header.php';
                                                     ?>
                                                     <tr>
                                                         <td><?= $society->societyName ?></td>
-                                                        <td><input type="button" name="edit" value="Edit" id="<?= $society->societyID ?>" class="btn btn-warning btn-xs edit_data" /></td>  
+                                                        <td><input type="button" name="trans" value="History" id="<?= $society->societyID ?>" class="btn btn-info btn-xs trans_data" /></td>  
+                                                        <td><input type="button" name="edit" value="Edit" id="<?= $society->societyID ?>" class="btn btn-warning btn-xs edit_data" /></td>
                                                         <td><input type="button" name="view" value="View" id="<?= $society->societyID ?>" class="btn btn-info btn-xs view_data" /></td>
                                                     </tr>
                                                     <?php
@@ -277,6 +283,23 @@ require 'header.php';
                             </div>  
                         </div>  
                     </div>
+                    
+                    <!--Display Account History-->
+                    <div id="dataModal1" class="modal fade">  
+                        <div class="modal-dialog">  
+                            <div class="modal-content">  
+                                <div class="modal-header">  
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                                    <h4 class="modal-title">Account History</h4>  
+                                </div>  
+                                <div class="modal-body" id="accHistory">
+                                </div>  
+                                <div class="modal-footer">  
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                                </div>  
+                            </div>  
+                        </div>  
+                    </div>
 
                     <!--Add/Edit Society Details-->
                     <div id="add_data_Modal" class="modal fade">  
@@ -296,9 +319,15 @@ require 'header.php';
                                         <input type="hidden" name="sdesc" id="sdesc" class="form-control">
                                         <br />  
                                         <label>Society Account</label>
-                                        <input type="text" name="sacc" id="sacc" class="form-control"> 
+                                        <input type="text" name="sacc" id="sacc" class="form-control" readonly=""> 
                                         <input type="hidden" name="spass" id="spass" class="form-control">
                                         <br />
+                                        <label>Credit/Debit</label>  
+                                        <input type="text" name="samt" id="samt" class="form-control" placeholder="Enter amount (RM)"/>  
+                                        <br /> 
+                                        <label>Purpose</label>  
+                                        <input type="text" name="spur" id="spur" class="form-control" placeholder="Enter purpose"/>  
+                                        <br /> 
                                         <input type="hidden" name="societyid" id="societyid"/>
                                         <input type="submit" name="sSubmit" id="insert" value="Insert" class="btn btn-success" />  
                                     </form> 
@@ -312,13 +341,8 @@ require 'header.php';
                     <script>
                         $(document).ready(function () {
                             $('#sTable').DataTable();
-                            //    Display Insert Form
-                            $('#add').click(function () {
-                                $('#insert').val("Insert");
-                                $('#insert_form')[0].reset();
-                            });
-
-                            //        Edit Society Details
+                           
+                            //Edit Society Details
                             $(document).on('click', '.edit_data', function () {
                                 var socid = $(this).attr("id");
                                 $.ajax({
@@ -333,23 +357,26 @@ require 'header.php';
                                         var acc = Number.parseFloat(data.societyAcc);
                                         $('#sacc').val(acc.toFixed(2));
                                         $('#spass').val(data.societyPass);
-                                        $('#societyid').val(data.societyID);
+                                        $('#societyid').val('Update');
                                         $('#insert').val("Update");
                                         $('#add_data_Modal').modal('show');
                                     }
                                 });
                             });
 
-                            //        Submit Society Details
+                            //Submit Society Details
                             $('#insert_form').on("submit", function (event) {
                                 event.preventDefault();
-                                var validate = /^\d+(\.\d{2})?$/;
-                                if ($('#sacc').val() === '')
+                                var validate = /^[+-]?\d+(\.\d{2})?$/;
+                                if ($('#samt').val() === '')
                                 {
-                                    alert("Society Account is required");
-                                } else if (!validate.test($('#sacc').val()))
+                                    alert("Credit or Debit Amount is required");
+                                } else if (!validate.test($('#samt').val()))
                                 {
-                                    alert("Society Account only contains number");
+                                    alert("Credit or Debit Amount can only contains number");
+                                } else if ($('#spur').val() === '')
+                                {
+                                    alert("Purpose cannot leave it empty");
                                 } else
                                 {
                                     $.ajax({
@@ -357,7 +384,7 @@ require 'header.php';
                                         method: "POST",
                                         data: $('#insert_form').serialize(),
                                         beforeSend: function () {
-                                            $('#insert').val("Inserting");
+                                            $('#insert').val("Updating");
                                         },
                                         success: function (data) {
                                             $('#insert_form')[0].reset();
@@ -380,6 +407,23 @@ require 'header.php';
                                         success: function (data) {
                                             $('#societydetail').html(data);
                                             $('#dataModal').modal('show');
+                                        }
+                                    });
+                                }
+                            });
+                            
+                            //        View Society Details
+                            $(document).on('click', '.trans_data', function () {
+                                var socid = $(this).attr("id");
+                                if (socid !== '')
+                                {
+                                    $.ajax({
+                                        url: "../Domain/getTransaction.php",
+                                        method: "POST",
+                                        data: {socid: socid},
+                                        success: function (data) {
+                                            $('#accHistory').html(data);
+                                            $('#dataModal1').modal('show');
                                         }
                                     });
                                 }

@@ -2,6 +2,7 @@
 
 require_once '../DataAccess/DatabaseConnection.php';
 require_once '../Domain/Society.php';
+require_once '../Domain/Transaction.php';
 
 class SocietyDA {
 
@@ -100,4 +101,36 @@ class SocietyDA {
         DatabaseConnection::closeConnection($db);
     }
 
+    public function creditDebit(Transaction $tr) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'Insert into transhistory VALUES (?,?,?,?)';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $tr->transID, PDO::PARAM_STR);
+        $stmt->bindParam(2, $tr->amount, PDO::PARAM_STR);
+        $stmt->bindParam(3, $tr->purpose, PDO::PARAM_STR);
+        $stmt->bindParam(4, $tr->societyID, PDO::PARAM_STR);
+        $stmt->execute();
+        DatabaseConnection::closeConnection($db);
+    }
+    
+    public function getTrans($socID) {
+        $db = DatabaseConnection::getInstance()->getDb();
+        $query = "SELECT * FROM transhistory WHERE societyID = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $socID, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $tra = $stmt->fetchAll();
+            $trList = [];
+            foreach ($tra as $t) {
+                $trList[] = new Transaction($t['transID'], $t['amount'], $t['purpose'], $t['societyID']);
+            }
+            DatabaseConnection::closeConnection($db);
+            return $trList;
+        }
+    }
 }

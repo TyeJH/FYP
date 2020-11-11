@@ -19,6 +19,15 @@ CREATE TABLE society(
     PRIMARY KEY(societyID)
 );
 
+CREATE TABLE transhistory(
+    transID       INT(6) auto_increment not null,
+    amount        decimal(10,2)         not null,
+    purpose       varchar(300)          not null,
+    societyID     varchar(10)           not null,
+    PRIMARY KEY(transID),
+    FOREIGN KEY (societyID) REFERENCES society(societyID)
+);
+
 CREATE TABLE student(
     userID        varchar(10)  not null,
     username      varchar(300) not null,
