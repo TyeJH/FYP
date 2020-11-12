@@ -138,8 +138,8 @@ require '../UI/header.php';
                             </div>  
                         </div>  
                     </div>  
-                </div>  
-
+                </div>
+                <script src=" https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" type="text/javascript"></script>
                 <script>
                     $(document).ready(function () {
                         $('#aTable').DataTable();
@@ -158,11 +158,11 @@ require '../UI/header.php';
                                 data: {annid: annid},
                                 dataType: "json",
                                 success: function (data) {
-                                    
+                                    var str = moment(data.annDate).format(" DD-MMM-yyyy");
                                     $('#aid').val(data.annID);
                                     $('#atitle').val(data.annTitle);
                                     $('#acontent').val(data.annContent);
-                                    $('#adate').val(data.annDate);
+                                    $('#adate').val(str);
                                     $('#aauthor').val(data.adminID);
                                     $('#announceid').val("Update");
                                     $('#insert').val("Update");
@@ -180,10 +180,11 @@ require '../UI/header.php';
                                 data: {annid: annid},
                                 dataType: "json",
                                 success: function (data) {
+                                    var str = moment(data.annDate).format(" DD-MMM-yyyy");
                                     $('#aid').val(data.annID);
                                     $('#atitle').val(data.annTitle);
                                     $('#acontent').val(data.annContent);
-                                    $('#adate').val(data.annDate);
+                                    $('#adate').val(str);
                                     $('#aauthor').val(data.adminID);
                                     $('#aid, #atitle, #acontent, #adate, #aauthor').attr("readonly", "readonly");
                                     $('#announceid').val("Delete");
