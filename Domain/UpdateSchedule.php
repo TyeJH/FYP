@@ -35,7 +35,10 @@ if (isset($_POST['updateSchedule'])) {
     $etFormat = $endDate . " " . $endTime;
     $st = strtotime($stFormat);
     $et = strtotime($etFormat);
-    if ($st > $et || $st == $et) {
+    if ($st > date()) {
+        $_SESSION['errorMsg'] = 'The date is invalid. Please select date range starting from today.';
+        header("Location:../UI/ManageSchedule.php?eventID=$eventID");
+    } else if ($st > $et || $st == $et) {
         echo "<script>alert('The end time must be greater than the start time.');location.href = '../UI/ManageSchedule.php?eventID=$eventID';</script>";
     } else {
         $schedule = new Schedule($scheduleID, $venue, $startDate, $startTime, $endDate, $endTime, $unlimited, $noOfParticipant, $noOfJoined, $scheduleStatus, $eventID);

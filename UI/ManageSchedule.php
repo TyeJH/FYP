@@ -2,6 +2,12 @@
 require_once '../Domain/Schedule.php';
 require_once '../DataAccess/ScheduleDA.php';
 session_start();
+if ($_SESSION['current'] != 'Society') {
+    unset($_SESSION['current']);
+    $_SESSION['role'] = 'society';
+    header('location:Login.php');
+}
+require 'header.php';
 ?>
 <!DOCTYPE html> 
 <!--
@@ -98,7 +104,7 @@ and open the template in the editor.
                                 </button>
                             </p>
                             <fieldset id="scheduleID:<?= $schedule->scheduleID ?>" disabled>
-                                <table class='table table-hover table-responsive table-bordered'>
+                                <table class='table table-hover table-bordered'>
                                     <tr>
                                         <td>Venue : </td>
                                         <td>  

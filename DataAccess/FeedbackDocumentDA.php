@@ -33,9 +33,9 @@ class FeedbackDocumentDA {
             return null;
         } else {
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            $feedbackBooking = new FeedbackBooking($result['feedbackDocumentID'], $result['content'], $result['adminID'], $result['docID'], $result['societyID']);
+            $feedbackDocument = new FeedbackDocument($result['feedbackDocumentID'], $result['content'], $result['adminID'], $result['docID'], $result['societyID']);
             DatabaseConnection::closeConnection($db);
-            return $feedbackBooking;
+            return $feedbackDocument;
         }
         DatabaseConnection::closeConnection($db);
     }

@@ -203,7 +203,10 @@ require_once '../Domain/Student.php';
 
                 <?php
             }
-        } else {
+        } else if ($_SESSION['current'] == '' && $_SESSION['role'] != '') {
+            $_SESSION['current'] = '';
+            header("Location:../UI/Login.php");
+        } else{
             $_SESSION['current'] = '';
             header("Location:../UI/HomePage.php");
         }

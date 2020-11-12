@@ -5,6 +5,11 @@ include_once '../Domain/Student.php';
 require '../DataAccess/DocumentationDA.php';
 require '../Domain/SocietyEvent.php';
 session_start();
+if ($_SESSION['current'] != 'Admin') {
+    unset($_SESSION['current']);
+    $_SESSION['role'] = 'staff';
+    header('location:Login.php');
+}
 require 'header.php';
 ?>
 
@@ -52,6 +57,8 @@ and open the template in the editor.
                             },
                             success: function (data) {
                                 alert(data);
+                                location.reload();
+
                             }
                         });
             }
