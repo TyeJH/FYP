@@ -51,12 +51,14 @@ if (!empty($_POST)) {
             $acc = $val->test_input($_POST['sacc']);
             $amt = $val->test_input($_POST['samt']);
             $pur = $val->test_input($_POST['spur']);
+            $date = $val->test_input($_POST['sdate']);
 
             $nul = $_POST['societyid'];
+            $dbDate = date('Y-m-d', strtotime($date));
 
             if ($nul == 'Update') {
                 $socda = new SocietyDA();
-                $tran = new Transaction($tid = "", $amt, $pur, $id);
+                $tran = new Transaction($tid = "", $dbDate, $amt, $pur, $id);
                 $acc = $acc + $amt;
                 if ($acc < 0) {
                     $_SESSION['errmessage'] = 'Account Overlimit. Cannot withdraw';

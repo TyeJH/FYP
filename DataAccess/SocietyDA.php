@@ -103,16 +103,17 @@ class SocietyDA {
 
     public function creditDebit(Transaction $tr) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'Insert into transhistory VALUES (?,?,?,?)';
+        $query = 'Insert into transhistory VALUES (?,?,?,?,?)';
         $stmt = $db->prepare($query);
         $stmt->bindParam(1, $tr->transID, PDO::PARAM_STR);
-        $stmt->bindParam(2, $tr->amount, PDO::PARAM_STR);
-        $stmt->bindParam(3, $tr->purpose, PDO::PARAM_STR);
-        $stmt->bindParam(4, $tr->societyID, PDO::PARAM_STR);
+        $stmt->bindParam(2, $tr->transDate, PDO::PARAM_STR);
+        $stmt->bindParam(3, $tr->amount, PDO::PARAM_STR);
+        $stmt->bindParam(4, $tr->purpose, PDO::PARAM_STR);
+        $stmt->bindParam(5, $tr->societyID, PDO::PARAM_STR);
         $stmt->execute();
         DatabaseConnection::closeConnection($db);
     }
-    
+
     public function getTrans($socID) {
         $db = DatabaseConnection::getInstance()->getDb();
         $query = "SELECT * FROM transhistory WHERE societyID = ?";
@@ -127,10 +128,11 @@ class SocietyDA {
             $tra = $stmt->fetchAll();
             $trList = [];
             foreach ($tra as $t) {
-                $trList[] = new Transaction($t['transID'], $t['amount'], $t['purpose'], $t['societyID']);
+                $trList[] = new Transaction($t['transID'], $t['transDate'], $t['amount'], $t['purpose'], $t['societyID']);
             }
             DatabaseConnection::closeConnection($db);
             return $trList;
         }
     }
+
 }

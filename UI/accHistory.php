@@ -37,6 +37,7 @@ require 'header.php';
                         <thead>
                             <tr>
                                 <th width="25%">Transaction ID</th>
+                                <th width="25%">Transaction Date</th>
                                 <th width="24%">Credit/Debit Amount (RM)</th>
                                 <th width="40%">Purpose</th>
                             </tr>
@@ -45,8 +46,10 @@ require 'header.php';
                             <?php
                             if (!empty($b)) {
                                 foreach ($b as $history) {
+                                    $date = date('d-M-Y', strtotime($history->transDate));
                                     echo"<tr>";
                                     echo "<td>" . $history->transID . "</td>";
+                                    echo "<td>" . $date . "</td>";
                                     echo "<td>" . $history->amount . "</td>";
                                     echo "<td>" . $history->purpose . "</td>";
                                     echo"</tr>";

@@ -283,7 +283,7 @@ require 'header.php';
                             </div>  
                         </div>  
                     </div>
-                    
+
                     <!--Display Account History-->
                     <div id="dataModal1" class="modal fade">  
                         <div class="modal-dialog">  
@@ -300,7 +300,10 @@ require 'header.php';
                             </div>  
                         </div>  
                     </div>
-
+                    <?php
+                    date_default_timezone_set("Asia/Kuala_Lumpur");
+                    $date = date('d-M-Y');
+                    ?>
                     <!--Add/Edit Society Details-->
                     <div id="add_data_Modal" class="modal fade">  
                         <div class="modal-dialog">  
@@ -327,7 +330,10 @@ require 'header.php';
                                         <br /> 
                                         <label>Purpose</label>  
                                         <input type="text" name="spur" id="spur" class="form-control" placeholder="Enter purpose"/>  
-                                        <br /> 
+                                        <br />
+                                        <label>Date</label>  
+                                        <input type="text" name="sdate" id="sdate" class="form-control" value="<?= $date ?>" readonly=""/>  
+                                        <br />
                                         <input type="hidden" name="societyid" id="societyid"/>
                                         <input type="submit" name="sSubmit" id="insert" value="Insert" class="btn btn-success" />  
                                     </form> 
@@ -341,7 +347,7 @@ require 'header.php';
                     <script>
                         $(document).ready(function () {
                             $('#sTable').DataTable();
-                           
+
                             //Edit Society Details
                             $(document).on('click', '.edit_data', function () {
                                 var socid = $(this).attr("id");
@@ -411,7 +417,7 @@ require 'header.php';
                                     });
                                 }
                             });
-                            
+
                             //        View Account History
                             $(document).on('click', '.trans_data', function () {
                                 var socid = $(this).attr("id");

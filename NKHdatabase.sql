@@ -21,6 +21,7 @@ CREATE TABLE society(
 
 CREATE TABLE transhistory(
     transID       INT(6) auto_increment not null,
+    transDate     date                  not null,
     amount        decimal(10,2)         not null,
     purpose       varchar(300)          not null,
     societyID     varchar(10)           not null,

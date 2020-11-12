@@ -3,12 +3,14 @@
 class Transaction {
 
     private $transID;
+    private $transDate;
     private $amount;
     private $purpose;
     private $societyID;
 
-    public function __construct($transID = "", $amount = 0.00, $purpose = "", $societyID = "") {
+    public function __construct($transID = "", $transDate = "", $amount = 0.00, $purpose = "", $societyID = "") {
         $this->transID = $transID;
+        $this->transDate = $transDate;
         $this->amount = $amount;
         $this->purpose = $purpose;
         $this->societyID = $societyID;
