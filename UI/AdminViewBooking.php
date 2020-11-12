@@ -34,6 +34,13 @@ and open the template in the editor.
         
                 Display Modal
                 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' type='text/javascript'></script>-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <!--Data Table-->
+        <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script> 
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
@@ -42,23 +49,28 @@ and open the template in the editor.
                 $('#bookingApplication').DataTable();
             });
             function approveBooking(value) {
-                var valueSpilted = value.split(':');
-                var existCol = document.getElementById(valueSpilted[0] + ":existCol");
-                var hiddenCol = document.getElementById(valueSpilted[0] + ":hiddenCol");
-                existCol.style.display = 'none';
-                hiddenCol.style.display = 'block';
-                $.ajax
-                        ({
-                            type: "POST",
-                            url: "../Domain/UpdateBooking.php",
-                            data: {
-                                "bookingID": valueSpilted[0],
-                                "bookStatus": valueSpilted[1],
-                            },
-                            success: function (data) {
-                                alert(data);
-                            }
-                        });
+                if (confirm('Are you sure want to approve?')) {
+                    // Save it!
+                    var valueSpilted = value.split(':');
+                    var existCol = document.getElementById(valueSpilted[0] + ":existCol");
+                    var hiddenCol = document.getElementById(valueSpilted[0] + ":hiddenCol");
+                    existCol.style.display = 'none';
+                    hiddenCol.style.display = 'block';
+                    $.ajax
+                            ({
+                                type: "POST",
+                                url: "../Domain/UpdateBooking.php",
+                                data: {
+                                    "bookingID": valueSpilted[0],
+                                    "bookStatus": valueSpilted[1],
+                                },
+                                success: function (data) {
+                                    alert(data);
+                                }
+                            });
+                } else {
+                    // Do nothing!
+                }
             }
             function openFeedbackForm(value) {
                 var valueSpilted2 = value.split(':');
@@ -67,10 +79,10 @@ and open the template in the editor.
                 $('#add_data_Modal').modal('show');
             }
             function disapproveBooking() {
+
                 var bookingID = document.getElementById("bookingID").value;
                 var societyID = document.getElementById("societyID").value;
                 var feedback = document.getElementById("feedback").value;
-
                 $.ajax
                         ({
                             type: "POST",
@@ -93,22 +105,23 @@ and open the template in the editor.
 
     <body>
         <div class='container'>
-            <h2>Booking Application</h2>
+            <h1 class='bodyTitle'>Manage Booking</h1>
+            <hr>
             <?php
-            echo "<table id='bookingApplication' class='table table-striped table-bordered'>";
-            echo "<thead>";
-            echo "<tr>";
-            echo "<th>No</th>";
-            echo "<th>Booking ID</th>";
-            echo "<th>Venue</th>";
-            echo "<th>Date</th>";
-            echo "<th>Duration</th>";
-            echo "<th>Status</th>";
-            echo "<th>Action</th>";
-            echo "</thead>";
-            echo "<tbody>";
-            echo "</tr>";
             if (isset($_SESSION['result'])) {
+                echo "<table id='bookingApplication' class='table table-hover table-bordered'>";
+                echo "<thead>";
+                echo "<tr>";
+                echo "<th>No</th>";
+                echo "<th>Booking ID</th>";
+                echo "<th>Venue</th>";
+                echo "<th>Date</th>";
+                echo "<th>Duration</th>";
+                echo "<th>Status</th>";
+                echo "<th>Action</th>";
+                echo "</tr>";
+                echo "</thead>";
+                echo "<tbody>";
                 $bookingDA = new BookingDA();
                 $bookingArray = $bookingDA->retrieveAll();
                 if ($bookingArray == null) {
@@ -130,18 +143,18 @@ and open the template in the editor.
                         echo "<td>{$stFormatted} - {$etFormatted}</td>";
                         echo "<td>{$booking->bookStatus}</td>";
                         if ($booking->bookStatus == 'Pending') {
-                            echo "<td id='$booking->bookID:existCol' >  "
-                            . "<a id='$booking->bookID:Approved' onClick='approveBooking(this.id)' class='btn btn-success m-r-1em'>Approve</a> "
-                            . "<p id='$booking->bookID:$booking->societyID:Disapproved' onClick='openFeedbackForm(this.id)' class='btn btn-danger m-r-1em'>Disapprove</p> </td>";
-                            echo "<td id='$booking->bookID:hiddenCol' style='display:none;'>  <a id='$booking->bookID' class='btn btn-info m-r-1em'>Processed</a> ";
+                            echo "<td id='$booking->bookID:existCol' > "
+                            . "<a id='$booking->bookID:Approved' onClick='approveBooking(this.id)'  class='btn btn-success m-r-1em'>Approve</a> "
+                            . "<p id='$booking->bookID:$booking->societyID:Disapproved' onClick='openFeedbackForm(this.id)' class='btn btn-danger m-r-1em'>Disapprove</p> ";
+                            echo "<td id='$booking->bookID:hiddenCol' style='display:none;'>  <a id='$booking->bookID' class='btn btn-info m-r-1em'>Processed</a> </td>";
                         } else {
-                            echo "<td> <button class='btn btn-secondary m-r-1em' disabled>Processed</button> </td>";
+                            echo "<td> <button class='btn btn-info m-r-1em' disabled>Processed</button> </td>";
                         }
                         echo "</tr>";
                         $count++;
                     }
                 }
-                echo "<tbody>";
+                echo "</tbody>";
                 echo "</table>";
             } else {
                 header('location:HomePage.php');

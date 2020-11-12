@@ -72,7 +72,7 @@ and open the template in the editor.
     <body>
         <div class="container">
             <div class="page-header">
-                <h1>Venue Booking</h1> 
+                <h1 class='bodyTitle'>Book Venue</h1>
             </div>
             <?php
             if (isset($_SESSION['successMsg'])) {

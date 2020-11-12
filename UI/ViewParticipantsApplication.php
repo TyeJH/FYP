@@ -66,7 +66,7 @@ and open the template in the editor.
     <body>
         <div class='container'>
             <div class='page-header'>
-                <h1>Participants Applications</h1>
+                <h1 class='bodyTitle'>Manage Participant</h1>
             </div>
             <form action="" method="post">
                 <label>

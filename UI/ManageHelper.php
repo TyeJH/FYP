@@ -64,7 +64,7 @@ and open the template in the editor.
     <body>
         <div class='container'>
             <div class='page-header'>
-                <h1>Helpers Applications</h1>
+                <h1 class='bodyTitle'>Manage Helper</h1>
             </div>
             <?php
             if (isset($_GET['eventID'])) {

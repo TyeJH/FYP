@@ -52,7 +52,26 @@ and open the template in the editor.
             $(document).ready(function () {
                 $('#documentsTable').DataTable();
             });
-
+            function openCancelForm(value) {
+                $('#docID').val(value);
+                $('#cancelModal').modal('show');
+            }
+            function cancelApplication() {
+                var docID = document.getElementById("docID").value;
+                $.ajax
+                        ({
+                            type: "POST",
+                            url: "../Domain/UpdateDocument.php",
+                            data: {
+                                "docID": docID,
+                                "status": 'Cancelled'
+                            },
+                            success: function (data) {
+                                $('#cancelModal').modal('hide');
+                                alert(data);
+                            }
+                        });
+            }
         </script>
     </head>
     <body>
@@ -71,7 +90,7 @@ and open the template in the editor.
                 echo "<th>Status</th>";
                 echo "<th>Action</th>";
                 echo "</tr>";
-                echo "<thead>";
+                echo "</thead>";
                 echo "<tbody>";
 
                 $societyID = $_SESSION['result']->societyID;
@@ -94,17 +113,21 @@ and open the template in the editor.
                             echo "<td><div style='color:#8a6d3b;' >{$doc->status}</div></td>";
                         } else if ($doc->status == "Disapproved") {
                             echo "<td><div style='color:#a94442;' >{$doc->status}</div></td>";
+                        }else if ($doc->status == "Cancelled") {
+                            echo "<td><div>{$doc->status}</div></td>";
                         }
                         $eventDA = new SocietyEventDA();
                         if ($eventDA->isApplyIdExist($doc->docID)) {
-                            echo "<td> <p class='btn btn-info m-r-1em'>Created</p> </td>";
+                            echo "<td> <button disabled class='btn btn-info m-r-1em'>Created</button> </td>";
                         } else {
                             if ($doc->status == "Approved") {
                                 echo "<td> <a href = 'SocietyCreateEvent.php?applyID={$doc->docID}' class='btn btn-primary m-r-1em'>Create event</a> </td>";
                             } else if ($doc->status == "Pending") {
-                                echo "<td> <p>Waiting for approval</p> </td>";
+                                echo "<td><input type = 'button' name = 'cancel' onClick='openCancelForm(this.id);' value = 'Cancel' id = '{$doc->docID}' class = 'btn btn-warning m-r-1em' /></td>";
                             } else if ($doc->status == "Disapproved") {
                                 echo "<td><input type = 'button' name = 'edit' value = 'View Feedback' id = '{$doc->docID}' class = 'btn btn-primary m-r-1em view_data' /></td>";
+                            } else if ($doc->status == "Cancelled") {
+                                echo "<td> <button disabled class='btn btn-secondary m-r-1em'>Cancelled</button> </td>";
                             }
                         }
                     }
@@ -134,5 +157,27 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
+        <!--Cancel Modal-->
+        <div id="cancelModal" class="modal fade">  
+            <div class="modal-dialog">  
+                <div class="modal-content">  
+                    <div class="modal-header">  
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                        <h4 class="modal-title">Do you wish to cancel this application?</h4>  
+                    </div>  
+                    <div class="modal-body">
+                        <form method="POST" id="insert_form">  
+                            <label>There is no turning back.</label> 
+                            <br />
+                            <input type="hidden" name="docID" id="docID"/>
+                            <input type="submit" name="vSubmit" id="insert" onClick='cancelApplication()' value="Yes" class="btn btn-danger" />  
+                        </form>  
+                    </div>  
+                    <div class="modal-footer">  
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                    </div>  
+                </div>  
+            </div>  
+        </div> 
     </body>
 </html>

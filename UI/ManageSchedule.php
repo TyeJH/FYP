@@ -71,7 +71,7 @@ and open the template in the editor.
     <body>
         <div class='container'>
             <div class='page-header'>
-                <h1>Your Schedules</h1>
+                <h1 class='bodyTitle'>Manage Helper</h1>
             </div>
             <a href = 'EnterSchedule.php?eventID=<?= $_GET['eventID'] ?>' class = 'btn btn-primary'>Add Schedule</a>
             <a href='EventOrganizerHome.php' class='btn btn-danger'>Back</a>
