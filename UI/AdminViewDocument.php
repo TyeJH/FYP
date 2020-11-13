@@ -24,8 +24,7 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <title>Document History</title>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
         <!--Data Table-->
         <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet">
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -33,7 +32,7 @@ and open the template in the editor.
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
 
         <!--Display Modal-->
-        <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' type='text/javascript'></script>
+        <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js' type='text/javascript'></script>
 
         <script>
             $(document).ready(function () {
@@ -140,7 +139,7 @@ and open the template in the editor.
                 header('Location:HomePage.php');
             }
             ?>
-            <a href = "HomePage.php" class = "btn btn-danger">Back</a>
+            <a href = "HomePage.php" class = "btn btn-info">Back</a>
         </div>
         <!--Add Feedback Details-->
         <div id="add_data_Modal" class="modal fade">  
