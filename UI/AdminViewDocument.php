@@ -128,7 +128,7 @@ and open the template in the editor.
                             . "<p id='$doc->docID:$doc->societyID:Disapproved' onClick='openFeedbackForm(this.id)' class='btn btn-danger m-r-1em'>Disapprove</p> </td>";
                             echo "<td id='$doc->docID:hiddenCol' style='display:none;'>  <a id='$doc->docID' class='btn btn-info m-r-1em'>Processed</a> ";
                         } else {
-                            echo "<td> <button class='btn btn-info m-r-1em' disabled>Processed</button> </td>";
+                            echo "<td> <button class='btn btn-secondary m-r-1em' disabled>Processed</button> </td>";
                         }
                         echo "</tr>";
                         $count++;
