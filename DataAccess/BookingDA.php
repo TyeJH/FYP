@@ -63,7 +63,25 @@ class BookingDA {
         }
         DatabaseConnection::closeConnection($db);
     }
-    
+
+    public function isBooked($venueID, $bookDate, $startTime, $endTime) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = "SELECT * FROM booking B, venue V WHERE B.venueID = V.venueID AND bookStatus = 'Approved' AND V.venueID = ? AND b.bookDate = ? AND ? >= startTime AND ? <= endTime";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $venueID, PDO::PARAM_STR);
+        $stmt->bindParam(2, $bookDate, PDO::PARAM_STR);
+        $stmt->bindParam(3, $startTime, PDO::PARAM_STR);
+        $stmt->bindParam(4, $endTime, PDO::PARAM_STR);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return false;
+        } else {
+            return true;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+
     public function retrieveAll() {
         $db = DatabaseConnection::getInstance()->getDB();
         $query = 'SELECT * FROM booking B, venue V WHERE B.venueID = V.venueID';

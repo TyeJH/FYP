@@ -25,8 +25,10 @@ if (isset($_POST['bookVenue'])) {
     $etFormat = $bookDate . " " . $endTime;
     $st = strtotime($stFormat);
     $et = strtotime($etFormat);
+    $bookingDA = new BookingDA();
+
     if (empty($purpose)) {
-        $_SESSION['errorMsg'] = 'Please insert purposes.';
+        $_SESSION['errorMsg'] = 'Purposes cannot be empty.';
         header("Location:../UI/BookVenue.php?venueID=$venueID");
     }
 //    if ($st > date()) {
@@ -35,12 +37,14 @@ if (isset($_POST['bookVenue'])) {
     if ($st > $et || $st == $et) {
         $_SESSION['errorMsg'] = 'The end time must be greater than the start time';
         header("Location:../UI/BookVenue.php?venueID=$venueID");
-    } else if (millisecsBetween($stFormat, $etFormat) > 7200000) {
-        $_SESSION['errorMsg'] = 'Maximum 120 minutes per book.';
+    } else if (millisecsBetween($stFormat, $etFormat) > 7200000 && $purpose == 'Discussion') {
+        $_SESSION['errorMsg'] = 'Maximum 120 minutes per book for discussion.';
+        header("Location:../UI/BookVenue.php?venueID=$venueID");
+    } else if ($bookingDA->isBooked($venueID, $bookDate, $startTime, $endTime)) {
+        $_SESSION['errorMsg'] = 'Sorry to inform that the venue and time slot is currently booked by others.';
         header("Location:../UI/BookVenue.php?venueID=$venueID");
     } else {
         $booking = new Booking($bookingID = "", $purpose, $bookDate, $startTime, $endTime, $bookStatus, $societyID, $venueID);
-        $bookingDA = new BookingDA();
         if ($bookingDA->create($booking)) {
             $_SESSION['successMsg'] = 'Successfully Booked. Waiting for staff to approve.';
             header("Location:../UI/BookVenue.php?venueID=$venueID");

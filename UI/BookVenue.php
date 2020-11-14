@@ -29,7 +29,6 @@ and open the template in the editor.
         <script src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
         <script type="text/javascript">
             function CheckPurpose(val) {
-
                 var element = document.getElementById('otherPurposes');
                 if (val === 'Others') {
                     element.style.display = 'block';
@@ -38,9 +37,12 @@ and open the template in the editor.
                     element.style.display = 'none';
                     element.required = false;
                 }
+                checkTimeValid();
             }
-            function CompareTime() {
-                //var purpose = document.getElementById('purpose').value;
+            function checkTimeValid() {
+                var purpose = document.getElementById('purpose').value;
+                var button = document.getElementById('bookVenue');
+
                 var bookDate = document.getElementById('bookDate').value;
                 var errMsg = document.getElementById('errMsg');
                 var errMsg2 = document.getElementById('errMsg2');
@@ -49,19 +51,30 @@ and open the template in the editor.
                 var endTime = date.format('yyyy/mm/dd') + " " + document.getElementById('endTime').value;
                 var st = new Date(Date.parse(startTime));
                 var et = new Date(Date.parse(endTime));
-                //alert(st + "\n" + et);
+                //if start time more than end time or start time is equal end time
+                var disable = 0;
                 if (st > et || st === et) {
                     errMsg.style.display = 'block';
+                    disable++;
                 } else {
                     errMsg.style.display = 'none';
                 }
-                if (et - st > 7200000) {
-                    errMsg2.style.display = 'block';
+                if (purpose === 'Discussion') {
+                    //alert(st + "\n" + et);
+                    //if duration for discussion is more than 120mins
+                    if (et - st > 7200000) {
+                        errMsg2.style.display = 'block';
+                        disable++;
+                    } else {
+                        errMsg2.style.display = 'none';
+                    }
+                }
+                if (disable > 0) {
+                    button.disabled = true;
                 } else {
-                    errMsg2.style.display = 'none';
+                    button.disabled = false;
                 }
             }
-
         </script> 
         <style>
             .error-msg {
@@ -84,7 +97,7 @@ and open the template in the editor.
                 unset($_SESSION['errorMsg']);
             }
             ?>
-            <form action="../Domain/CreateBooking.php" method="post" enctype="multipart/form-data">
+            <form action="../Domain/CreateBooking.php" method="post" enctype="multipart/form-data" >
                 <table class="table table-hover table-bordered">
                     <tbody>
 
@@ -98,7 +111,7 @@ and open the template in the editor.
                                     <option value="Discussion">Discussion</option>
                                     <option value="Others">Others</option>
                                 </select>
-                                <input type="text" name="otherPurposes" id="otherPurposes" placeholder="Your purposes"style='display:none;'/>               
+                                <input type="text" name="otherPurposes" onchange="isTextBoxEmpty()"id="otherPurposes" placeholder="Your purposes"style='display:none;'/>               
                             </td>
                         </tr>
                         <tr>
@@ -106,7 +119,7 @@ and open the template in the editor.
                                 <label>Booking Date:</label>
                             </td>
                             <td>
-                                <input type="date" name="bookDate" id="bookDate" required>
+                                <input type="date" name="bookDate" id="bookDate" onchange="checkTimeValid()" required>
                             </td>
                         </tr>
                         <tr>
@@ -114,7 +127,7 @@ and open the template in the editor.
                                 <label for="bookTime">Time Duration</label>
                             </td>
                             <td>
-                                From: <select id="startTime" name="startTime"  onchange="CompareTime()" required>
+                                From: <select id="startTime" name="startTime"  onchange="checkTimeValid()" required>
                                     <!--                                    <option  disabled selected>Start Time:</option>-->
                                     <?php
                                     $startTime = 800;
@@ -139,7 +152,7 @@ and open the template in the editor.
                                     }
                                     ?>
                                 </select>
-                                To: <select id="endTime" name="endTime" onchange="CompareTime()" required>
+                                To: <select id="endTime" name="endTime" onchange="checkTimeValid()" required>
                                     <!--                                    <option  disabled selected>End Time:</option>-->
                                     <?php
                                     $startTime = 830;
@@ -200,7 +213,7 @@ and open the template in the editor.
                             <td>
                             </td>
                             <td>
-                                <button type="submit" class='btn btn-primary' name='bookVenue'>Book Now</button>
+                                <button type="submit" class='btn btn-primary' id="bookVenue" name='bookVenue' disabled>Book Now</button>
                                 <a href='EventOrganizerHome.php' class='btn btn-danger'>Back</a>
                             </td>
                         </tr>
