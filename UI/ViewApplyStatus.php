@@ -167,7 +167,7 @@ and open the template in the editor.
                     </div>  
                     <div class="modal-body">
                         <form method="POST" id="insert_form">  
-                            <label>There is no turning back.</label> 
+                            <label>This process cannot be undo.</label> 
                             <br />
                             <input type="hidden" name="docID" id="docID"/>
                             <input type="submit" name="vSubmit" id="insert" onClick='cancelApplication()' value="Yes" class="btn btn-danger" />  
