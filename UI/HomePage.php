@@ -53,7 +53,7 @@ require '../UI/header.php';
             echo "</thead>";
             echo "<tbody>";
             $eventDA = new SocietyEventDA();
-            $eventArray = $eventDA->retrieve();
+            $eventArray = $eventDA->retrieveAllEndDateBeforeTomorrow();
             if ($eventArray == null) {
                 echo "<tr>";
                 echo "<td colspan='7' style=color:red;text-align:center;>No records found.</td>";

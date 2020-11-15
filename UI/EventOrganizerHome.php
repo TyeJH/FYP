@@ -66,7 +66,7 @@ and open the template in the editor.
             echo "<tbody>";
             $societyID = $_SESSION['result']->societyID;
             $eventDA = new SocietyEventDA();
-            $eventArray = $eventDA->retrieveBySocietyID($societyID);
+            $eventArray = $eventDA->retrieveAllEndDateBeforeTomorrowForSociety($societyID);
             if ($eventArray == null) {
                 echo "<tr>";
                 echo "<td colspan='7' style=color:red;text-align:center;>No records found.</td>";

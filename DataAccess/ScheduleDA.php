@@ -104,9 +104,13 @@ class ScheduleDA {
         DatabaseConnection::closeConnection($db);
     }
 
-    public function updateNoOfJoined($scheduleID) {
+    public function updateNoOfJoined($scheduleID,$applyStatus) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'UPDATE schedule SET noOfJoined = noOfJoined + ? WHERE scheduleID = ?';
+        if ($applyStatus == 'Approved') {
+            $query = 'UPDATE schedule SET noOfJoined = noOfJoined + ? WHERE scheduleID = ?';
+        } else {
+            $query = 'UPDATE schedule SET noOfJoined = noOfJoined - ? WHERE scheduleID = ?';
+        }
         $stmt = $db->prepare($query);
         $stmt->bindValue(1, 1, PDO::PARAM_STR);
         $stmt->bindValue(2, $scheduleID, PDO::PARAM_STR);

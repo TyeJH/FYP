@@ -31,21 +31,25 @@ if (isset($_POST['type']) && isset($_POST['scheduleID']) && isset($_POST['userID
     $participantDA = new ParticipantsDA();
     if ($participantDA->update($participant)) {
         if ($type == 'approval') {
-            //Update noOfJoined in Schedule table.
             $scheduleDA = new ScheduleDA();
-            $scheduleDA->updateNoOfJoined($scheduleID);
+            //Update noOfJoined in Schedule table.
+            $scheduleDA->updateNoOfJoined($scheduleID, $applyStatus);
             //Send email after approved participant.
             $eventDA = new SocietyEventDA();
             $event = $eventDA->retrieveByEventID($eventID);
             $studDA = new StudentDA();
             $stud = $studDA->retrieveByStudID($userID);
+
             $to = $stud->studEmail;
             $toName = 'Participant';
-            $subject = "$event->eventName - Participant Application : Approved";
-            $message = "Hi ! You have approved for joining $event->eventName.\n<a href='http://localhost/FYP/UI/Homepage.php'>Click Here to find out more.</a>";
+            $subject = "$event->eventName - Participant Application : $applyStatus";
+            if ($applyStatus == 'Approved') {
+                $message = "Hi ! You have approved for joining $event->eventName.\n<a href='http://localhost/FYP/UI/Homepage.php'>Click Here to find out more.</a>";
+            } else {
+                $message = "Sorry ! You have disapproved for joining $event->eventName.\n<a href='http://localhost/FYP/UI/Homepage.php'>Click Here to find out more.</a>";
+            }
             $from = "eventmanagementsystemtaruc@gmail.com";
             $sender = "TAR UC Event Management System";
-
             $mail = new Email($to, $toName, $subject, $message, $from, $sender);
             if ($mail->setting()) {
                 echo $participant->userID . ' application status is marked as ' . $participant->applyStatus;
