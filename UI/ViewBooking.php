@@ -20,7 +20,6 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title>Booking History</title>
-        <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet">-->
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
         <!--Data Table-->

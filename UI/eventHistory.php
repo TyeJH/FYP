@@ -29,26 +29,51 @@ require 'header.php';
                     <h1 style="text-align: center;font-size: 50px;">History</h1>
                     <br>
                     <?php
-                    include_once '../DataAccess/ParticipantsDA.php';
+                    include_once '../DataAccess/ScheduleDA.php';
                     include_once '../DataAccess/SocietyEventDA.php';
-                    $a = new SocietyEventDA();
-                    $b = $a->retrieveBySocietyID($society->societyID)
+                    $seda = new SocietyEventDA();
+                    $event = $seda->retrieveBySocietyID($society->societyID);
+                    $sda = new ScheduleDA();
                     ?>
                     <table id="eventhistory" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th width="50%">Event ID</th>
-                                <th width="50%">Event Name</th>
+                                <th width="33%">Event ID</th>
+                                <th width="37%">Event Name</th>
+                                <th width="30%">Event Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            if (!empty($b)) {
-                                foreach ($b as $history) {
-                                    echo"<tr>";
-                                    echo "<td>" . $history->eventID . "</td>";
-                                    echo "<td>" . $history->eventName . "</td>";
-                                    echo"</tr>";
+                            if (!empty($event)) {
+                                foreach ($event as $eventList) {
+                                    $history = $sda->retrieveHistory($eventList->eventID);
+                                    $future = $sda->retrieveFuture($eventList->eventID);
+                                    if (!empty($history)) {
+                                        foreach ($history as $historyList) {
+                                            if (empty($future)) {
+                                                $sDate = date("d-M-Y", strtotime($historyList->startDate));
+                                                $eDate = date("d-M-Y", strtotime($historyList->endDate));
+                                                echo"<tr>";
+                                                echo "<td>" . $historyList->eventID . "</td>";
+                                                echo "<td>" . $eventList->eventName . "</td>";
+                                                echo "<td>" . $sDate . " - " . $eDate . "</td>";
+                                                echo"</tr>";
+                                            } else {
+                                                foreach ($future as $futureList) {
+                                                    if ($historyList->eventID != $futureList->eventID) {
+                                                        $sDate = date("d-M-Y", strtotime($historyList->startDate));
+                                                        $eDate = date("d-M-Y", strtotime($historyList->endDate));
+                                                        echo"<tr>";
+                                                        echo "<td>" . $historyList->eventID . "</td>";
+                                                        echo "<td>" . $eventList->eventName . "</td>";
+                                                        echo "<td>" . $sDate . " - " . $eDate . "</td>";
+                                                        echo"</tr>";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             ?>

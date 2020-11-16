@@ -46,7 +46,47 @@ class ScheduleDA {
         }
         DatabaseConnection::closeConnection($db);
     }
+    
+    public function retrieveHistory($eventID) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT DISTINCT(eventID), MIN(startDate) AS Start, MAX(endDate) AS End FROM schedule WHERE eventID = ? AND endDate < CURDATE() GROUP BY eventID';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $eventID);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $scheduleArray = array();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $schedule = new Schedule("", "", $row['Start'], "", $row['End'], "", "", "", "", "", $row['eventID']);
+                $scheduleArray[] = $schedule;
+            }
+            return $scheduleArray;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
 
+    public function retrieveFuture($eventID) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT * FROM schedule WHERE eventID = ? AND endDate >= CURDATE()';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $eventID);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $scheduleArray = array();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $schedule = new Schedule($row['scheduleID'], $row['venue'], $row['startDate'], $row['startTime'], $row['endDate'], $row['endTime'], $row['unlimited'], $row['noOfParticipant'], $row['noOfJoined'], $row['scheduleStatus'], $row['eventID']);
+                $scheduleArray[] = $schedule;
+            }
+            return $scheduleArray;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+    
     public function retrieveLowestDateByEventID($eventID) {
         $db = DatabaseConnection::getInstance()->getDB();
         $query = 'SELECT * FROM schedule WHERE eventID = ? AND startDate = (SELECT MIN(startDate) FROM schedule where eventID = ?)';

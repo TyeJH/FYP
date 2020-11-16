@@ -77,12 +77,14 @@ require 'header.php';
                         unset($_SESSION['error']);
                     }
                     ?>
+                    <div class="container container-card">
                     <form method="post" action="../Domain/validateLogin.php">
                         <label>Username: </label> <input type="text" placeholder="Enter username" name="userid" autofocus=""/><br>
                         <label>Password: </label> <input type="password" placeholder="Enter your password" name ="studentpass"/><br>
                         <input type="submit" name="studentSubmit" value="Login"/> <input type="reset" name="reset" value="Cancel"/><br>
                         <label>Forgot Password? <a href="../UI/ForgotPassword.php">Click Here</a></label>
                     </form>
+                    </div>
                     <?php
                 } else {
                     header("Location:../UI/HomePage.php");
