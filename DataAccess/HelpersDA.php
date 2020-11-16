@@ -62,6 +62,27 @@ class HelpersDA {
         DatabaseConnection::closeConnection($db);
     }
 
+    public function retrieveHelpHistory($userID) {
+
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT * FROM helpers WHERE userID = ? AND applyStatus = "Approved"';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $userID);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $helperArray = array();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $helper = new Helpers($row['eventID'], $row['userID'], $row['applyDate'], $row['applyStatus']);
+                $helperArray[] = $helper;
+            }
+            return $helperArray;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+
     public function update(Helpers $helper) {
         $db = DatabaseConnection::getInstance()->getDB();
         $query = 'UPDATE helpers SET applyStatus = ? WHERE userID = ? AND eventID = ?';

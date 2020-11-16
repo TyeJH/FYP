@@ -27,6 +27,7 @@ require 'header.php';
                 <div class="container">
                     <br>
                     <h1 style="text-align: center;font-size: 50px;">History</h1>
+                    <hr>
                     <br>
                     <?php
                     include_once '../DataAccess/ScheduleDA.php';
@@ -91,32 +92,111 @@ require 'header.php';
                 ?>
                 <div class="container">
                     <br>
-                    <h2>History</h2>
+                    <h1 style="text-align: center;font-size: 50px;">History</h1>
+                    <hr>
                     <br>
                     <?php
                     include_once '../DataAccess/ParticipantsDA.php';
+                    include_once '../DataAccess/HelpersDA.php';
                     include_once '../DataAccess/SocietyEventDA.php';
-                    $try = new ParticipantsDA();
-                    $abc = $try->retrieveStudentEvent($stud->studID);
-                    $a = new SocietyEventDA();
+                    include_once '../DataAccess/ScheduleDA.php';
+                    $pda = new ParticipantsDA();
+                    $hda = new HelpersDA();
+                    $part = $pda->retrievePartHistory($stud->studID);
+                    $help = $hda->retrieveHelpHistory($stud->studID);
+                    $seda = new SocietyEventDA();
+                    $sda = new ScheduleDA();
                     ?>
                     <table id="eventhistory" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th width="50%">Event ID</th>
-                                <th width="50%">Event Name</th>
+                                <th width="20%">Event ID</th>
+                                <th width="30%">Event Name</th>
+                                <th width="25%">Date Attended</th>
+                                <th width="25%">Participants / Helper</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            if (!empty($abc)) {
-                                foreach ($abc as $history) {
-                                    echo"<tr>";
-                                    echo "<td>" . $history->eventID . "</td>";
-                                    $b = $a->retrieveByEventID($history->eventID);
-                                    if (!empty($b)) {
-                                        echo "<td>" . $b->eventName . "</td>";
-                                        echo"</tr>";
+                            if (!empty($part)) {
+                                foreach ($part as $partList) {
+                                    $history = $sda->retrieveHistory($partList->eventID);
+                                    $future = $sda->retrieveFuture($partList->eventID);
+                                    if (!empty($history)) {
+                                        foreach ($history as $historyList) {
+                                            if (empty($future)) {
+                                                $joined = $sda->retrieveByScheduleID($partList->scheduleID);
+                                                $eName = $seda->retrieveByEventID($partList->eventID);
+                                                if (!empty($joined)) {
+                                                    $jDate = date("d-M-Y", strtotime($joined->startDate));
+                                                    if (!empty($eName)) {
+                                                        echo"<tr>";
+                                                        echo "<td>" . $historyList->eventID . "</td>";
+                                                        echo "<td>" . $eName->eventName . "</td>";
+                                                        echo "<td>" . $jDate . "</td>";
+                                                        echo "<td> Participants </td>";
+                                                        echo"</tr>";
+                                                    }
+                                                }
+                                            } else {
+                                                foreach ($future as $futureList) {
+                                                    if ($historyList->eventID != $futureList->eventID) {
+                                                        $joined = $sda->retrieveByScheduleID($partList->scheduleID);
+                                                        $eName = $seda->retrieveByEventID($partList->eventID);
+                                                        if (!empty($joined)) {
+                                                            $jDate = date("d-M-Y", strtotime($joined->startDate));
+                                                            if (!empty($eName)) {
+                                                                echo"<tr>";
+                                                                echo "<td>" . $historyList->eventID . "</td>";
+                                                                echo "<td>" . $eName->eventName . "</td>";
+                                                                echo "<td>" . $jDate . "</td>";
+                                                                echo "<td> Participants </td>";
+                                                                echo"</tr>";
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if (!empty($help)) {
+                                foreach ($help as $helpList) {
+                                    $history = $sda->retrieveHistory($helpList->eventID);
+                                    $future = $sda->retrieveFuture($helpList->eventID);
+                                    if (!empty($history)) {
+                                        foreach ($history as $historyList) {
+                                            if (empty($future)) {
+                                                $eName = $seda->retrieveByEventID($helpList->eventID);
+                                                $sDate = date("d-M-Y", strtotime($historyList->startDate));
+                                                $eDate = date("d-M-Y", strtotime($historyList->endDate));
+                                                if (!empty($eName)) {
+                                                    echo"<tr>";
+                                                    echo "<td>" . $historyList->eventID . "</td>";
+                                                    echo "<td>" . $eName->eventName . "</td>";
+                                                    echo"<td>" . $sDate . " - " . $eDate . "</td>";
+                                                    echo "<td> Helpers </td>";
+                                                    echo"</tr>";
+                                                }
+                                            } else {
+                                                foreach ($future as $futureList) {
+                                                    if ($historyList->eventID != $futureList->eventID) {
+                                                        $eName = $seda->retrieveByEventID($helpList->eventID);
+                                                        $sDate = date("d-M-Y", strtotime($historyList->startDate));
+                                                        $eDate = date("d-M-Y", strtotime($historyList->endDate));
+                                                        if (!empty($eName)) {
+                                                            echo"<tr>";
+                                                            echo "<td>" . $historyList->eventID . "</td>";
+                                                            echo "<td>" . $eName->eventName . "</td>";
+                                                            echo"<td>" . $sDate . " - " . $eDate . "</td>";
+                                                            echo "<td> Helpers </td>";
+                                                            echo"</tr>";
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }

@@ -102,6 +102,27 @@ class ParticipantsDA {
         DatabaseConnection::closeConnection($db);
     }
 
+    public function retrievePartHistory($student) {
+
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT * FROM participants WHERE userID = ? AND applyStatus = "Approved" AND attendanceStatus = "Attend"';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $student, PDO::PARAM_STR);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $participantsArray = array();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $participant = new Participants($row['scheduleID'], $row['eventID'], $row['userID'], $row['applyDate'], $row['applyStatus'], $row['attendanceStatus']);
+                $participantsArray[] = $participant;
+            }
+            return $participantsArray;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+    
     public function retrieveByScheduleID($scheduleID) {
 
         $db = DatabaseConnection::getInstance()->getDB();
