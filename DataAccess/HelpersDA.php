@@ -62,6 +62,26 @@ class HelpersDA {
         DatabaseConnection::closeConnection($db);
     }
 
+    public function retrieveByEventIDAndUserID($eventID, $userID) {
+
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT * FROM helpers WHERE eventID = ? AND userID = ?';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $eventID);
+        $stmt->bindParam(2, $userID);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $helper = new Helpers($row['eventID'], $row['userID'], $row['applyDate'], $row['applyStatus']);
+        }
+        return $helper;
+
+        DatabaseConnection::closeConnection($db);
+    }
+
     public function retrieveHelpHistory($userID) {
 
         $db = DatabaseConnection::getInstance()->getDB();
@@ -87,9 +107,9 @@ class HelpersDA {
         $db = DatabaseConnection::getInstance()->getDB();
         $query = 'UPDATE helpers SET applyStatus = ? WHERE userID = ? AND eventID = ?';
         $stmt = $db->prepare($query);
-        $stmt->bindParam(1, $helper->applyStatus, PDO::PARAM_STR);
-        $stmt->bindParam(2, $helper->userID, PDO::PARAM_STR);
-        $stmt->bindParam(3, $helper->eventID, PDO::PARAM_STR);
+        $stmt->bindValue(1, $helper->applyStatus, PDO::PARAM_STR);
+        $stmt->bindValue(2, $helper->userID, PDO::PARAM_STR);
+        $stmt->bindValue(3, $helper->eventID, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             return true;

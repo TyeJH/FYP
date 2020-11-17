@@ -187,7 +187,7 @@ AUTHOR : NGO KIAN HEE
                                 if ($_SESSION['current'] == 'Student') {
                                     if (isset($_SESSION['result'])) {
                                         $helpersDA = new HelpersDA();
-                                        $result2 = $helpersDA->retrieveByUserID($_SESSION['result']->studID);
+                                        $result2 = $helpersDA->retrieveByEventIDAndUserID($eventID,$_SESSION['result']->studID);
                                         //If student already joined or applied
                                         if ($result2 != null) {
                                             if ($result2->applyStatus == 'Approved') {
