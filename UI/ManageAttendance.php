@@ -61,6 +61,21 @@ and open the template in the editor.
                             }
                         });
             }
+//            function generateAttendanceReport(data) {
+//                var valueSpilted = data.split(',');
+//                $.ajax
+//                        ({
+//                            type: "POST",
+//                            url: "../Domain/GenerateAttendanceReport.php",
+//                            data: {
+//                                "eventID": valueSpilted[0],
+//                                "scheduleID": valueSpilted[1]
+//                            },
+//                            success: function (data) {
+//                                
+//                            }
+//                        });
+//            }
         </script>
     </head>
     <body>
@@ -104,9 +119,9 @@ and open the template in the editor.
             <?php
             if (isset($_GET['eventID'])) {
                 echo "<hr style='color:black;border-width:10px;'>";
-
+                $eventID = $_GET['eventID'];
                 $scheduleDA = new ScheduleDA();
-                $schedule = $scheduleDA->retrieve($_GET['eventID']);
+                $schedule = $scheduleDA->retrieve($eventID);
                 if (isset($_POST['sessionFilter'])) {
                     $scheduleID = $_POST['sessionFilter'];
                     $scheduleDA = new ScheduleDA();
@@ -129,6 +144,12 @@ and open the template in the editor.
                         if ($participantArray == null) {
                             echo "<p>No participant in this schedule yet.</p>";
                         } else {
+                            echo "<form target='_blank' action='../Domain/GenerateAttendanceReport.php' method='Post'>";
+                            echo "<input type='hidden' value='$eventID' name='eventID'>";
+                            echo "<input type='hidden' value='$schedule->scheduleID' name='scheduleID'>";
+                            echo "<button type='submit'>Generate Attendance Report</button>";
+                            echo "</form>";
+                            //echo "<button onclick='generateAttendanceReport(this.value)' value='$eventID,$schedule->scheduleID'>Attendance Report</button>";
                             echo "<table id='participantsApplication' class = 'table table-hover  table-bordered'>";
                             echo "<thead>";
                             echo "<tr>";

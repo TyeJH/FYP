@@ -44,6 +44,29 @@ class ParticipantsDA {
         }
         DatabaseConnection::closeConnection($db);
     }
+    
+    public function retrieveByScheduleIdAndAttendanceStatus($scheduleID, $attendanceStatus) {
+
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT * FROM participants WHERE scheduleID = ? AND attendanceStatus = ?';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $scheduleID, PDO::PARAM_STR);
+        $stmt->bindParam(2, $attendanceStatus);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $participantsArray = array();
+            $participant = new Participants();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $participant = new Participants($row['scheduleID'], $row['eventID'], $row['userID'], $row['applyDate'], $row['applyStatus'], $row['attendanceStatus']);
+                $participantsArray[] = $participant;
+            }
+            return $participantsArray;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
 
     public function retrieveByScheduleIDUserID($scheduleID, $userID) {
         $db = DatabaseConnection::getInstance()->getDB();
