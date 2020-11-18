@@ -75,7 +75,7 @@ and open the template in the editor.
                 $bookingArray = $bookingDA->retrieve($_SESSION['result']->societyID);
                 if ($bookingArray == null) {
                     echo "<tr>";
-                    echo "<td colspan='6' style=color:red;text-align:center;>No records found.</td>";
+                    echo "<td colspan='7' style=color:red;text-align:center;>No records found.</td>";
                     echo "</tr>";
                 } else {
                     //class= 'table table-hover table-responsive table-bordered'

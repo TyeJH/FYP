@@ -26,7 +26,7 @@ class BookingDA {
 
     public function retrieve($societyID) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'SELECT * FROM booking B, venue V WHERE B.venueID = V.venueID AND societyID = ?';
+        $query = 'SELECT * FROM booking B, venue V WHERE B.venueID = V.venueID AND societyID = ? ORDER BY bookingID DESC';
         $stmt = $db->prepare($query);
         $stmt->bindParam(1, $societyID);
         $stmt->execute();
@@ -84,7 +84,7 @@ class BookingDA {
 
     public function retrieveAll() {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'SELECT * FROM booking B, venue V WHERE B.venueID = V.venueID';
+        $query = 'SELECT * FROM booking B, venue V WHERE B.venueID = V.venueID ORDER BY bookingID DESC';
         $stmt = $db->prepare($query);
         $stmt->execute();
         $total = $stmt->rowCount();

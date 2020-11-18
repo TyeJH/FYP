@@ -147,7 +147,8 @@ and open the template in the editor.
                             echo "<form target='_blank' action='../Domain/GenerateAttendanceReport.php' method='Post'>";
                             echo "<input type='hidden' value='$eventID' name='eventID'>";
                             echo "<input type='hidden' value='$schedule->scheduleID' name='scheduleID'>";
-                            echo "<button type='submit'>Generate Attendance Report</button>";
+                            echo "<label>Attendance Report</label><br>";
+                            echo "<input style='border:1px solid;'type='image' src='../image/attendanceIcon.jpg' alt='Submit' width='48' height='48'>";
                             echo "</form>";
                             //echo "<button onclick='generateAttendanceReport(this.value)' value='$eventID,$schedule->scheduleID'>Attendance Report</button>";
                             echo "<table id='participantsApplication' class = 'table table-hover  table-bordered'>";

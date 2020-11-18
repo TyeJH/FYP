@@ -45,7 +45,7 @@ class DocumentationDA {
     }
     public function retrieveAll() {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'SELECT * FROM documentation';
+        $query = 'SELECT * FROM documentation ORDER BY docID DESC';
         $stmt = $db->prepare($query);
         $stmt->execute();
         $total = $stmt->rowCount();

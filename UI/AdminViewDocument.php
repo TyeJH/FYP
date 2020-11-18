@@ -110,7 +110,7 @@ and open the template in the editor.
                 $docArray = $documentationDA->retrieveAll();
                 if ($docArray == null) {
                     echo "<tr>";
-                    echo "<td colspan='4' style='color:red;text-align:center;'>No records found.</td>";
+                    echo "<td colspan='5' style='color:red;text-align:center;'>No records found.</td>";
                     echo "</tr>";
                 } else {
                     $count = 1;

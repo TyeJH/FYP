@@ -42,6 +42,7 @@ require 'header.php';
                                 <th width="33%">Event ID</th>
                                 <th width="37%">Event Name</th>
                                 <th width="30%">Event Date</th>
+                                <th width="30%">Attendance Report</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,6 +60,12 @@ require 'header.php';
                                                 echo "<td>" . $historyList->eventID . "</td>";
                                                 echo "<td>" . $eventList->eventName . "</td>";
                                                 echo "<td>" . $sDate . " - " . $eDate . "</td>";
+                                                echo "<td>";
+                                                echo "<form target='_blank' action='../Domain/GenerateAttendanceReport.php' method='Post'>";
+                                                echo "<input type='hidden' value='$historyList->eventID' name='eventID'>";
+                                                echo "<input style='border:1px solid;'type='image' src='../image/attendanceIcon.jpg' alt='Submit' width='48' height='48'>";
+                                                echo "</form>";
+                                                echo "</td>";
                                                 echo"</tr>";
                                             } else {
                                                 foreach ($future as $futureList) {
@@ -69,6 +76,12 @@ require 'header.php';
                                                         echo "<td>" . $historyList->eventID . "</td>";
                                                         echo "<td>" . $eventList->eventName . "</td>";
                                                         echo "<td>" . $sDate . " - " . $eDate . "</td>";
+                                                        echo "<td>";
+                                                        echo "<form target='_blank' action='../Domain/GenerateAttendanceReport.php' method='Post'>";
+                                                        echo "<input type='hidden' value='$historyList->eventID' name='eventID'>";
+                                                        echo "<input style='border:1px solid;'type='image' src='../image/attendanceIcon.jpg' alt='Submit' width='48' height='48'>";
+                                                        echo "</form>";
+                                                        echo "</td>";
                                                         echo"</tr>";
                                                     }
                                                 }
