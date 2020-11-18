@@ -20,6 +20,8 @@ if (isset($_POST['eventID']) && isset($_POST['scheduleID'])) {
     $pdf->scheduleTitle($pdf->scheduleID);
     $pdf->displayContent();
     $pdf->displaySummaryPerSession();
+    $pdf->displayEndOfReport();
+
     $pdf->Output();
 }
 //Display overall attendance
@@ -40,6 +42,7 @@ if (isset($_POST['eventID'])) {
         }
     }
     $pdf->displayGrandSummry();
+    $pdf->displayEndOfReport();
     $pdf->Output();
 }
 

@@ -62,11 +62,12 @@ class AttendancePDF extends FPDF {
         $this->SetFont('Times', 'B', 12);
         $eventDA = new SocietyEventDA();
         $event = $eventDA->retrieveByEventID($this->eventID);
-        $this->Cell(20, 5, "Event ID: $event->eventID", 0, 1, 'C');
-        $this->Cell(55, 5, "Event Name: $event->eventName", 0, 1, 'C');
+        $this->Cell(0, 5, "Event ID: $event->eventID", 0, 1, 'L');
+        $this->Cell(0, 5, "Event Name: $event->eventName", 0, 1, 'L');
     }
 
     function scheduleTitle($scheduleID) {
+        $this->Ln();
         $this->SetFont('Times', 'B', 12);
         $scheduleDA = new ScheduleDA();
         $schedule = $scheduleDA->retrieveByScheduleID($scheduleID);
@@ -78,15 +79,15 @@ class AttendancePDF extends FPDF {
         //convert format to Thursday, 2020--Oct-01 4:00 PM
         $startDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($stFormat));
         $endDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($etFormat));
-        $this->Cell(120, 5, "Schedule: $startDateTimeFormatted - $endDateTimeFormatted", 0, 1, 'C');
+        $this->Cell(0, 5, "Schedule: $startDateTimeFormatted - $endDateTimeFormatted", 0, 1, 'L');
     }
 
     function headerTable($attendanceStatus) {
         $this->SetFont('Times', 'B', 12);
         if ($attendanceStatus == 'Attended') {
-            $this->Cell(29, 10, 'Status: Attended', 0, 0, 'C');
+            $this->Cell(0, 10, 'Status: Attended', 0, 0, 'L');
         } else {
-            $this->Cell(27, 10, 'Status: Absent', 0, 0, 'C');
+            $this->Cell(0, 10, 'Status: Absent', 0, 0, 'L');
         }
         $this->Ln();
         //Table header
@@ -140,20 +141,26 @@ class AttendancePDF extends FPDF {
 
     function displaySummaryPerSession() {
         $this->Ln();
-        $this->Cell(31, 10, "Total Participants : $this->totalParticipantsPerSession", 0, 1, 'C');
+        $this->Cell(0, 10, "Summary for this schedule", 0, 1, 'L');
+        $this->Cell(0, 5, "Total Participants : $this->totalParticipantsPerSession", 0, 1, 'L');
         $attendRate = $this->totalAttendedPerSession / $this->totalParticipantsPerSession * 100;
         $absentRate = $this->totalAbsentPerSession / $this->totalParticipantsPerSession * 100;
-        $this->Cell(40, 8, "Total Attended : $this->totalAttendedPerSession ($attendRate%)", 0, 1, 'C');
-        $this->Cell(31, 8, "Total Absent : $this->totalAbsentPerSession ($absentRate%)", 0, 1, 'C');
+        $this->Cell(0, 5, "Total Attended : $this->totalAttendedPerSession ($attendRate%)", 0, 1, 'L');
+        $this->Cell(0, 5, "Total Absent : $this->totalAbsentPerSession ($absentRate%)", 0, 1, 'L');
     }
 
     function displayGrandSummry() {
         $this->Ln();
-        $this->Cell(31, 10, "Grand Total Participants : $this->grandTotalParticipants", 0, 1, 'C');
+        $this->Cell(0, 10, "Overall Summary", 0, 1, 'L');
+        $this->Cell(0, 5, "Grand Total Participants : $this->grandTotalParticipants", 0, 1, 'L');
         $attendRate = $this->grandTotalAttended / $this->grandTotalParticipants * 100;
         $absentRate = $this->grandTotalAbsent / $this->grandTotalParticipants * 100;
-        $this->Cell(40, 8, "Grand Total Attended : $this->grandTotalAttended ($attendRate%)", 0, 1, 'C');
-        $this->Cell(31, 8, "Grand Total Absent : $this->grandTotalAbsent ($absentRate%)", 0, 1, 'C');
+        $this->Cell(0, 5, "Grand Total Attended : $this->grandTotalAttended ($attendRate%)", 0, 1, 'L');
+        $this->Cell(0, 5, "Grand Total Absent : $this->grandTotalAbsent ($absentRate%)", 0, 1, 'L');
+    }
+
+    function displayEndOfReport() {
+        $this->Cell(0, 30, '------End Of Report------', 0, 0, 'C');
     }
 
 }
