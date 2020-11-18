@@ -11,7 +11,7 @@ session_start();
 //For particular schedule.
 if (isset($_POST['eventID']) && isset($_POST['scheduleID'])) {
 
-    $pdf = new AttendancePDF();
+    $pdf = new AttendancePDF('P','mm','A4');
     $pdf->eventID = $_POST['eventID'];
     $pdf->scheduleID = $_POST['scheduleID'];
     $pdf->AliasNbPages();
@@ -21,13 +21,12 @@ if (isset($_POST['eventID']) && isset($_POST['scheduleID'])) {
     $pdf->displayContent();
     $pdf->displaySummaryPerSession();
     $pdf->displayEndOfReport();
-
     $pdf->Output();
 }
 //Display overall attendance
 if (isset($_POST['eventID'])) {
 
-    $pdf = new AttendancePDF();
+    $pdf = new AttendancePDF('P','mm','A4');
     $pdf->eventID = $_POST['eventID'];
     $pdf->AliasNbPages();
     $pdf->AddPage('P', 'A4', 0);
@@ -40,6 +39,8 @@ if (isset($_POST['eventID'])) {
             $pdf->displayContent($schedule->scheduleID);
             $pdf->displaySummaryPerSession();
         }
+    } else {
+        $pdf->displayNoRecordFound();
     }
     $pdf->displayGrandSummry();
     $pdf->displayEndOfReport();

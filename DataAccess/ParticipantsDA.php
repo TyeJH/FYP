@@ -44,7 +44,7 @@ class ParticipantsDA {
         }
         DatabaseConnection::closeConnection($db);
     }
-    
+
     public function retrieveByScheduleIdAndAttendanceStatus($scheduleID, $attendanceStatus) {
 
         $db = DatabaseConnection::getInstance()->getDB();
@@ -59,7 +59,7 @@ class ParticipantsDA {
         } else {
             $participantsArray = array();
             $participant = new Participants();
-            while ($row = $stmt->fetch(PDO::FETCH_BOTH)) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $participant = new Participants($row['scheduleID'], $row['eventID'], $row['userID'], $row['applyDate'], $row['applyStatus'], $row['attendanceStatus']);
                 $participantsArray[] = $participant;
             }
@@ -145,7 +145,7 @@ class ParticipantsDA {
         }
         DatabaseConnection::closeConnection($db);
     }
-    
+
     public function retrieveByScheduleID($scheduleID) {
 
         $db = DatabaseConnection::getInstance()->getDB();

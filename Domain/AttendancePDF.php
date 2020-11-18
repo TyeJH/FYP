@@ -131,6 +131,8 @@ class AttendancePDF extends FPDF {
     function displayContent($scheduleID) {
         //each session reset to 0
         $this->totalParticipantsPerSession = 0;
+        $this->totalAttendedPerSession = 0;
+        $this->totalAbsentPerSession = 0;
         //Display attended participants
         $this->headerTable('Attended');
         $this->getContent($scheduleID, 'Attended');
@@ -139,24 +141,41 @@ class AttendancePDF extends FPDF {
         $this->getContent($scheduleID, 'Absent');
     }
 
+    function displayLine() {
+        $this->Line(20, 45, 210 - 20, 45); // 20mm from each edge
+    }
+
     function displaySummaryPerSession() {
         $this->Ln();
-        $this->Cell(0, 10, "Summary for this schedule", 0, 1, 'L');
-        $this->Cell(0, 5, "Total Participants : $this->totalParticipantsPerSession", 0, 1, 'L');
-        $attendRate = $this->totalAttendedPerSession / $this->totalParticipantsPerSession * 100;
-        $absentRate = $this->totalAbsentPerSession / $this->totalParticipantsPerSession * 100;
-        $this->Cell(0, 5, "Total Attended : $this->totalAttendedPerSession ($attendRate%)", 0, 1, 'L');
-        $this->Cell(0, 5, "Total Absent : $this->totalAbsentPerSession ($absentRate%)", 0, 1, 'L');
+        if ($this->totalParticipantsPerSession != 0) {
+            $this->SetFont('Times', 'B', 12);
+            $this->Cell(0, 10, "Summary for this schedule", 0, 1, 'L');
+            $this->SetFont('Times', '', 12);
+
+            $this->Cell(0, 5, "Total Participants : $this->totalParticipantsPerSession", 0, 1, 'L');
+            $attendRate = $this->totalAttendedPerSession / $this->totalParticipantsPerSession * 100;
+            $absentRate = $this->totalAbsentPerSession / $this->totalParticipantsPerSession * 100;
+            $this->Cell(0, 5, "Total Attended : $this->totalAttendedPerSession ($attendRate%)", 0, 1, 'L');
+            $this->Cell(0, 5, "Total Absent : $this->totalAbsentPerSession ($absentRate%)", 0, 1, 'L');
+        }
     }
 
     function displayGrandSummry() {
         $this->Ln();
-        $this->Cell(0, 10, "Overall Summary", 0, 1, 'L');
-        $this->Cell(0, 5, "Grand Total Participants : $this->grandTotalParticipants", 0, 1, 'L');
-        $attendRate = $this->grandTotalAttended / $this->grandTotalParticipants * 100;
-        $absentRate = $this->grandTotalAbsent / $this->grandTotalParticipants * 100;
-        $this->Cell(0, 5, "Grand Total Attended : $this->grandTotalAttended ($attendRate%)", 0, 1, 'L');
-        $this->Cell(0, 5, "Grand Total Absent : $this->grandTotalAbsent ($absentRate%)", 0, 1, 'L');
+        if ($this->grandTotalParticipants != 0) {
+            $this->SetFont('Times', 'BU', 12);
+            $this->Cell(0, 10, "Overall Summary", 0, 1, 'L');
+            $this->SetFont('Times', '', 12);
+            $this->Cell(0, 5, "Grand Total Participants : $this->grandTotalParticipants", 0, 1, 'L');
+            $attendRate = $this->grandTotalAttended / $this->grandTotalParticipants * 100;
+            $absentRate = $this->grandTotalAbsent / $this->grandTotalParticipants * 100;
+            $this->Cell(0, 5, "Grand Total Attended : $this->grandTotalAttended ($attendRate%)", 0, 1, 'L');
+            $this->Cell(0, 5, "Grand Total Absent : $this->grandTotalAbsent ($absentRate%)", 0, 1, 'L');
+        }
+    }
+
+    function displayNoRecordFound() {
+        $this->Cell(0, 30, 'No Record Found', 0, 0, 'C');
     }
 
     function displayEndOfReport() {
