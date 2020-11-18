@@ -18,7 +18,7 @@ if (isset($_POST['eventID']) && isset($_POST['scheduleID'])) {
     $pdf->AddPage('P', 'A4', 0);
     $pdf->primaryTitle();
     $pdf->scheduleTitle($pdf->scheduleID);
-    $pdf->displayContent();
+    $pdf->displayContent($pdf->scheduleID);
     $pdf->displaySummaryPerSession();
     $pdf->displayEndOfReport();
     $pdf->Output();
