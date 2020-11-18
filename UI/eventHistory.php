@@ -39,9 +39,9 @@ require 'header.php';
                     <table id="eventhistory" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th width="33%">Event ID</th>
-                                <th width="37%">Event Name</th>
-                                <th width="30%">Event Date</th>
+                                <th width="15%">Event ID</th>
+                                <th width="35%">Event Name</th>
+                                <th width="25%">Event Date</th>
                                 <th width="30%">Attendance Report</th>
                             </tr>
                         </thead>
