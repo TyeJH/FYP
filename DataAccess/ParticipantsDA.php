@@ -59,7 +59,7 @@ class ParticipantsDA {
         } else {
             $participantsArray = array();
             $participant = new Participants();
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($row = $stmt->fetch(PDO::FETCH_BOTH)) {
                 $participant = new Participants($row['scheduleID'], $row['eventID'], $row['userID'], $row['applyDate'], $row['applyStatus'], $row['attendanceStatus']);
                 $participantsArray[] = $participant;
             }
