@@ -135,6 +135,7 @@ require 'header.php';
                     <script>
                         $(document).ready(function () {
                             $('#sTable').DataTable();
+
                             //    Display Insert Form
                             $('#add').click(function () {
                                 $('#insert').val("Insert");
@@ -285,6 +286,7 @@ require 'header.php';
                     </div>
 
                     <!--Display Account History-->
+                    <?php ?>
                     <div id="dataModal1" class="modal fade">  
                         <div class="modal-dialog">  
                             <div class="modal-content">  
@@ -294,10 +296,13 @@ require 'header.php';
                                 </div>  
                                 <div class="modal-body" id="accHistory">
                                 </div>  
-                                <div class="modal-footer">  
-                                    <button type="button" class="btn btn-info" data-dismiss="modal">Print</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
-                                      
+                                <div class="modal-footer">
+                                    <form style="height:20px;" method="POST" action="../Domain/printAcc.php">
+                                        <input type="submit" class="btn btn-info" value="Print" name="print" id="print"/>
+                                        <input type='hidden' name='printid' id='printid'/>
+                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Close"/>
+                                    </form>
+
                                 </div>  
                             </div>  
                         </div>  
@@ -347,6 +352,9 @@ require 'header.php';
                         </div>  
                     </div>  
                     <script>
+                        function print() {
+                            alert();
+                        }
                         $(document).ready(function () {
                             $('#sTable').DataTable();
 
@@ -431,6 +439,7 @@ require 'header.php';
                                         data: {socid: socid},
                                         success: function (data) {
                                             $('#accHistory').html(data);
+                                            $('#printid').val(socid);
                                             $('#dataModal1').modal('show');
                                         }
                                     });

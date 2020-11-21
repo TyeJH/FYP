@@ -220,7 +220,10 @@ require 'header.php';
                         </tbody>
                     </table>
                     <br>
-                    <button style="margin-left: 95%" class="btn btn-info">Print</button>
+                    <form style="height:20px;" method="POST" action="../Domain/printHistory.php">
+                        <input type="submit" class="btn btn-info" value="Print" name="print" id="print" style="margin-left: 95%;"/>
+                        <input type='hidden' name='printid' id='printid' value='<?= $stud->studID ?>'/>
+                    </form>
                 </div>
                 <script>
                     $(document).ready(function () {

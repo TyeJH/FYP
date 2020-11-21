@@ -4,6 +4,7 @@ include_once '../Domain/Society.php';
 include_once '../Domain/Admin.php';
 include_once '../Domain/Transaction.php';
 include_once '../DataAccess/SocietyDA.php';
+session_start();
 ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
@@ -21,7 +22,6 @@ if (isset($_POST['socid'])) {
     $output = '';
     $val = new Validation();
     $id = $val->test_input($_POST['socid']);
-
     $society = new SocietyDA();
     $trans = $society->getTrans($id);
     $output .= '  
