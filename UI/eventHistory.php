@@ -12,11 +12,15 @@ require 'header.php';
     <head>
         <meta charset="UTF-8">
         <title>Event History</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
         <!--Data Table-->
         <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet">
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  
     </head>
     <body>
         <?php
@@ -25,7 +29,6 @@ require 'header.php';
                 $society = $_SESSION['result'];
                 ?>
                 <div class="container">
-                    <br>
                     <h1 style="text-align: center;font-size: 50px;">History</h1>
                     <hr>
                     <br>
@@ -104,7 +107,6 @@ require 'header.php';
                 $stud = $_SESSION['result'];
                 ?>
                 <div class="container">
-                    <br>
                     <h1 style="text-align: center;font-size: 50px;">History</h1>
                     <hr>
                     <br>
@@ -214,8 +216,11 @@ require 'header.php';
                                 }
                             }
                             ?>
+
                         </tbody>
                     </table>
+                    <br>
+                    <button style="margin-left: 95%" class="btn btn-info">Print</button>
                 </div>
                 <script>
                     $(document).ready(function () {

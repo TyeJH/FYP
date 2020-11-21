@@ -295,7 +295,9 @@ require 'header.php';
                                 <div class="modal-body" id="accHistory">
                                 </div>  
                                 <div class="modal-footer">  
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Print</button>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                                      
                                 </div>  
                             </div>  
                         </div>  
