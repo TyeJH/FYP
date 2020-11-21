@@ -50,6 +50,10 @@ AUTHOR : NGO KIAN HEE
                 echo "<div class='alert alert-success'><strong>Success! </strong>" . $_SESSION['successMsg'] . '</div>';
                 unset($_SESSION['successMsg']);
             }
+            if (isset($_SESSION['successMsg2'])) {
+                echo "<div class='alert alert-info'><strong>Notice </strong>" . $_SESSION['successMsg2'] . '</div>';
+                unset($_SESSION['successMsg2']);
+            }
             if (isset($_SESSION['errorMsg'])) {
                 echo "<div class='alert alert-danger'><strong>Failed! </strong>" . $_SESSION['errorMsg'] . '</div>';
                 unset($_SESSION['errorMsg']);
@@ -141,7 +145,7 @@ AUTHOR : NGO KIAN HEE
                                                     if ($result->applyStatus == 'Approved') {
                                                         echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-success'>Joined</p></br>";
                                                     } else if ($result->applyStatus == 'Pending') {
-                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-info'>Pending for approval</p></br>";
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-info'>Pending for approval</p> <a href ='../Domain/DeleteParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-warning' name = 'participate'>Cancel</a></br>";
                                                     } else if ($result->applyStatus == 'Disapproved') {
                                                         echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Disapproved</p></br>";
                                                     }
@@ -187,7 +191,7 @@ AUTHOR : NGO KIAN HEE
                                 if ($_SESSION['current'] == 'Student') {
                                     if (isset($_SESSION['result'])) {
                                         $helpersDA = new HelpersDA();
-                                        $result2 = $helpersDA->retrieveByEventIDAndUserID($eventID,$_SESSION['result']->studID);
+                                        $result2 = $helpersDA->retrieveByEventIDAndUserID($eventID, $_SESSION['result']->studID);
                                         //If student already joined or applied
                                         if ($result2 != null) {
                                             if ($result2->applyStatus == 'Approved') {

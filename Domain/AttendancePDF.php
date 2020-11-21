@@ -43,6 +43,7 @@ class AttendancePDF extends FPDF {
     }
 
     function header() {
+
         $this->Image('../image/tarcBeyondEducation.png', 10, 6, 30);
         $this->SetFont('Arial', 'B', 14);
         $this->Cell(200, 5, 'Attendance Report', 0, 0, 'C');
@@ -59,8 +60,14 @@ class AttendancePDF extends FPDF {
     }
 
     function primaryTitle() {
+        
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $dateTime = date('d M Y H:i:s');
+        $this->Cell(0, 5, "Generated On: $dateTime", 0, 1, 'L');
         $this->SetFont('Times', 'B', 12);
+
         $eventDA = new SocietyEventDA();
+
         $event = $eventDA->retrieveByEventID($this->eventID);
         $this->Cell(0, 5, "Event ID: $event->eventID", 0, 1, 'L');
         $this->Cell(0, 5, "Event Name: $event->eventName", 0, 1, 'L');

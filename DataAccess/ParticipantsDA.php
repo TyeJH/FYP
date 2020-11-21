@@ -167,5 +167,19 @@ class ParticipantsDA {
         }
         DatabaseConnection::closeConnection($db);
     }
+    public function delete(Participants $participant) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'DELETE FROM participants WHERE scheduleID = ? AND eventID = ? AND userID = ?';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $participant->scheduleID, PDO::PARAM_STR);
+        $stmt->bindParam(2, $participant->eventID, PDO::PARAM_STR);
+        $stmt->bindParam(3, $participant->userID, PDO::PARAM_STR);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
 
 }

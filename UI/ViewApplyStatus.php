@@ -84,6 +84,7 @@ and open the template in the editor.
                 echo "<table id='documentsTable' class = 'table table-hover table-bordered'>";
                 echo "<thead>";
                 echo "<tr>";
+                echo "<th>No</th>";
                 echo "<th>Document ID</th>";
                 echo "<th>Name</th>";
                 echo "<th>Date Applied</th>";
@@ -92,17 +93,19 @@ and open the template in the editor.
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
-
+                $count = 0;
                 $societyID = $_SESSION['result']->societyID;
                 $documentationDA = new DocumentationDA();
                 $docArray = $documentationDA->retrieveBySocietyID($societyID);
                 if ($docArray == null) {
                     echo "<tr>";
-                    echo "<td colspan='4' style=color:red;text-align:center;>No records found.</td>";
+                    echo "<td colspan='5' style=color:red;text-align:center;>No records found.</td>";
                     echo "</tr>";
                 } else {
                     foreach ($docArray as $doc) {
+                        $count++;
                         echo "<tr>";
+                        echo "<td>$count</td>";
                         echo "<td>{$doc->docID}</td>";
                         echo "<td><a title='Download File' download='" . $doc->docName . "' href=data:" . $doc->mime . ";base64," . base64_encode($doc->docContent) . ">$doc->docName</a></td>";
                         $dateFormatted = date("d-M-Y", strtotime($doc->applyDate));
@@ -113,7 +116,7 @@ and open the template in the editor.
                             echo "<td><div style='color:#8a6d3b;' >{$doc->status}</div></td>";
                         } else if ($doc->status == "Disapproved") {
                             echo "<td><div style='color:#a94442;' >{$doc->status}</div></td>";
-                        }else if ($doc->status == "Cancelled") {
+                        } else if ($doc->status == "Cancelled") {
                             echo "<td><div>{$doc->status}</div></td>";
                         }
                         $eventDA = new SocietyEventDA();

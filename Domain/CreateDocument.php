@@ -5,6 +5,7 @@ include_once '../Domain/Society.php';
 include_once '../DataAccess/DocumentationDA.php';
 session_start();
 if (isset($_POST['apply'])) {
+    date_default_timezone_set("Asia/Kuala_Lumpur");
 
     $allowed = array('docx', 'pdf');
     $filename = $_FILES['myfile']['name'];

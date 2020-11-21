@@ -27,7 +27,7 @@ if (isset($_GET['eventID'])) {
         $helper = new Helpers($eventID, $userID, $applyDate, $applyStatus);
         $helpersDA = new HelpersDA();
         if ($helpersDA->create($helper)) {
-            $_SESSION['succeessMsg'] = 'Thanks for joining us! Do give us time for approving.';
+            $_SESSION['successMsg'] = 'Thanks for joining us! Do give us time for approving.';
             header("location:../UI/EventDetails.php?eventID=$eventID");
         } else {
             $_SESSION['errorMsg'] = "Unexpected error occur.";

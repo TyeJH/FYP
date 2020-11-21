@@ -19,7 +19,7 @@ if (isset($_POST['bookingID']) && isset($_POST['bookStatus'])) {
             $feedbackBookingDA = new FeedbackBookingDA();
             $feedbackBooking = new FeedbackBooking($feedbackBookingID = "", $_POST['feedback'], $adminID, $bookingID, $_POST['societyID']);
             if (!$feedbackBookingDA->create($feedbackBooking)) {
-                echo "Unexpected error occur ";
+                echo "Unable to give feedback.";
             }
         }
     } else {

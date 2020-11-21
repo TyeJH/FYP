@@ -39,7 +39,7 @@ and open the template in the editor.
                 var attendanceStatus = "";
                 var type = 'attendance';
                 if (checkBox.checked === true) {
-                    attendanceStatus = "Attended";
+                    attendanceStatus = "Attend";
                 } else {
                     attendanceStatus = "Absent";
                 }

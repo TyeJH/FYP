@@ -1,5 +1,11 @@
 <?php
 session_start();
+if ($_SESSION['current'] != 'Society') {
+    unset($_SESSION['current']);
+    $_SESSION['role'] = 'society';
+    header('location:Login.php');
+}
+require 'header.php';
 ?>
 <!DOCTYPE html>
 <!--
@@ -18,20 +24,6 @@ and open the template in the editor.
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     </head>
     <script type="text/javascript">
-        $(function () {
-            $('#start').datepicker({
-                onSelect: function (dateText) {
-                    $('#end').datepicker('option', 'minDate', new Date(dateText));
-                    $("#start").datepicker("option", "dateFormat", 'yy-mm-dd');
-                }
-            });
-            $('#end').datepicker({
-                onSelect: function (dateText) {
-                    $('#start').datepicker('option', 'maxDate', new Date(dateText));
-                    $("#end").datepicker("option", "dateFormat", 'yy-mm-dd');
-                }
-            });
-        });
         function checkUnlimited(yesNo) {
             var element = document.getElementById('noOfParticipant');
             if (yesNo === 'Yes') {
@@ -41,6 +33,34 @@ and open the template in the editor.
             } else {
                 element.disabled = false;
                 element.required = true;
+            }
+        }
+        function verifySubmit() {
+            if (document.createScheduleForm.venue.value == '') {
+                alert('Please fill in the venue details.');
+                return false;
+            }
+            if (document.createScheduleForm.startDate.value == '') {
+                alert('Please fill in the starting date.');
+                return false;
+            }
+            if (document.createScheduleForm.startTime.value == '') {
+                alert('Please fill in the starting time.');
+                return false;
+            }
+            if (document.createScheduleForm.endDate.value == '') {
+                alert('Please fill in the ending date.');
+                return false;
+            }
+            if (document.createScheduleForm.endTime.value == '') {
+                alert('Please fill in the ending time.');
+                return false;
+            }
+            if (document.createScheduleForm.unlimited.value == 'No') {
+                if (document.createScheduleForm.noOfParticipant.value == '') {
+                    alert('Please fill in the participants number if unlimited is no.');
+                    return false;
+                }
             }
         }
 
@@ -66,8 +86,8 @@ and open the template in the editor.
                 }
                 $eventID = $_GET['eventID'];
                 ?>
-                <form action="../Domain/CreateSchedule.php" method="post" enctype="multipart/form-data">
-                    <table class='table table-hover table-responsive table-bordered'>
+                <form action="../Domain/CreateSchedule.php" name="createScheduleForm" method="post" onSubmit="return verifySubmit(this)" enctype="multipart/form-data">
+                    <table class='table table-hover table-bordered'>
                         <tr>
                             <td>Venue : </td>
                             <td>  
@@ -77,14 +97,28 @@ and open the template in the editor.
                         <tr>
                             <td>Date Time :</td>
                             <td>
-                                Start Date : <input type="text" id="start" name="startDate" />
+                                Start Date : <input type="date" id="startDate" onChange='setEndDateMin(this.value)' name="startDate" />
+                                <script type="text/javascript">
+                                    function setEndDateMin(value) {
+                                        var endDate = document.getElementById('endDate');
+                                        endDate.min = value;
+                                    }
+                                    startDate.min = new Date().toISOString().split("T")[0];
+                                </script>
                                 Time : <input type="time" name="startTime" />
                             </td>
                         </tr>
                         <tr>            
                             <td></td>
                             <td>
-                                End Date : <input type="text" id="end" name="endDate"/>
+                                End Date : <input type="date" id="endDate" onChange='setStartDateMax(this.value)' name="endDate" />
+                                <script type="text/javascript">
+                                    function setStartDateMax(value) {
+                                        var startDate = document.getElementById('startDate');
+                                        startDate.max = value;
+                                    }
+                                    endDate.min = new Date().toISOString().split("T")[0];
+                                </script>
                                 Time : <input type="time" name="endTime" />
                             </td>
                         </tr>
@@ -98,7 +132,7 @@ and open the template in the editor.
                         <tr>
                             <td>Participants Allowed :</td>
                             <td>
-                                <input type="number" min="1" id="noOfParticipant" name="noOfParticipant" class='form-control'/><br>
+                                <input type="number" min="1" id="noOfParticipant" name="noOfParticipant" /><br>
                             </td>
                         </tr>
                         <tr>

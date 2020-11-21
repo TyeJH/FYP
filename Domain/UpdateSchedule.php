@@ -35,11 +35,9 @@ if (isset($_POST['updateSchedule'])) {
     $etFormat = $endDate . " " . $endTime;
     $st = strtotime($stFormat);
     $et = strtotime($etFormat);
-    if ($st > date()) {
-        $_SESSION['errorMsg'] = 'The date is invalid. Please select date range starting from today.';
+    if ($st > $et || $st == $et) {
+        $_SESSION['errorMsg'] = 'The end time must be greater than the start time.';
         header("Location:../UI/ManageSchedule.php?eventID=$eventID");
-    } else if ($st > $et || $st == $et) {
-        echo "<script>alert('The end time must be greater than the start time.');location.href = '../UI/ManageSchedule.php?eventID=$eventID';</script>";
     } else {
         $schedule = new Schedule($scheduleID, $venue, $startDate, $startTime, $endDate, $endTime, $unlimited, $noOfParticipant, $noOfJoined, $scheduleStatus, $eventID);
         $scheduleDA = new ScheduleDA();
@@ -61,13 +59,14 @@ if (isset($_POST['updateSchedule'])) {
                     $from = "eventmanagementsystemtaruc@gmail.com";
                     $sender = "TAR UC Event Management System";
                     $mail = new Email($to, $toName, $subject, $message, $from, $sender);
-                    $mail->setting();
+                    //$mail->setting();
                 }
             }
             $_SESSION['successMsg'] = 'Your schedule just updated.';
             header("Location:../UI/ManageSchedule.php?eventID=$eventID");
         } else {
-            echo "<script>alert('Unexpected error occur.');location.href = '../UI/ManageSchedule.php?eventID=$eventID';</script>";
+            $_SESSION['errorMsg'] =  'Unexpected error occur';
+            header("Location:../UI/ManageSchedule.php?eventID=$eventID");
         }
     }
 }

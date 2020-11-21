@@ -26,7 +26,7 @@ class DocumentationDA {
 
     public function retrieveBySocietyID($societyID) {
         $db = DatabaseConnection::getInstance()->getDB();
-        $query = 'SELECT * FROM documentation WHERE societyID = ?';
+        $query = 'SELECT * FROM documentation WHERE societyID = ? ORDER BY docID DESC';
         $stmt = $db->prepare($query);
         $stmt->bindParam(1, $societyID);
         $stmt->execute();
