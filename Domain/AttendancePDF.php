@@ -84,7 +84,7 @@ class AttendancePDF extends FPDF {
 
     function headerTable($attendanceStatus) {
         $this->SetFont('Times', 'B', 12);
-        if ($attendanceStatus == 'Attended') {
+        if ($attendanceStatus == 'Attend') {
             $this->Cell(0, 10, 'Status: Attended', 0, 0, 'L');
         } else {
             $this->Cell(0, 10, 'Status: Absent', 0, 0, 'L');
@@ -117,7 +117,7 @@ class AttendancePDF extends FPDF {
                 $count++;
                 $this->totalParticipantsPerSession++;
                 $this->grandTotalParticipants++;
-                if ($attendanceStatus == 'Attended') {
+                if ($attendanceStatus == 'Attend') {
                     $this->totalAttendedPerSession++;
                     $this->grandTotalAttended++;
                 } else {
@@ -135,7 +135,7 @@ class AttendancePDF extends FPDF {
         $this->totalAbsentPerSession = 0;
         //Display attended participants
         $this->headerTable('Attended');
-        $this->getContent($scheduleID, 'Attended');
+        $this->getContent($scheduleID, 'Attend');
         //Display absent participants
         $this->headerTable('Absent');
         $this->getContent($scheduleID, 'Absent');
