@@ -156,7 +156,7 @@ class StudentDA {
     public function retrieveStudentDetails($userID) {
         $db = DatabaseConnection::getInstance()->getDb();
         $stmt = $db->prepare("SELECT * FROM unistudent U, student S WHERE S.userID = ? AND U.studID = S.studID");
-        $stmt->bindParam(1, $userID, PDO::PARAM_STR);
+        $stmt->bindValue(1, $userID, PDO::PARAM_STR);
         $stmt->execute();
         $total = $stmt->rowCount();
         if ($total == 0) {

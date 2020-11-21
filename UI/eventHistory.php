@@ -220,7 +220,7 @@ require 'header.php';
                         </tbody>
                     </table>
                     <br>
-                    <form style="height:20px;" method="POST" action="../Domain/printHistory.php">
+                    <form style="height:20px;" method="POST" target="_blank" action="../Domain/GenerateStudentHistoryReport.php">
                         <input type="submit" class="btn btn-info" value="Print" name="print" id="print" style="margin-left: 95%;"/>
                         <input type='hidden' name='printid' id='printid' value='<?= $stud->studID ?>'/>
                     </form>

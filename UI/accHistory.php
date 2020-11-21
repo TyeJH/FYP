@@ -58,6 +58,10 @@ require 'header.php';
                             ?>
                         </tbody>
                     </table>
+                    <form style="height:20px;" method="POST" target="_blank" action="../Domain/GenerateSocietyAccountHistoryReport.php">
+                        <input type="submit" class="btn btn-info" value="Print" name="print" id="print" style="margin-left: 95%;"/>
+                        <input type='hidden' name='printid' id='printid' value='<?= $society->societyID ?>'/>
+                    </form>
                 </div>
                 <script>
                     $(document).ready(function () {
@@ -71,5 +75,6 @@ require 'header.php';
             header("Location:../UI/HomePage.php");
         }
         ?>
+
     </body>
 </html>

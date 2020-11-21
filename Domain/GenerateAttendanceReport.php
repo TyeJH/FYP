@@ -5,20 +5,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+require_once '../Domain/Society.php';
+require_once '../Domain/Schedule.php';
+require_once '../DataAccess/ScheduleDA.php';
 
 require 'AttendancePDF.php';
 session_start();
 //For particular schedule.
 if (isset($_POST['eventID']) && isset($_POST['scheduleID'])) {
 
-    $pdf = new AttendancePDF('P','mm','A4');
+    $pdf = new AttendancePDF('P', 'mm', 'A4');
+    $pdf->societyID = $_SESSION['result']->societyID;
     $pdf->eventID = $_POST['eventID'];
     $pdf->scheduleID = $_POST['scheduleID'];
+
     $pdf->AliasNbPages();
     $pdf->AddPage('P', 'A4', 0);
     $pdf->primaryTitle();
-    $pdf->scheduleTitle($pdf->scheduleID);
-    $pdf->displayContent($pdf->scheduleID);
+    $pdf->scheduleTitle();
+    $pdf->displayContent();
     $pdf->displaySummaryPerSession();
     $pdf->displayEndOfReport();
     $pdf->Output();
@@ -26,7 +31,8 @@ if (isset($_POST['eventID']) && isset($_POST['scheduleID'])) {
 //Display overall attendance
 if (isset($_POST['eventID'])) {
 
-    $pdf = new AttendancePDF('P','mm','A4');
+    $pdf = new AttendancePDF('P', 'mm', 'A4');
+    $pdf->societyID = $_SESSION['result']->societyID;
     $pdf->eventID = $_POST['eventID'];
     $pdf->AliasNbPages();
     $pdf->AddPage('P', 'A4', 0);
@@ -35,8 +41,9 @@ if (isset($_POST['eventID'])) {
     $scheduleArray = $scheduleDA->retrieve($pdf->eventID);
     if ($scheduleArray != null) {
         foreach ($scheduleArray as $schedule) {
-            $pdf->scheduleTitle($schedule->scheduleID);
-            $pdf->displayContent($schedule->scheduleID);
+            $pdf->scheduleID = $schedule->scheduleID;
+            $pdf->scheduleTitle();
+            $pdf->displayContent();
             $pdf->displaySummaryPerSession();
         }
     } else {

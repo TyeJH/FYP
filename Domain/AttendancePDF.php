@@ -7,15 +7,16 @@
  */
 
 require '../fpdf.php';
-require '../Domain/Society.php';
-require '../Domain/SocietyEvent.php';
-require '../DataAccess/SocietyEventDA.php';
-require '../DataAccess/ParticipantsDA.php';
-require '../DataAccess/ScheduleDA.php';
-require '../DataAccess/StudentDA.php';
+require_once '../Domain/SocietyEvent.php';
+require_once '../DataAccess/SocietyDA.php';
+require_once '../DataAccess/SocietyEventDA.php';
+require_once '../DataAccess/ParticipantsDA.php';
+require_once '../DataAccess/ScheduleDA.php';
+require_once '../DataAccess/StudentDA.php';
 
 class AttendancePDF extends FPDF {
 
+    private $societyID;
     private $eventID;
     private $scheduleID;
     private $totalParticipantsPerSession;
@@ -49,7 +50,11 @@ class AttendancePDF extends FPDF {
         $this->Cell(200, 5, 'Attendance Report', 0, 0, 'C');
         $this->Ln();
         $this->SetFont('Times', '', 12);
-        $this->Cell(200, 10, $_SESSION['result']->societyName, 0, 0, 'C');
+
+        $societyDA = new SocietyDA();
+        
+        $society = $societyDA->login($this->societyID);
+        $this->Cell(200, 10, $society->societyName, 0, 0, 'C');
         $this->Ln(20);
     }
 
@@ -60,7 +65,7 @@ class AttendancePDF extends FPDF {
     }
 
     function primaryTitle() {
-        
+
         date_default_timezone_set("Asia/Kuala_Lumpur");
         $dateTime = date('d M Y H:i:s');
         $this->Cell(0, 5, "Generated On: $dateTime", 0, 1, 'L');
@@ -73,7 +78,8 @@ class AttendancePDF extends FPDF {
         $this->Cell(0, 5, "Event Name: $event->eventName", 0, 1, 'L');
     }
 
-    function scheduleTitle($scheduleID) {
+    function scheduleTitle() {
+        $scheduleID = $this->scheduleID;
         $this->Ln();
         $this->SetFont('Times', 'B', 12);
         $scheduleDA = new ScheduleDA();
@@ -135,7 +141,8 @@ class AttendancePDF extends FPDF {
         }
     }
 
-    function displayContent($scheduleID) {
+    function displayContent() {
+        $scheduleID = $this->scheduleID;
         //each session reset to 0
         $this->totalParticipantsPerSession = 0;
         $this->totalAttendedPerSession = 0;
