@@ -46,6 +46,8 @@ and open the template in the editor.
                 var bookDate = document.getElementById('bookDate').value;
                 var errMsg = document.getElementById('errMsg');
                 var errMsg2 = document.getElementById('errMsg2');
+                var errMsg3 = document.getElementById('errMsg3');
+
                 var date = new Date(bookDate);
                 var startTime = date.format('yyyy/mm/dd') + " " + document.getElementById('startTime').value;
                 var endTime = date.format('yyyy/mm/dd') + " " + document.getElementById('endTime').value;
@@ -68,6 +70,14 @@ and open the template in the editor.
                     } else {
                         errMsg2.style.display = 'none';
                     }
+                }
+                var now = new Date();
+                if (st < now) {
+                    errMsg3.style.display = 'block';
+                    disable++;
+                } else {
+                    errMsg3.style.display = 'none';
+
                 }
                 if (disable > 0) {
                     button.disabled = true;
@@ -107,8 +117,8 @@ and open the template in the editor.
                             </td>
                             <td>
                                 <select name="purpose" id="purpose" onchange="CheckPurpose(this.value);" required>
-                                    <option value="Organize">Organize event</option>
                                     <option value="Discussion">Discussion</option>
+                                    <option value="Organize">Organize event</option>
                                     <option value="Others">Others</option>
                                 </select>
                                 <input type="text" name="otherPurposes" onchange="isTextBoxEmpty()"id="otherPurposes" placeholder="Your purposes"style='display:none;'/>               
@@ -120,6 +130,9 @@ and open the template in the editor.
                             </td>
                             <td>
                                 <input type="date" name="bookDate" id="bookDate" onchange="checkTimeValid()" required>
+                                <script type="text/javascript">
+                                    bookDate.min = new Date().toISOString().split("T")[0];
+                                </script>
                             </td>
                         </tr>
                         <tr>
@@ -179,7 +192,8 @@ and open the template in the editor.
                                     ?>
                                 </select>
                                 <label id="errMsg" class="error-msg" style="display:none;">The end time must be greater than the start time.</label>
-                                <label id="errMsg2" class="error-msg" style="display:none;">Maximum 120 minutes per book</label>
+                                <label id="errMsg2" class="error-msg" style="display:none;">Maximum 120 minutes per book for discussion.</label>
+                                <label id="errMsg3" class="error-msg" style="display:none;">Please select the starting time greater than now.</label>
                             </td>
                         </tr>
 

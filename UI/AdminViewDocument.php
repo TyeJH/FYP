@@ -55,7 +55,6 @@ and open the template in the editor.
                             success: function (data) {
                                 alert(data);
                                 location.reload();
-
                             }
                         });
             }
@@ -93,11 +92,12 @@ and open the template in the editor.
         <div class='container'>
             <h1 class='bodyTitle'>Manage Document</h1>
             <hr>
-          <?php
+            <?php
             if (isset($_SESSION['result'])) {
                 echo "<table id='documentApplication' class = 'table table-hover table-bordered'>";
                 echo "<thead>";
                 echo "<tr>";
+                echo "<th>No</th>";
                 echo "<th>Document ID</th>";
                 echo "<th>Name</th>";
                 echo "<th>Date Applied</th>";
@@ -116,6 +116,8 @@ and open the template in the editor.
                     $count = 1;
                     foreach ($docArray as $doc) {
                         echo "<tr>";
+                        echo "<td>$count</td>";
+
                         echo "<td>{$doc->docID}</td>";
                         echo "<td><a title='Download File' download='" . $doc->docName . "' href=data:" . $doc->mime . ";base64," . base64_encode($doc->docContent) . ">$doc->docName</a></td>";
                         $dateFormatted = date("d-M-Y", strtotime($doc->applyDate));

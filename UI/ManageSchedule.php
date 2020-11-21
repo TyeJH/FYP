@@ -35,20 +35,6 @@ and open the template in the editor.
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript">
-        $(function () {
-            $('.start').datepicker({
-                onSelect: function (dateText) {
-                    $('.end').datepicker('option', 'minDate', new Date(dateText));
-                    $(".start").datepicker("option", "dateFormat", 'yy-mm-dd');
-                }
-            });
-            $('.end').datepicker({
-                onSelect: function (dateText) {
-                    $('.start').datepicker('option', 'maxDate', new Date(dateText));
-                    $(".end").datepicker("option", "dateFormat", 'yy-mm-dd');
-                }
-            });
-        });
         function checkUnlimited(id) {
             var element = document.getElementById('participant:' + id);
             var radios = document.getElementsByName('unlimited:' + id);
@@ -65,13 +51,42 @@ and open the template in the editor.
                 }
             }
         }
-
+        function verifySubmit(id) {
+            var form = document.getElementById('form:scheduleID:' + id);
+    
+            if (form.venue.value == '') {
+                alert('Please fill in the venue details.');
+                return false;
+            }
+            if (form.startDate.value == '') {
+                alert('Please fill in the starting date.');
+                return false;
+            }
+            if (form.startTime.value == '') {
+                alert('Please fill in the starting time.');
+                return false;
+            }
+            if (form.endDate.value == '') {
+                alert('Please fill in the ending date.');
+                return false;
+            }
+            if (form.endTime.value == '') {
+                alert('Please fill in the ending time.');
+                return false;
+            }
+            if (form.unlimited.value== 'No') {
+                if (form.noOfParticipant.value == '') {
+                    alert('Please fill in the participants number if unlimited is no.');
+                    return false;
+                }
+            }
+        }
     </script>
 
     <body>
         <div class='container'>
             <div class='page-header'>
-                <h1 class='bodyTitle'>Manage Helper</h1>
+                <h1 class='bodyTitle'>Manage Schedule</h1>
             </div>
             <a href = 'EnterSchedule.php?eventID=<?= $_GET['eventID'] ?>' class = 'btn btn-primary'>Add Schedule</a>
             <a href='EventOrganizerHome.php' class='btn btn-danger'>Back</a>
@@ -97,7 +112,7 @@ and open the template in the editor.
                     foreach ($scheduleArray as $schedule) {
                         echo "<h3>Schedule $count</h3>";
                         ?>
-                        <form action="../Domain/UpdateSchedule.php" method="post" id="form:scheduleID:<?= $schedule->scheduleID ?>" enctype="multipart/form-data">
+                        <form action="../Domain/UpdateSchedule.php" onSubmit="return verifySubmit(<?= $schedule->scheduleID ?>)"  method="post" id="form:scheduleID:<?= $schedule->scheduleID ?>" enctype="multipart/form-data">
                             <p>
                                 <button type="button" class="btn btn-info btn-lg" value="scheduleID:<?= $schedule->scheduleID ?>" onclick='editManage(this.value, false)'>
                                     <span class="glyphicon glyphicon-edit"></span> Edit
@@ -114,14 +129,28 @@ and open the template in the editor.
                                     <tr>
                                         <td>Date Time :</td>
                                         <td>
-                                            Start Date : <input type="text" class="start" name="startDate" value="<?= $schedule->startDate ?>"/>
+                                            Start Date : <input type="date" id="startDate" onChange='setEndDateMin(this.value)' value="<?= $schedule->startDate ?>" name="startDate" />
+                                            <script type="text/javascript">
+                                                function setEndDateMin(value) {
+                                                    var endDate = document.getElementById('endDate');
+                                                    endDate.min = value;
+                                                }
+                                                //startDate.min = new Date().toISOString().split("T")[0];
+                                            </script>
                                             Time : <input type="time" name="startTime" value="<?= $schedule->startTime ?>"/>
                                         </td>
                                     </tr>
                                     <tr>            
                                         <td></td>
                                         <td>
-                                            End Date : <input type="text" class="end" name="endDate" value="<?= $schedule->endDate ?>"/>
+                                            End Date : <input type="date" id="endDate" onChange='setStartDateMax(this.value)' value="<?= $schedule->endDate ?>" name="endDate" />
+                                            <script type="text/javascript">
+                                                function setStartDateMax(value) {
+                                                    var startDate = document.getElementById('startDate');
+                                                    startDate.max = value;
+                                                }
+                                                //endDate.min = new Date().toISOString().split("T")[0];
+                                            </script>
                                             Time : <input type="time" name="endTime" value="<?= $schedule->endTime ?>"/>
                                         </td>
                                     </tr>

@@ -29,14 +29,16 @@ if (isset($_POST['createSchedule'])) {
     $etFormat = $endDate . " " . $endTime;
     $st = strtotime($stFormat);
     $et = strtotime($etFormat);
+
     if ($st > $et || $st == $et) {
-        $_SESSION['errorMsg'] = "<script>alert('The end time must be greater than the start time.');location.href = '../UI/EnterSchedule.php?eventID=$eventID';</script>";
+        $_SESSION['errorMsg'] = "The end time must be greater than the start time";
         header("Location:../UI/EnterSchedule.php?eventID=$eventID");
     } else {
         $schedule = new Schedule($scheduleID = "", $venue, $startDate, $startTime, $endDate, $endTime, $unlimited, $noOfParticipant, $noOfJoined, $scheduleStatus, $eventID);
         $scheduleDA = new ScheduleDA();
         if ($scheduleDA->create($schedule)) {
             $_SESSION['successMsg'] = 'Schedule Created.';
+            header("Location:../UI/EnterSchedule.php?eventID=$eventID");
         } else {
             $_SESSION['errorMsg'] = 'Unexpected error occur.';
             header("Location:../UI/EnterSchedule.php?eventID=$eventID");

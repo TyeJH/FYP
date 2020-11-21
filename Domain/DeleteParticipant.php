@@ -11,11 +11,6 @@ if (isset($_GET['eventID']) && isset($_GET['scheduleID'])) {
     $eventID = $_GET['eventID'];
     $scheduleID = $_GET['scheduleID'];
     $userID = $_SESSION['result']->studID;
-    //$userID = 123;
-    $applyStatus = "Pending";
-    $applyDate = date('Y-m-d H:i:s'); //2020-10-22 03:53:54 sample format
-    
-    //Validate join permission
     $scheduleDA = new ScheduleDA();
     $schedule = $scheduleDA->retrieveByScheduleID($scheduleID);
     if ($schedule != null) {
@@ -24,9 +19,8 @@ if (isset($_GET['eventID']) && isset($_GET['scheduleID'])) {
         $at = strtotime($applyDate);
         $st = strtotime($stFormat);
         //if apply date is after event started
-        if ($at > $st) {
-            echo "<script>alert('We are sorry student, the event has started. You may try out other event slots.');location.href = '../UI/EventDetails.php?eventID=$eventID';</script>";
-        }
+        $startDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($stFormat));
+        $endDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($etFormat));
     }
     if (empty($eventID)) {
         //If students didn't select an event
@@ -34,14 +28,11 @@ if (isset($_GET['eventID']) && isset($_GET['scheduleID'])) {
     } else if (empty($userID)) {
         //Student have to be logged in first.
         echo "<script>alert('Hi student, you are required to log in first.');location.href = '../UI/Login.php?student';</script>";
-    } else if (date() > $applyDate) {
-        $_SESSION['errorMsg'] = "Sorry the event has started.";
-        header("location:../UI/EventDetails.php?eventID=$eventID");
     } else {
-        $participant = new Participants($scheduleID, $eventID, $userID, $applyDate, $applyStatus);
+        $participant = new Participants($scheduleID, $eventID, $userID, '', '');
         $participantDA = new ParticipantsDA();
-        if ($participantDA->create($participant)) {
-            $_SESSION['successMsg'] = 'Thanks for joining us! We will approve you as soon as possible.';
+        if ($participantDA->delete($participant)) {
+            $_SESSION['successMsg2'] = "You have drop out from the schedule ($startDateTimeFormatted - $endDateTimeFormatted). Hope to see you again!";
             header("location:../UI/EventDetails.php?eventID=$eventID");
         } else {
             $_SESSION['errorMsg'] = "Unexpected error occur.";

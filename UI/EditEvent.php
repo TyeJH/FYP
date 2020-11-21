@@ -139,7 +139,7 @@ and open the template in the editor.
     </body>
 </html>
 <script>
-    function verifySubmit(id) {
+    function verifySubmit() {
         if (document.editEventDetailsForm.eventName.value == '') {
             alert('Please enter the event name.');
             return false;
