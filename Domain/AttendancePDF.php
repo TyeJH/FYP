@@ -62,7 +62,7 @@ class AttendancePDF extends FPDF {
     function primaryTitle() {
         
         date_default_timezone_set("Asia/Kuala_Lumpur");
-        $dateTime = date('Y M d H:i:s');
+        $dateTime = date('d M Y H:i:s');
         $this->Cell(0, 5, "Generated On: $dateTime", 0, 1, 'L');
         $this->SetFont('Times', 'B', 12);
 
