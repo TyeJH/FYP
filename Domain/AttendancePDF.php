@@ -104,7 +104,7 @@ class AttendancePDF extends FPDF {
         }
         $this->Ln();
         //Table header
-        $this->Cell(30, 10, 'No.', 1, 0, 'C');
+        $this->Cell(10, 10, 'No.', 1, 0, 'C');
         $this->Cell(30, 10, 'Student ID', 1, 0, 'C');
         $this->Cell(40, 10, 'Name', 1, 0, 'C');
         $this->Cell(50, 10, 'Email', 1, 0, 'C');
@@ -118,11 +118,11 @@ class AttendancePDF extends FPDF {
         $studentDA = new StudentDA();
         $count = 0;
         if ($participantArray == null) {
-            $this->Cell(150, 10, 'No record found.', 1, 1, 'C');
+            $this->displayNoRecordFound();
         } else {
             foreach ($participantArray as $participant) {
                 $student = $studentDA->retrieveStudentDetails($participant->userID);
-                $this->Cell(30, 10, $count + 1, 1, 0, 'C');
+                $this->Cell(10, 10, $count + 1, 1, 0, 'C');
                 $this->Cell(30, 10, $student['studID'], 1, 0, 'C');
                 $this->Cell(40, 10, $student['studName'], 1, 0, 'C');
                 $this->Cell(50, 10, $student['studEmail'], 1, 0, 'C');
@@ -189,7 +189,7 @@ class AttendancePDF extends FPDF {
     }
 
     function displayNoRecordFound() {
-        $this->Cell(0, 30, 'No Record Found', 0, 0, 'C');
+        $this->Cell(130, 10, 'No Record Found', 1, 0, 'C');
     }
 
     function displayEndOfReport() {

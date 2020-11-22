@@ -2,6 +2,7 @@
 require_once '../Domain/Helpers.php';
 require_once '../DataAccess/HelpersDA.php';
 require_once '../DataAccess/StudentDA.php';
+require_once '../DataAccess/SocietyEventDA.php';
 
 session_start();
 if ($_SESSION['current'] != 'Society') {
@@ -28,6 +29,9 @@ and open the template in the editor.
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+        <!--Display Modal-->
+        <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js' type='text/javascript'></script>
         <script>
             $(document).ready(function () {
                 $('#helpersApplication').DataTable();
@@ -59,6 +63,22 @@ and open the template in the editor.
                             }
                         });
             }
+            $(document).on('click', '.view_data', function () {
+                var eventID = $(this).attr("id");
+                if (eventID != '')
+                {
+                    $.ajax({
+                        url: "../Domain/ViewHelpersContactList.php",
+                        method: "POST",
+                        data: {eventID: eventID},
+                        success: function (data) {
+                            //alert("hi");
+                            $('#helpersDetails').html(data);
+                            $('#helpersDetailsModal').modal('show');
+                        }
+                    });
+                }
+            });
         </script>
     </head>
     <body>
@@ -66,6 +86,13 @@ and open the template in the editor.
             <div class='page-header'>
                 <h1 class='bodyTitle'>Manage Helper</h1>
             </div>
+            <?php
+            $societyDA = new SocietyEventDA();
+            $society = $societyDA->retrieveByEventID($_GET['eventID']);
+            if ($society != null) {
+                echo "<h3>$society->eventName</h3>";
+            }
+            ?>
             <?php
             if (isset($_GET['eventID'])) {
                 $eventID = $_GET['eventID'];
@@ -76,6 +103,9 @@ and open the template in the editor.
                 if ($helperArray == null) {
                     echo "<p>No helper applied yet.</p>";
                 } else {
+                    echo "<input type = 'button' name = 'viewApprovedHelpersContacts' value = 'View Approved Helper Contact' id = '$eventID' class = 'btn btn-info m-r-1em view_data' />";
+                    echo "<br>";
+                    echo "<br>";
                     echo "<table id='helpersApplication' class = 'table table-hover table-bordered'>";
                     echo "<thead>";
                     echo "<tr>";
@@ -114,6 +144,24 @@ and open the template in the editor.
             }
             ?>
             <a href="EventOrganizerHome.php" class="btn btn-danger">Back</a>
+
+            <!--Display Contacts Modal-->
+            <div class="modal fade" id="helpersDetailsModal" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Contacts</h4>
+                        </div>
+                        <div class="modal-body" id="helpersDetails">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </body>
 </html>

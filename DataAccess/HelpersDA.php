@@ -43,6 +43,29 @@ class HelpersDA {
         DatabaseConnection::closeConnection($db);
     }
 
+    public function retrieveByEventIDAndApplyStatus($eventID, $applyStatus) {
+
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT * FROM helpers WHERE eventID = ? AND applyStatus = ? ';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $eventID, PDO::PARAM_STR);
+        $stmt->bindParam(2, $applyStatus, PDO::PARAM_STR);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $helpersArray = array();
+            $helper = new Helpers();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $helper = new Helpers($row['eventID'], $row['userID'], $row['applyDate'], $row['applyStatus']);
+                $helpersArray[] = $helper;
+            }
+            return $helpersArray;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+
     public function retrieveByUserID($userID) {
 
         $db = DatabaseConnection::getInstance()->getDB();

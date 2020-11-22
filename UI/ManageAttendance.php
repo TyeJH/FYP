@@ -1,6 +1,7 @@
 <?php
 require '../DataAccess/ParticipantsDA.php';
 require '../DataAccess/ScheduleDA.php';
+require '../DataAccess/SocietyEventDA.php';
 require '../DataAccess/StudentDA.php';
 require '../Domain/UpdateParticipant.php';
 session_start();
@@ -82,7 +83,15 @@ and open the template in the editor.
         <div class='container'>
             <div class='page-header'>
                 <h1 class='bodyTitle'>Manage Attendance</h1>
+
             </div>
+            <?php
+            $societyDA = new SocietyEventDA();
+            $society = $societyDA->retrieveByEventID($_GET['eventID']);
+            if ($society != null) {
+                echo "<h3>$society->eventName</h3>";
+            }
+            ?>
             <form action="" method="post">
                 <label>
                     Session : 
@@ -91,6 +100,7 @@ and open the template in the editor.
                     <?php
                     $scheduleDA = new ScheduleDA();
                     $scheduleArray = $scheduleDA->retrieve($_GET['eventID']);
+
                     if ($scheduleArray != null) {
                         foreach ($scheduleArray as $schedule) {
                             //convert format to dd/mm/yyyy 2200
@@ -119,6 +129,7 @@ and open the template in the editor.
             <?php
             if (isset($_GET['eventID'])) {
                 echo "<hr style='color:black;border-width:10px;'>";
+
                 $eventID = $_GET['eventID'];
                 $scheduleDA = new ScheduleDA();
                 $schedule = $scheduleDA->retrieve($eventID);

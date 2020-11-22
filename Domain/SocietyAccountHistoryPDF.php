@@ -8,6 +8,9 @@ include_once '../DataAccess/SocietyDA.php';
 class SocietyAccountHistoryPDF extends FPDF {
 
     private $societyID;
+    private $type;
+    private $startDate;
+    private $endDate;
 
     public function __set($name, $value) {
         if (property_exists($this, $name)) {
@@ -70,22 +73,43 @@ class SocietyAccountHistoryPDF extends FPDF {
     function getContent() {
         $this->SetFont('Times', '', 12);
         $a = new SocietyDA();
-        $b = $a->getTrans($this->societyID);
-        if (!empty($b)) {
-            $count = 0;
-            foreach ($b as $history) {
-                $date = date('d-M-Y', strtotime($history->transDate));
-                $this->Cell(10, 10, $count, 1, 0, 'C');
-                $this->Cell(30, 10, $history->transID, 1, 0, 'C');
-                $this->Cell(50, 10, $date, 1, 0, 'C');
-                $this->Cell(50, 10, $history->amount, 1, 0, 'C');
-                $this->Cell(50, 10, $history->purpose, 1, 0, 'C');
+        if ($this->type == 'All') {
+            $b = $a->getTrans($this->societyID);
+
+            if (!empty($b)) {
+                $count = 0;
+                foreach ($b as $history) {
+                    $date = date('d-M-Y', strtotime($history->transDate));
+                    $this->Cell(10, 10, $count, 1, 0, 'C');
+                    $this->Cell(30, 10, $history->transID, 1, 0, 'C');
+                    $this->Cell(50, 10, $date, 1, 0, 'C');
+                    $this->Cell(50, 10, $history->amount, 1, 0, 'C');
+                    $this->Cell(50, 10, $history->purpose, 1, 0, 'C');
+                    $this->Ln();
+                    $count++;
+                }
+            } else {
+                $this->displayNoRecordFound();
                 $this->Ln();
-                $count++;
             }
         } else {
-            $this->displayNoRecordFound();
-            $this->Ln();
+            $b = $a->getTrans($this->societyID, $this->startDate, $this->endDate);
+            if (!empty($b)) {
+                $count = 0;
+                foreach ($b as $history) {
+                    $date = date('d-M-Y', strtotime($history->transDate));
+                    $this->Cell(10, 10, $count, 1, 0, 'C');
+                    $this->Cell(30, 10, $history->transID, 1, 0, 'C');
+                    $this->Cell(50, 10, $date, 1, 0, 'C');
+                    $this->Cell(50, 10, $history->amount, 1, 0, 'C');
+                    $this->Cell(50, 10, $history->purpose, 1, 0, 'C');
+                    $this->Ln();
+                    $count++;
+                }
+            } else {
+                $this->displayNoRecordFound();
+                $this->Ln();
+            }
         }
     }
 

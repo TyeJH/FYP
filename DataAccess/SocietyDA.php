@@ -135,4 +135,28 @@ class SocietyDA {
         }
     }
 
+    public function getTransBetweenDate($socID, $startDate, $endDate) {
+        $db = DatabaseConnection::getInstance()->getDb();
+        $query = "SELECT * FROM transhistory WHERE societyID = ? AND transDate >= ? AND transDate <= ?";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $socID, PDO::PARAM_STR);
+        $stmt->bindParam(2, $startDate, PDO::PARAM_STR);
+        $stmt->bindParam(3, $endDate, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $tra = $stmt->fetchAll();
+            $trList = [];
+            foreach ($tra as $t) {
+                $trList[] = new Transaction($t['transID'], $t['transDate'], $t['amount'], $t['purpose'], $t['societyID']);
+            }
+            DatabaseConnection::closeConnection($db);
+            return $trList;
+        }
+    }
+
 }

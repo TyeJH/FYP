@@ -1,6 +1,8 @@
 <?php
 require_once '../Domain/Schedule.php';
 require_once '../DataAccess/ScheduleDA.php';
+require_once '../DataAccess/SocietyEventDA.php';
+
 session_start();
 if ($_SESSION['current'] != 'Society') {
     unset($_SESSION['current']);
@@ -88,10 +90,16 @@ and open the template in the editor.
             <div class='page-header'>
                 <h1 class='bodyTitle'>Manage Schedule</h1>
             </div>
+            <?php
+            $societyDA = new SocietyEventDA();
+            $society = $societyDA->retrieveByEventID($_GET['eventID']);
+            if ($society != null) {
+                echo "<h3>$society->eventName</h3>";
+            }
+            ?>
             <a href = 'EnterSchedule.php?eventID=<?= $_GET['eventID'] ?>' class = 'btn btn-primary'>Add Schedule</a>
             <a href='EventOrganizerHome.php' class='btn btn-danger'>Back</a>
             <br><br>
-
             <?php
             if (isset($_SESSION['successMsg'])) {
                 echo "<div class='alert alert-success'><strong>Success! </strong>" . $_SESSION['successMsg'] . '</div>';

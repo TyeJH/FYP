@@ -2,6 +2,8 @@
 require_once '../DataAccess/ParticipantsDA.php';
 require_once '../DataAccess/ScheduleDA.php';
 require_once '../DataAccess/StudentDA.php';
+require_once '../DataAccess/SocietyEventDA.php';
+
 session_start();
 if ($_SESSION['current'] != 'Society') {
     unset($_SESSION['current']);
@@ -61,6 +63,9 @@ and open the template in the editor.
                             }
                         });
             }
+            function getApprovedContactsList(){
+                
+            }
         </script>
     </head>
     <body>
@@ -68,6 +73,14 @@ and open the template in the editor.
             <div class='page-header'>
                 <h1 class='bodyTitle'>Manage Participant</h1>
             </div>
+            <?php
+            $societyDA = new SocietyEventDA();
+            $society = $societyDA->retrieveByEventID($_GET['eventID']);
+            if ($society != null) {
+                echo "<h3>$society->eventName</h3>";
+            }
+            ?>
+
             <form action="" method="post">
                 <label>
                     Session : 
@@ -189,7 +202,9 @@ and open the template in the editor.
                 header('location:EventOrganizerHome.php');
             }
             ?>
+            
             <a href="EventOrganizerHome.php" class="btn btn-danger">Back</a>
+           
         </div>
     </body>
 </html>
