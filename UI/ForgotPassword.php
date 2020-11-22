@@ -13,25 +13,33 @@ require 'header.php';
         <meta charset="UTF-8">
         <title>Forgot Password</title>
         <style>
-        .container{
-            margin-top: 7%;
-            text-align:center;
-        }
-        table{
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
+            .container{
+                margin-top: 7%;
+                text-align:center;
+            }
+            table{
+                margin-left: auto;
+                margin-right: auto;
+            }
+            h6{
+                text-align:left;
+            }
+        </style>
     </head>
     <body>
         <div class="container card">
             <div class="card-body">
                 <h1 h1 class="card-title">Forgot Your Password</h1>
+                <?php
+                if (isset($_SESSION['error'])) {
+                    echo '<h6 style=color:red>' . $_SESSION['error'] . '</h6>';
+                    unset($_SESSION['error']);
+                }
+                ?>
                 <form action="ForgotPassword.php" method="post">
-
                     <div class="form-group">
                         <label for="username" class="col-form-label">Enter your email address: </label>
-                        <input class="form-control" type="email" name="email" value="" size="20" /></p>
+                        <input class="form-control" type="email" name="email" value=""/></p>
                     </div>
                     <div class="row justify-content-center">
                         <input class="submitBut btn btn-success" type="submit" value="Submit" name="submit" /> &nbsp;
@@ -45,13 +53,15 @@ require 'header.php';
             $email = $_POST['email'];
 
             if (empty($email)) {
-                echo "Email cannot be empty";
+                $_SESSION['error'] = "Email cannot be empty";
+                echo '<script>location.href = "../UI/ForgotPassword.php";</script>';
             } else {
                 $std = new StudentDA();
                 $test = $std->recover($email);
 
                 if ($test == null) {
-                    echo "Email Not Found<br>";
+                    $_SESSION['error'] = "Email Not Found";
+                    echo '<script>location.href = "../UI/ForgotPassword.php";</script>';
                 } else {
                     echo "Email found<br>";
 

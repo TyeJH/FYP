@@ -19,7 +19,8 @@ if (isset($_POST['societyUpdate'])) {
     $acc = $val->test_input($_POST['sAcc']);
 
     if (empty($name) || empty($desc)) {
-        echo "Please do not leave it empty";
+        $_SESSION['error'] = 'Please fill in all the empty box';
+        header("Location:../UI/UserProfile.php");
     } else {
         $soc = new Society($id, $name, $desc, $pass, $acc);
         $socda = new SocietyDA();
@@ -36,7 +37,8 @@ if (isset($_POST['societyUpdate'])) {
     $studid = $val->test_input($_POST['studid']);
 
     if (empty($name) || empty($email)) {
-        echo "Please fill in all the empty box";
+        $_SESSION['error'] = 'Please fill in all the empty box';
+        header("Location:../UI/UserProfile.php");
     } else {
         $studa = new StudentDA();
 
@@ -148,7 +150,7 @@ if (isset($_POST['updatePassword'])) {
                 $_SESSION['result'] = $adm;
                 echo '<script>alert("Password Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
             } else {
-                echo "password format invalid";
+                echo '<script>alert("Password invalid format.");location.href = "../UI/UserProfile.php";</script>';
             }
         }
     } else if ($_SESSION['current'] == 'Society') {
@@ -171,7 +173,7 @@ if (isset($_POST['updatePassword'])) {
                 $_SESSION['result'] = $soc;
                 echo '<script>alert("Password Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
             } else {
-                echo "password format invalid";
+                echo '<script>alert("Password invalid format.");location.href = "../UI/UserProfile.php";</script>';
             }
         }
     } else if ($_SESSION['current'] == 'Student') {
@@ -194,7 +196,7 @@ if (isset($_POST['updatePassword'])) {
                 $_SESSION['result'] = $stu;
                 echo '<script>alert("Password Updated Successfully");location.href = "../UI/UserProfile.php";</script>';
             } else {
-                echo "password format invalid";
+                echo '<script>alert("Password invalid format.");location.href = "../UI/UserProfile.php";</script>';
             }
         }
     } else {
@@ -219,10 +221,10 @@ if (isset($_POST['resetPassword'])) {
                 $studa = new StudentDA();
                 $studa->update($stu);
                 unset($_SESSION['reset']);
-                $_SESSION['role']='student';
+                $_SESSION['role'] = 'student';
                 echo '<script>alert("Password Reset Successfully");location.href = "../UI/Login.php";</script>';
             } else {
-                echo "password format invalid";
+                echo '<script>alert("Password format invalid");location.href = "../UI/ResetPassword.php";</script>';
             }
         }
     } else {
