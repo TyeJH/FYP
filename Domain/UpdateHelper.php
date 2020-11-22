@@ -28,7 +28,11 @@ if (isset($_POST['eventID']) && isset($_POST['userID']) && isset($_POST['applyDa
         $to = $stud->studEmail;
         $toName = 'Helper';
         $subject = "$event->eventName - Helper Application : $applyStatus";
-        $message = "Hi you have $applyStatus for being helper $event->eventName.\n<a href='http://localhost/FYP/UI/login.php'>Click here to login.</a>";
+        if ($applyStatus == 'Approved') {
+            $message = "Hi you have $applyStatus for being helper $event->eventName.\n<a href='http://localhost/FYP/UI/login.php'>Click here to login.</a>";
+        } else {
+            $message = "Sorry ! you have disapproved for being helper $event->eventName.\n<a href='http://localhost/FYP/UI/login.php'>Click here to login.</a>";
+        }
         $from = "eventmanagementsystemtaruc@gmail.com";
         $sender = "TAR UC Event Management System";
         $mail = new Email($to, $toName, $subject, $message, $from, $sender);

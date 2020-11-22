@@ -59,7 +59,7 @@ if (isset($_POST['updateSchedule'])) {
                     $from = "eventmanagementsystemtaruc@gmail.com";
                     $sender = "TAR UC Event Management System";
                     $mail = new Email($to, $toName, $subject, $message, $from, $sender);
-                    //$mail->setting();
+                    $mail->setting();
                 }
             }
             $_SESSION['successMsg'] = 'Your schedule just updated.';
