@@ -297,7 +297,7 @@ require 'header.php';
                                 <div class="modal-body" id="accHistory">
                                 </div>  
                                 <div class="modal-footer">
-                                    <form style="height:20px;" method="POST" target='_blank'action="../Domain/GenerateSocietyAccountHistoryReport.php">
+                                    <form style="height:20px;" method="POST" target='_blank' action="../Domain/GenerateSocietyAccountHistoryReport.php">
                                         <input type="submit" class="btn btn-info" value="Print" name="print" id="print"/>
                                         <input type='hidden' name='printid' id='printid'/>
                                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Close"/>
