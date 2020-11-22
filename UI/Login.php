@@ -25,7 +25,7 @@ require 'header.php';
             margin-top:3%;
         }
         .submitBut, .resetBut{
-            width:30%;
+            width:35%;
         }
         .submitBut{
             margin-right: 1%;
