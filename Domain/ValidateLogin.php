@@ -19,7 +19,7 @@ if (isset($_POST['staffSubmit'])) {
         $db = new AdminDA();
         $result = $db->login($aID);
         if (empty($result)) {
-            $_SESSION['error'] = "Invalid ID and Password";
+            $_SESSION['error'] = "Invalid ID or Password";
             header("Location:../UI/Login.php");
         } else {
             if ($val->comparePass($apass,$result->password)) {
@@ -28,7 +28,7 @@ if (isset($_POST['staffSubmit'])) {
                 unset($_SESSION['role']);
                 echo'<script>alert("Login Successfully");location.href = "../UI/HomePage.php";</script>';
             } else {
-                $_SESSION['error'] = "Invalid ID and Password";
+                $_SESSION['error'] = "Invalid ID or Password";
                 header("Location:../UI/Login.php");
             }
         }
@@ -45,7 +45,7 @@ if (isset($_POST['staffSubmit'])) {
         $db = new SocietyDA();
         $result = $db->login($scID);
         if (empty($result)) {
-            $_SESSION['error'] = 'Invalid ID and Password';
+            $_SESSION['error'] = 'Invalid ID or Password';
             header("Location:../UI/Login.php");
         } else {
             if ($val->comparePass($scpass, $result->societyPass)) {
@@ -54,7 +54,7 @@ if (isset($_POST['staffSubmit'])) {
                 unset($_SESSION['role']);
                 echo'<script>alert("Login Successfully");location.href = "../UI/EventOrganizerHome.php";</script>';
             } else {
-                $_SESSION['error'] = "Invalid ID and Password";
+                $_SESSION['error'] = "Invalid ID or Password";
                 header("Location:../UI/Login.php");
             }
         }
@@ -71,7 +71,7 @@ if (isset($_POST['staffSubmit'])) {
         $db = new StudentDA();
         $result = $db->login($stID);
         if (empty($result)) {
-            $_SESSION['error'] = 'Invalid ID';
+            $_SESSION['error'] = 'Invalid ID or Password';
             header("Location:../UI/Login.php");
         } else {
             if ($val->comparePass($stpass, $result->password)) {
@@ -80,7 +80,7 @@ if (isset($_POST['staffSubmit'])) {
                 unset($_SESSION['role']);
                 echo'<script>alert("Login Successfully");location.href = "../UI/HomePage.php";</script>';
             } else {
-                $_SESSION['error'] = "Invalid Password";
+                $_SESSION['error'] = "Invalid ID or Password";
                 header("Location:../UI/Login.php");
             }
         }

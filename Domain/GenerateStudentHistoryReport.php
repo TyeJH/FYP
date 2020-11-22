@@ -1,7 +1,7 @@
 <?php
 
 include_once '../Domain/Student.php';
-require 'StudHistoryPDF.php';
+require_once 'StudHistoryPDF.php';
 session_start();
 
 if (isset($_POST['printid'])) {

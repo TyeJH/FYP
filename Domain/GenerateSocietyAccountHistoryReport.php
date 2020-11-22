@@ -1,11 +1,24 @@
 <?php
 
 require_once '../Domain/Society.php';
-require 'SocietyAccountHistoryPDF.php';
+require_once '../Domain/Admin.php';
+require_once '../Domain/SocietyAccountHistoryPDF.php';
 
 session_start();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['printid'])) {
+    $pdf = new SocietyAccountHistoryPDF('P', 'mm', 'A4');
+    $pdf->societyID = $_POST['printid'];
+    $pdf->type = 'All';
+    $pdf->AliasNbPages();
+    $pdf->AddPage('P', 'A4', 0);
+    $pdf->primaryTitle();
+    $pdf->displayContent();
+    $pdf->displayEndOfReport();
+    $pdf->Output();
+}
+
+if (isset($_POST['societyGenerateAccHistoryReport'])) {
 
     $pdf = new SocietyAccountHistoryPDF('P', 'mm', 'A4');
     $pdf->societyID = $_SESSION['result']->societyID;
@@ -16,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdf->startDate = $_POST['startDate'];
         $pdf->endDate = $_POST['endDate'];
     }
-    
+
     $pdf->AliasNbPages();
     $pdf->AddPage('P', 'A4', 0);
     $pdf->primaryTitle();

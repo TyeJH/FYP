@@ -59,7 +59,7 @@
                         </td>
                         <td style="height: 50px;">
                             <button type="submit" class="btn btn-success" name="updatePassword">Save</button>
-                            <button type="reset" class="btn btn-danger">Reset</button>
+                            <button type="reset" class="btn btn-danger">Cancel</button>
                         </td>
                     </tr>
                 </table>

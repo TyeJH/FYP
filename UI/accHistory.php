@@ -63,7 +63,6 @@ require 'header.php';
                             ?>
                         </tbody>
                     </table>
-                   
                     <!--Add Feedback Details-->
                     <a onClick='openGenerateReportForm()'  class='btn btn-info m-r-1em'>Generate Report</a>
                     <script>
@@ -165,7 +164,7 @@ require 'header.php';
                                                 <td></td>
                                                 <td>    
                                                     <br>
-                                                    <input type="submit" class="btn btn-info" value="Generate" name="print" id="print"/>
+                                                    <input type="submit" class="btn btn-info" value="Generate" name="societyGenerateAccHistoryReport" id="societyGenerateAccHistoryReport"/>
                                                 </td>
                                             </tr>
                                         </table>
@@ -178,6 +177,7 @@ require 'header.php';
                         </div>  
                     </div>
 
+
                 </div>
                 <?php
             }
@@ -189,3 +189,4 @@ require 'header.php';
 
     </body>
 </html>
+
