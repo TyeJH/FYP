@@ -62,8 +62,8 @@ class SocietyAccountHistoryPDF extends FPDF {
         $this->Cell(10, 10, 'No', 1, 0, 'C');
         $this->Cell(30, 10, 'Transaction ID', 1, 0, 'C');
         $this->Cell(50, 10, 'Transaction Date', 1, 0, 'C');
-        $this->Cell(50, 10, 'Credit/Debit Amount (RM)', 1, 0, 'C');
-        $this->Cell(50, 10, 'Purpose', 1, 0, 'C');
+        $this->Cell(55, 10, 'Credit/Debit Amount (RM)', 1, 0, 'C');
+        $this->Cell(45, 10, 'Purpose', 1, 0, 'C');
         $this->Ln();
     }
 
@@ -72,14 +72,14 @@ class SocietyAccountHistoryPDF extends FPDF {
         $a = new SocietyDA();
         $b = $a->getTrans($this->societyID);
         if (!empty($b)) {
-            $count = 0;
+            $count = 1;
             foreach ($b as $history) {
                 $date = date('d-M-Y', strtotime($history->transDate));
                 $this->Cell(10, 10, $count, 1, 0, 'C');
                 $this->Cell(30, 10, $history->transID, 1, 0, 'C');
                 $this->Cell(50, 10, $date, 1, 0, 'C');
-                $this->Cell(50, 10, $history->amount, 1, 0, 'C');
-                $this->Cell(50, 10, $history->purpose, 1, 0, 'C');
+                $this->Cell(55, 10, $history->amount, 1, 0, 'C');
+                $this->Cell(45, 10, $history->purpose, 1, 0, 'C');
                 $this->Ln();
                 $count++;
             }
