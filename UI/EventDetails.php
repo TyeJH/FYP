@@ -33,11 +33,6 @@ AUTHOR : NGO KIAN HEE
         </style>
         <title>Event Details</title>
     </head>
-    <script type="text/javascript">
-        function JSalert() {
-            swal("Congrats!", ", Thanks for joining our event. An email had send to you!", "success");
-        }
-    </script>
     <body>
 
         <div class='container'>
@@ -145,7 +140,7 @@ AUTHOR : NGO KIAN HEE
                                                     if ($result->applyStatus == 'Approved') {
                                                         echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-success'>Joined</p></br>";
                                                     } else if ($result->applyStatus == 'Pending') {
-                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-info'>Pending for approval</p> <a href ='../Domain/DeleteParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-warning' name = 'participate'>Cancel</a></br>";
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-info'>Pending for approval</p> <a href ='../Domain/DeleteParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-warning' name = 'participate'>Cancel</a></br>";
                                                     } else if ($result->applyStatus == 'Disapproved') {
                                                         echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Disapproved</p></br>";
                                                     }
@@ -155,10 +150,10 @@ AUTHOR : NGO KIAN HEE
                                                         if ($schedule->noOfJoined >= $schedule->noOfParticipant) {
                                                             echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Full</p></br>";
                                                         } else {
-                                                            echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                                            echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
                                                         }
                                                     } else {
-                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID'  type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
                                                     }
                                                 }
                                             } else {
@@ -167,10 +162,10 @@ AUTHOR : NGO KIAN HEE
                                                     if ($schedule->noOfJoined >= $schedule->noOfParticipant) {
                                                         echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Full</p></br>";
                                                     } else {
-                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
                                                     }
                                                 } else {
-                                                    echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                                    echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
                                                 }
                                             }
                                         }
@@ -197,12 +192,12 @@ AUTHOR : NGO KIAN HEE
                                             if ($result2->applyStatus == 'Approved') {
                                                 echo "<a class = 'btn btn-info' name = 'helper'>Registered</a></br>";
                                             } else if ($result2->applyStatus == 'Pending') {
-                                                echo "<a class = 'btn btn-info' name = 'helper'>Pending for approval</a></br>";
+                                                echo "<a class = 'btn btn-info' name = 'helper'>Pending for approval</a> <a href ='../Domain/DeleteHelper.php?eventID=$event->eventID'  type = 'submit' class = 'btn btn-warning' name = 'helper'>Cancel</a></br>";
                                             } else if ($result2->applyStatus == 'Disapproved') {
                                                 echo "<a class = 'btn btn-info' name = 'helper'>Disapproved</a></br>";
                                             }
                                         } else {
-                                            echo "<a href ='../Domain/CreateHelper.php?eventID=$event->eventID' onclick = 'JSalert()' type = 'submit' class = 'btn btn-primary' name = 'helper'>Register here</a></br>";
+                                            echo "<a href ='../Domain/CreateHelper.php?eventID=$event->eventID' type = 'submit' class = 'btn btn-primary' name = 'helper'>Register here</a></br>";
                                         }
                                     }
                                 }

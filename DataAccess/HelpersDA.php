@@ -141,5 +141,19 @@ class HelpersDA {
         }
         DatabaseConnection::closeConnection($db);
     }
+    
+    public function delete(Helpers $helper) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'DELETE FROM helpers WHERE eventID = ? AND userID = ?';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $helper->eventID, PDO::PARAM_STR);
+        $stmt->bindParam(2, $helper->userID, PDO::PARAM_STR);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
 
 }
