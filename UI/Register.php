@@ -19,6 +19,7 @@ require 'header.php';
     </style>
     <body>
         <div class='container'>
+            <br>
             <!--           1215 × 636-->
             <img src='../image/tarcBeyondEducation.png' width="243" height="127">
             <?php
@@ -42,8 +43,8 @@ require 'header.php';
                             <option value="DEM">Department of Estates And Maintenance (DEM)</option>
                             <option value="DOS">Department of Security (DOS)</option>
                         </select><br>
-                        <label>Password: </label><input type="password" name="pass" placeholder="Enter your password"/><br>
-                        <label>Confirm Password: </label><input type="password" name="cpass" placeholder="Re-Type your password"/><br>
+                        <label>Password: </label>&nbsp;<input type="password" name="pass" placeholder="Enter your password"/><br>
+                        <label>Confirm Password:</label>&nbsp;<input type="password" name="cpass" placeholder="Re-Type your password"/><br>
                         <input type="submit" name="staffSubmit" value="Register"/> <input type="reset" name="reset" value="Cancel"/>
                     </form>
                     <?php

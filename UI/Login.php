@@ -8,91 +8,140 @@ require 'header.php';
     <head>
         <meta charset="UTF-8">
         <title>Login Page</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
     </head>
     <style>
-        .container{
-            text-align:center;
-        }
-        table{
+        .center{
+            display: block;
             margin-left: auto;
             margin-right: auto;
         }
+        .box{
+            width:400;
+        }
+        .container{
+            margin-top:3%;
+        }
+        .submitBut, .resetBut{
+            width:30%;
+        }
+        .submitBut{
+            margin-right: 1%;
+        }
+        .resetBut{
+            margin-left: 1%;
+        }
+        h1{
+            text-align: center;
+        }
     </style>
     <body>
-        <div class='container'>
-            <!--           1215 × 636-->
-            <img src='../image/tarcBeyondEducation.png' width="243" height="127"><br>
-            <?php
-            if (isset($_SESSION['role'])) {
-                if ($_SESSION['role'] == 'staff') {
-                    ?>
-                    <h1>Staff Account Login</h1>
-                    <form method="post" action="../Domain/validateLogin.php">
-                        <?php
-                        if (isset($_SESSION['error'])) {
-                            echo '<h5 style=color:red>' . $_SESSION['error'] . '</h5>';
-                            unset($_SESSION['error']);
-                        }
-                        ?>
-                        <table>
-                            <tr>
-                                <th>Admin ID:</th>
-                                <td><input type="text" placeholder="Enter admin id" name="adminid" autofocus=""/></td>
-                            </tr>
-                            <tr>
-                                <th>Password:</th>
-                                <td><input type="password" placeholder="Enter your password" name ="adminpass"/></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td><input type="submit" name="staffSubmit" value="Login"/>
-                                    <input type="reset" name="reset" value="Cancel"/></td>
-                            </tr>
-                        </table>
-                    </form>
-                    <?php
-                } else if ($_SESSION['role'] == 'society') {
-                    ?>
-                    <h1>Society Account Login</h1>
-                    <?php
-                    if (isset($_SESSION['error'])) {
-                        echo '<h5 style=color:red>' . $_SESSION['error'] . '</h5>';
-                        unset($_SESSION['error']);
-                    }
-                    ?>
-                    <form method="post" action="../Domain/validateLogin.php">
-                        <label>Society ID: </label> <input type="text" placeholder="Enter society id (number only)" name="societyid" autofocus=""/><br>
-                        <label>Password: </label> <input type="password" placeholder="Enter your password" name ="societypass"/><br>
-                        <input type="submit" name="societySubmit" value="Login"/> <input type="reset" name="reset" value="Cancel"/><br>
-                    </form>
+        <?php
+        if (isset($_SESSION['role'])) {
+            if ($_SESSION['role'] == 'staff') {
+                ?>
+                <div class="container box">
+                    <div class="container card">
+                        <div class="card-body">
+                            <img src='../image/tarcBeyondEducation.png' width="243" height="127" class="center"><br>
+                            <h1 class="card-title"><b>Staff Login</b></h1>
+                            <?php
+                            if (isset($_SESSION['error'])) {
+                                echo '<h5 style=color:red>' . $_SESSION['error'] . '</h5>';
+                                unset($_SESSION['error']);
+                            }
+                            ?>
+                            <form method="post" action="../Domain/validateLogin.php">
+                                <div class="form-group">
+                                    <label for="adminid" class="col-form-label">Admin ID:</label>
+                                    <input class="form-control" type="text" placeholder="Enter admin id" name="adminid" autofocus=""/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-form-label">Password:</label>
+                                    <input class="form-control" type="password" placeholder="Enter your password" name ="adminpass"/>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <input class="submitBut btn btn-success" type="submit" name="staffSubmit" value="Login"/>
+                                    <input class="resetBut btn btn-danger" type="reset" name="reset" value="Cancel"/>
+                                </div>
 
-                    <?php
-                } else if ($_SESSION['role'] == 'student') {
-                    ?>
-                    <h1>Student Account Login</h1>
-                    <?php
-                    if (isset($_SESSION['error'])) {
-                        echo '<h5 style=color:red>' . $_SESSION['error'] . '</h5>';
-                        unset($_SESSION['error']);
-                    }
-                    ?>
-                    <div class="container container-card">
-                    <form method="post" action="../Domain/validateLogin.php">
-                        <label>Username: </label> <input type="text" placeholder="Enter username" name="userid" autofocus=""/><br>
-                        <label>Password: </label> <input type="password" placeholder="Enter your password" name ="studentpass"/><br>
-                        <input type="submit" name="studentSubmit" value="Login"/> <input type="reset" name="reset" value="Cancel"/><br>
-                        <label>Forgot Password? <a href="../UI/ForgotPassword.php">Click Here</a></label>
-                    </form>
+                            </form>
+                        </div>
                     </div>
-                    <?php
-                } else {
-                    header("Location:../UI/HomePage.php");
-                }
+                </div>
+                <?php
+            } else if ($_SESSION['role'] == 'society') {
+                ?>
+                <div class="container box">
+                    <div class="container card">
+                        <div class="card-body">
+                            <img src='../image/tarcBeyondEducation.png' width="243" height="127" class="center"><br>
+                            <h1 class="card-title"><b>Society Login</b></h1>
+                            <?php
+                            if (isset($_SESSION['error'])) {
+                                echo '<h5 style=color:red>' . $_SESSION['error'] . '</h5>';
+                                unset($_SESSION['error']);
+                            }
+                            ?>
+                            <form method="post" action="../Domain/validateLogin.php">
+                                <div class="form-group">
+                                    <label for="societyid" class="col-form-label">Society ID: </label>
+                                    <input class="form-control" type="text" placeholder="Enter society id (number only)" name="societyid" autofocus="" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-form-label">Password: </label>
+                                    <input class="form-control" type="password" placeholder="Enter your password" name ="societypass"/>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <input type="submit" name="societySubmit" value="Login" class="submitBut btn btn-success"/> 
+                                    <input type="reset" name="reset" value="Cancel" class="resetBut btn btn-danger"/>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <?php
+            } else if ($_SESSION['role'] == 'student') {
+                ?>
+                <div class="container box">
+                    <div class="container card">
+                        <div class="card-body">
+                            <img src='../image/tarcBeyondEducation.png' width="243" height="127" class="center"><br>
+                            <h1 class="card-title"><b>Student Login</b></h1>
+                            <?php
+                            if (isset($_SESSION['error'])) {
+                                echo '<h5 style=color:red>' . $_SESSION['error'] . '</h5>';
+                                unset($_SESSION['error']);
+                            }
+                            ?>
+                            <form method="post" action="../Domain/validateLogin.php">
+                                <div class="form-group">
+                                    <label for="username" class="col-form-label">Username:</label> 
+                                    <input class="form-control" type="text" placeholder="Enter username" name="userid" autofocus=""/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-form-label">Password:</label> 
+                                    <input class="form-control" type="password" placeholder="Enter your password" name ="studentpass"/>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <input class="submitBut btn btn-success" type="submit" name="studentSubmit" value="Login"/> 
+                                    <input class="resetBut btn btn-danger" type="reset" name="reset" value="Cancel"/>
+                                </div>
+                                <h5 class="card-subtitle mt-3 text-muted"><label>Forgot Password? <a href="../UI/ForgotPassword.php">Click Here</a></label></h5>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <?php
             } else {
                 header("Location:../UI/HomePage.php");
             }
-            ?>     
-        </div>
+        } else {
+            header("Location:../UI/HomePage.php");
+        }
+        ?> 
     </body>
 </html>
