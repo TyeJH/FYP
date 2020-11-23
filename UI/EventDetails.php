@@ -89,7 +89,8 @@ AUTHOR : NGO KIAN HEE
                         </tr>
                         <tr>
                             <?php
-                            if (!empty($event->contactNo)) {
+       
+                            if ($event->contactNo != '') {
                                 ?>
                                 <td>Contact Us :</td>
                                 <td>
@@ -202,8 +203,11 @@ AUTHOR : NGO KIAN HEE
                                             echo "<a href ='../Domain/CreateHelper.php?eventID=$event->eventID' type = 'submit' class = 'btn btn-primary' name = 'helper'>Register here</a></br>";
                                         }
                                     }
-                                }else{
-                                    echo "Login as students to join!";
+                                } else {
+                                    if (!isset($_SESSION['current']) == '') {
+                                        $_SESSION['role'] = 'student';
+                                        echo "<a href ='Login.php'>Login to register!</a>";
+                                    }
                                 }
                                 ?>
                             </td>

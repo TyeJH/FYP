@@ -49,7 +49,7 @@ and open the template in the editor.
         <div class='container'>
             <h1>Home</h1>
             <?php echo "<p style='font-size:15px;'>Welcome back, " . $_SESSION['result']->societyName . "</p>"; ?>
-            <h2>Your created Events</h2>
+            <h2>Events Happening</h2>
 
             <?php
             //class ='table table-hover table-responsive table-bordered' << original class
@@ -66,6 +66,7 @@ and open the template in the editor.
             $eventDA = new SocietyEventDA();
             $scheduleDA = new ScheduleDA();
             $eventArray = $eventDA->retrieveBySocietyID($societyID);
+            $found = false;
             if ($eventArray != null) {
                 //retrieve schedule from the society created event
                 foreach ($eventArray as $event) {
@@ -84,6 +85,7 @@ and open the template in the editor.
                             . "<a href='ManageAttendance.php?eventID={$event->eventID}' class='btn btn-primary'>Attendance</a> "
                             . "<a href='ManageHelper.php?eventID={$event->eventID}' class='btn btn-primary'>Helper</a></td>";
                             echo "</tr>";
+                            $found = true;
                         }
                     } else {
                         //else no created schedule means new event then display
@@ -96,11 +98,13 @@ and open the template in the editor.
                         . "<a href='ManageAttendance.php?eventID={$event->eventID}' class='btn btn-primary'>Attendance</a> "
                         . "<a href='ManageHelper.php?eventID={$event->eventID}' class='btn btn-primary'>Helper</a></td>";
                         echo "</tr>";
+                        $found = true;
                     }
                 }
-            } else {
+            } 
+            if(!$found){
                 echo "<tr>";
-                echo "<td colspan='7' style=color:red;text-align:center;>No records found.</td>";
+                echo "<td colspan='3' style=color:red;text-align:center;>No records found.</td>";
                 echo "</tr>";
             }
             echo "</tbody>";

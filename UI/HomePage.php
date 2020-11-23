@@ -48,7 +48,7 @@ require '../UI/header.php';
             echo "<thead class='contentHeader'>";
             echo "<tr>";
             echo "<th>Name</th>";
-            echo "<th>Action</th>";
+            echo "<th>View</th>";
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
@@ -56,7 +56,7 @@ require '../UI/header.php';
             $eventArray = $eventDA->retrieveBeforeEventEnd();
             if ($eventArray == null) {
                 echo "<tr>";
-                echo "<td colspan='7' style=color:red;text-align:center;>No records found.</td>";
+                echo "<td colspan='7' style=color:red;text-align:center;>No events yet.</td>";
                 echo "</tr>";
             } else {
                 foreach ($eventArray as $event) {
