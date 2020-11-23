@@ -68,8 +68,6 @@ and open the template in the editor.
                                     //location.reload();
                                 }
                             });
-                } else {
-                    // Do nothing!
                 }
             }
             function openFeedbackForm(value) {

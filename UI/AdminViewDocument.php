@@ -39,32 +39,35 @@ and open the template in the editor.
                 $('#documentApplication').DataTable();
             });
             function approveDocument(value) {
-                var valueSpilted = value.split(':');
-                var approveButton = document.getElementById(valueSpilted[0] + ":" + valueSpilted[1] + ":Approved");
-                var disapproveButton = document.getElementById(valueSpilted[0] + ":" + valueSpilted[1] + ":Disapproved");
-                var processedButton = document.getElementById(valueSpilted[0] + ":" + valueSpilted[1] + ":Processed");
-                var statusText = document.getElementById(valueSpilted[0] + ":status");
-                $.ajax
-                        ({
-                            type: "POST",
-                            url: "../Domain/UpdateDocument.php",
-                            data: {
-                                "docID": valueSpilted[0],
-                                "status": valueSpilted[2]
-                            },
-                            success: function (data) {
-                                if (data != 'error') {
-                                    statusText.innerHTML = 'Approved';
-                                    approveButton.style.display = 'none';
-                                    disapproveButton.style.display = 'none';
-                                    processedButton.style.display = 'block';
-                                    alert(data);
-                                } else {
-                                    alert('Sorry, unexpected error occur');
+                if (confirm('Are you sure want to approve?')) {
+                    var valueSpilted = value.split(':');
+                    var approveButton = document.getElementById(valueSpilted[0] + ":" + valueSpilted[1] + ":Approved");
+                    var disapproveButton = document.getElementById(valueSpilted[0] + ":" + valueSpilted[1] + ":Disapproved");
+                    var processedButton = document.getElementById(valueSpilted[0] + ":" + valueSpilted[1] + ":Processed");
+                    var statusText = document.getElementById(valueSpilted[0] + ":status");
+                    $.ajax
+                            ({
+                                type: "POST",
+                                url: "../Domain/UpdateDocument.php",
+                                data: {
+                                    "docID": valueSpilted[0],
+                                    "status": valueSpilted[2]
+                                },
+                                success: function (data) {
+                                    if (data != 'error') {
+                                        statusText.innerHTML = 'Approved';
+                                        approveButton.style.display = 'none';
+                                        disapproveButton.style.display = 'none';
+                                        processedButton.style.display = 'block';
+                                        alert(data);
+                                    } else {
+                                        alert('Sorry, unexpected error occur');
+                                    }
+                                    //location.reload();
                                 }
-                                //location.reload();
-                            }
-                        });
+                            });
+                }
+
             }
             function openFeedbackForm(value) {
                 var valueSpilted2 = value.split(':');
