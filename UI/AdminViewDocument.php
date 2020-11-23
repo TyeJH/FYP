@@ -181,7 +181,7 @@ and open the template in the editor.
                             <br />
                             <input type="hidden" name="docID" id="docID"/>
                             <input type="hidden" name="societyID" id="societyID"/>
-                            <input type="submit" name="vSubmit" id="insert" onClick='disapproveDocument()' value="Insert" class="btn btn-success" />  
+                            <input type="submit" name="vSubmit" id="insert" onClick='disapproveDocument()' value="Submit" class="btn btn-success" />  
                         </form>  
                     </div>  
                     <div class="modal-footer">  
