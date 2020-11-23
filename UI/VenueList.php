@@ -133,6 +133,7 @@ require 'header.php';
                 <script>
                     $(document).ready(function () {
                         $('#vTable').DataTable();
+                        
                         //    Display Insert Form
                         $('#add').click(function () {
                             $('#insert').val("Insert");
