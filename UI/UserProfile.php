@@ -120,23 +120,23 @@ require 'header.php';
                         <table class='table table-hover table-bordered'>
                             <tr>
                                 <th>Username</th>
-                                <td><input type="text" name="uname" class="uname" value="<?= $stud->username ?>" readonly="" style="border:none; outline: none"></td>
+                                <td><input type="text" name="uname" class="uname" value="<?= $stud->username ?>" readonly="" style="border:none; outline: none;width: 100%;"></td>
                             </tr>
                             <tr>
                                 <th>Full Name</th>
-                                <td><input type="text" name="fname" class="fname" value="<?= $fname['studName'] ?>" readonly="" style="border:none; outline: none"></td>
+                                <td><input type="text" name="fname" class="fname" value="<?= $fname['studName'] ?>" readonly="" style="border:none; outline: none;width: 100%;"></td>
                             </tr>
                             <tr>
                                 <th>User Email</th>
-                                <td><input type="email" name="email" class="email" value="<?= $stud->studEmail ?>" readonly="" style="border: none; outline:none"></td>
+                                <td><input type="email" name="email" class="email" value="<?= $stud->studEmail ?>" readonly="" style="border: none; outline:none; width: 100%;"></td>
                             </tr>
                             <tr>
                                 <th>User Password</th>
-                                <td><input type="password" name="password" class="pass" value="<?= $stud->password ?>" readonly="" style="border: none; outline:none"></td>
+                                <td><input type="password" name="password" class="pass" value="<?= $stud->password ?>" readonly="" style="border: none; outline:none;width: 100%;"></td>
                             </tr>
                             <tr>
                                 <th>Student ID:</th>
-                                <td><input type="text" name="studid" value="<?= $stud->uniStudID ?>" readonly="" style="border: none; outline:none"></td>
+                                <td><input type="text" name="studid" value="<?= $stud->uniStudID ?>" readonly="" style="border: none; outline:none;width: 100%;"></td>
                             </tr>                         
                         </table>
                         <input type="hidden" name="uID" value="<?= $stud->studID ?>"/>
@@ -149,19 +149,19 @@ require 'header.php';
                     $('.edit').click(function () {
                         $(this).siblings('.save, .cancel').show();
                         $('.uname, .email').removeAttr("readonly");
-                        $('.uname, .email').attr("style", "border:1px solid;outline:1px solid");
+                        $('.uname, .email').attr("style", "border:1px solid;outline:1px solid;width: 100%;");
                         $('.uname').focus();
                     });
                     $('.cancel').click(function () {
                         $(this).siblings('.save').hide();
                         $(this).hide();
-                        $('.uname, .email').attr("style", "border:none;outline:none");
+                        $('.uname, .email').attr("style", "border:none;outline:none;width: 100%;");
                         $('.uname, .email').attr("readonly", "readonly");
                     });
                     $('.save').click(function () {
                         $(this).siblings('.cancel').hide();
                         $(this).hide();
-                        $('.uname, .email').attr("style", "border:none;outline:none");
+                        $('.uname, .email').attr("style", "border:none;outline:none;width: 100%;");
                         $('.uname, .email').attr("readonly", "readonly");
                     });
                 </script>

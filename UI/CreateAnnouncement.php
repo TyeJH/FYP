@@ -134,7 +134,7 @@ require '../UI/header.php';
                                 </form>  
                             </div>  
                             <div class="modal-footer">  
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                                <button type="button" class="btn btn-default" id="close" data-dismiss="modal" >Close</button>  
                             </div>  
                         </div>  
                     </div>  
@@ -143,12 +143,18 @@ require '../UI/header.php';
                 <script>
                     $(document).ready(function () {
                         $('#aTable').DataTable();
+
                         //    Display Insert Form
                         $('#add').click(function () {
                             $('#insert').val("Insert");
                             $('#insert_form')[0].reset();
                         });
 
+                        //        Refresh Page after close modal
+                        $('#close').click(function () {
+                            location.reload();
+                        });
+                                
                         //        Edit Announcement Details
                         $(document).on('click', '.edit_data', function () {
                             var annid = $(this).attr("id");
