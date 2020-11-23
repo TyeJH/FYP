@@ -47,6 +47,26 @@ class ScheduleDA {
         DatabaseConnection::closeConnection($db);
     }
     
+    public function retrieveOrderByStartDate($eventID) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT * FROM schedule WHERE eventID = ? ORDER BY startDate';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $eventID);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return null;
+        } else {
+            $scheduleArray = array();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $schedule = new Schedule($row['scheduleID'], $row['venue'], $row['startDate'], $row['startTime'], $row['endDate'], $row['endTime'], $row['unlimited'], $row['noOfParticipant'], $row['noOfJoined'], $row['scheduleStatus'], $row['eventID']);
+                $scheduleArray[] = $schedule;
+            }
+            return $scheduleArray;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+    
     public function retrieveHistory($eventID) {
         $db = DatabaseConnection::getInstance()->getDB();
         $query = 'SELECT DISTINCT(eventID), MIN(startDate) AS Start, MAX(endDate) AS End FROM schedule WHERE eventID = ? AND endDate < CURDATE() GROUP BY eventID';

@@ -109,7 +109,7 @@ AUTHOR : NGO KIAN HEE
                             <td>
                                 <?php
                                 $scheduleDA = new ScheduleDA();
-                                $scheduleArray = $scheduleDA->retrieve($eventID);
+                                $scheduleArray = $scheduleDA->retrieveOrderByStartDate($eventID);
                                 $count = 1;
                                 if ($scheduleArray != null) {
                                     foreach ($scheduleArray as $schedule) {
