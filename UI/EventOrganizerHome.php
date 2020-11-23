@@ -49,12 +49,6 @@ and open the template in the editor.
         <div class='container'>
             <h1>Home</h1>
             <?php echo "<p style='font-size:15px;'>Welcome back, " . $_SESSION['result']->societyName . "</p>"; ?>
-            <a href="ApplyNewEvent.php" class="btn btn-primary">Apply New Event</a>
-            <a href="ViewApplyStatus.php" class="btn btn-primary">View Apply Status</a>
-            <a href="SocietyCreateEvent.php" class="btn btn-primary">Create Event</a>
-            <a href="BookVenue.php" class="btn btn-primary">Book Venue</a>
-            <a href="ViewBooking.php" class="btn btn-primary">View Booking</a>
-            <br><br>
             <h2>Your created Events</h2>
 
             <?php
@@ -104,7 +98,7 @@ and open the template in the editor.
                         echo "</tr>";
                     }
                 }
-            }else{
+            } else {
                 echo "<tr>";
                 echo "<td colspan='7' style=color:red;text-align:center;>No records found.</td>";
                 echo "</tr>";

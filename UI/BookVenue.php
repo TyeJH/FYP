@@ -70,6 +70,8 @@ and open the template in the editor.
                     } else {
                         errMsg2.style.display = 'none';
                     }
+                } else {
+                    errMsg2.style.display = 'none';
                 }
                 var now = new Date();
                 if (st < now) {

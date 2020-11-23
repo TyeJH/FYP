@@ -138,36 +138,38 @@ AUTHOR : NGO KIAN HEE
                                                 //If student already joined or applied
                                                 if ($result != null) {
                                                     if ($result->applyStatus == 'Approved') {
-                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-success'>Joined</p></br>";
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-success'>Joined</p></br></br>";
                                                     } else if ($result->applyStatus == 'Pending') {
-                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-info'>Pending for approval</p> <a href ='../Domain/DeleteParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-warning' name = 'participate'>Cancel</a></br>";
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-info'>Pending for approval</p> <a href ='../Domain/DeleteParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-warning' name = 'participate'>Cancel</a></br></br>";
                                                     } else if ($result->applyStatus == 'Disapproved') {
-                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Disapproved</p></br>";
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Disapproved</p></br></br>";
                                                     }
                                                 } else {
                                                     //If student didn't joined
                                                     if ($schedule->unlimited == 'No') {
                                                         if ($schedule->noOfJoined >= $schedule->noOfParticipant) {
-                                                            echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Full</p></br>";
+                                                            echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Full</p></br></br>";
                                                         } else {
-                                                            echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                                            echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br></br>";
                                                         }
                                                     } else {
-                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID'  type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID'  type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br></br>";
                                                     }
                                                 }
                                             } else {
                                                 //When not loggeed in
                                                 if ($schedule->unlimited == 'No') {
                                                     if ($schedule->noOfJoined >= $schedule->noOfParticipant) {
-                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Full</p></br>";
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Full</p></br></br>";
                                                     } else {
-                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br></br>";
                                                     }
                                                 } else {
                                                     echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
                                                 }
                                             }
+                                        } else {
+                                            echo "$startDateTimeFormatted - $endDateTimeFormatted </br></br>";
                                         }
                                         $count++;
                                     }
@@ -200,6 +202,8 @@ AUTHOR : NGO KIAN HEE
                                             echo "<a href ='../Domain/CreateHelper.php?eventID=$event->eventID' type = 'submit' class = 'btn btn-primary' name = 'helper'>Register here</a></br>";
                                         }
                                     }
+                                }else{
+                                    echo "Login as students to join!";
                                 }
                                 ?>
                             </td>

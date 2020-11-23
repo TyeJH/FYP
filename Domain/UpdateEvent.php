@@ -10,7 +10,7 @@ if (isset($_POST['updateEvent'])) {
     $eventID = $_POST['eventID'];
 
     $val = new Validation();
-    $eventName = $val->test_input($_POST['eventName']);
+    $eventName = $_POST['eventName'];
     $eventDesc = $val->test_input($_POST['eventDesc']);
 
     $file = 0;

@@ -101,7 +101,7 @@ CREATE TABLE documentation(
 
 CREATE TABLE SocietyEvent(
     eventID            int(6) auto_increment not null,
-    eventName          varchar(20)           not null,
+    eventName          varchar(300)           not null,
     eventDesc          varchar(300)          not null,
     eventCategory      varchar(20)           not null,
     image              longblob              not null,
