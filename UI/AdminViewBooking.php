@@ -41,20 +41,31 @@ and open the template in the editor.
                 if (confirm('Are you sure want to approve?')) {
                     // Save it!
                     var valueSpilted = value.split(':');
-                    var existCol = document.getElementById(valueSpilted[0] + ":existCol");
-                    var hiddenCol = document.getElementById(valueSpilted[0] + ":hiddenCol");
-                    existCol.style.display = 'none';
-                    hiddenCol.style.display = 'block';
+                    var approveButton = document.getElementById(valueSpilted[0] + ":" + valueSpilted[1] + ":Approved");
+                    var disapproveButton = document.getElementById(valueSpilted[0] + ":" + valueSpilted[1] + ":Disapproved");
+                    var processedButton = document.getElementById(valueSpilted[0] + ":" + valueSpilted[1] + ":Processed");
+                    var statusText = document.getElementById(valueSpilted[0] + ":status");
+
+
                     $.ajax
                             ({
                                 type: "POST",
                                 url: "../Domain/UpdateBooking.php",
                                 data: {
                                     "bookingID": valueSpilted[0],
-                                    "bookStatus": valueSpilted[1],
+                                    "bookStatus": valueSpilted[2]
                                 },
                                 success: function (data) {
-                                    alert(data);
+                                    if (data != 'error') {
+                                        statusText.innerHTML = 'Approved';
+                                        approveButton.style.display = 'none';
+                                        disapproveButton.style.display = 'none';
+                                        processedButton.style.display = 'block';
+                                        alert(data);
+                                    } else {
+                                        alert('Sorry, unexpected error occur');
+                                    }
+                                    //location.reload();
                                 }
                             });
                 } else {
@@ -72,6 +83,10 @@ and open the template in the editor.
                 var bookingID = document.getElementById("bookingID").value;
                 var societyID = document.getElementById("societyID").value;
                 var feedback = document.getElementById("feedback").value;
+                var approveButton = document.getElementById(bookingID + ":" + societyID + ":Approved");
+                var disapproveButton = document.getElementById(bookingID + ":" + societyID + ":Disapproved");
+                var processedButton = document.getElementById(bookingID + ":" + societyID + ":Processed");
+                var statusText = document.getElementById(bookingID + ":status");
                 $.ajax
                         ({
                             type: "POST",
@@ -84,8 +99,16 @@ and open the template in the editor.
                             },
                             success: function (data) {
                                 $('#add_data_Modal').modal('hide');
-                                alert(data);
-                                location.reload();
+                                if (data != 'error') {
+                                    statusText.innerHTML = 'Disapproved';
+                                    approveButton.style.display = 'none';
+                                    disapproveButton.style.display = 'none';
+                                    processedButton.style.display = 'block';
+                                    alert(data);
+                                } else {
+                                    alert('Sorry, unexpected error occur');
+                                }
+                                //location.reload();
                             }
                         });
             }
@@ -130,13 +153,13 @@ and open the template in the editor.
                         $stFormatted = date("g:i A", strtotime($booking->startTime));
                         $etFormatted = date("g:i A", strtotime($booking->endTime));
                         echo "<td>{$stFormatted} - {$etFormatted}</td>";
-                        echo "<td>{$booking->bookStatus}</td>";
+                        echo "<td id='$booking->bookID:status'> {$booking->bookStatus}</td>";
                         if ($booking->bookStatus == 'Pending') {
                             //if pending show Approve, Disapprove Button
-                            echo "<td id='$booking->bookID:existCol' > "
-                            . "<a id='$booking->bookID:Approved' onClick='approveBooking(this.id)'  class='btn btn-success m-r-1em'>Approve</a> "
-                            . "<p id='$booking->bookID:$booking->societyID:Disapproved' onClick='openFeedbackForm(this.id)' class='btn btn-danger m-r-1em'>Disapprove</p> ";
-                            echo "<td id='$booking->bookID:hiddenCol' style='display:none;'>  <a id='$booking->bookID' class='btn btn-info m-r-1em'>Processed</a> </td>";
+                            echo "<td id='$booking->bookID:existCol'> "
+                            . "<a id='$booking->bookID:$booking->societyID:Approved' onClick='approveBooking(this.id)'  class='btn btn-success m-r-1em'>Approve</a> "
+                            . "<a id='$booking->bookID:$booking->societyID:Disapproved' onClick='openFeedbackForm(this.id)' class='btn btn-danger m-r-1em'>Disapprove</a>"
+                            . "<button style='display:none;' id='$booking->bookID:$booking->societyID:Processed' class='btn btn-secondary m-r-1em' disabled>Processed</button></td>";
                         } else {
                             echo "<td> <button class='btn btn-secondary m-r-1em' disabled>Processed</button> </td>";
                         }
@@ -167,7 +190,7 @@ and open the template in the editor.
                             <br />
                             <input type="hidden" name="bookingID" id="bookingID"/>
                             <input type="hidden" name="societyID" id="societyID"/>
-                            <input type="submit" name="vSubmit" id="insert" onClick='disapproveBooking()' value="Insert" class="btn btn-success" />  
+                            <input type="submit" name="vSubmit" id="insert" onClick='disapproveBooking()' value="Submit" class="btn btn-success" />  
                         </form>  
                     </div>  
                     <div class="modal-footer">  

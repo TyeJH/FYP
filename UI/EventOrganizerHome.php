@@ -1,5 +1,9 @@
 <?php
 require '../DataAccess/SocietyEventDA.php';
+require_once '../Domain/Schedule.php';
+require_once '../Domain/SocietyEvent.php';
+require '../DataAccess/ScheduleDA.php';
+
 session_start();
 if ($_SESSION['current'] != 'Society') {
     if (!isset($_SESSION['result'])) {
@@ -66,23 +70,44 @@ and open the template in the editor.
             echo "<tbody>";
             $societyID = $_SESSION['result']->societyID;
             $eventDA = new SocietyEventDA();
-            $eventArray = $eventDA->retrieveBeforeEventEndForSociety($societyID);
-            if ($eventArray == null) {
+            $scheduleDA = new ScheduleDA();
+            $eventArray = $eventDA->retrieveBySocietyID($societyID);
+            if ($eventArray != null) {
+                //retrieve schedule from the society created event
+                foreach ($eventArray as $event) {
+                    $haveScheduled = $scheduleDA->retrieve($event->eventID);
+                    if ($haveScheduled != null) {
+                        //if schedule created check if the schedule are end or not
+                        $end = $eventDA->isEventEnd($event->eventID);
+                        if (!$end) {
+                            //display the event details
+                            echo "<tr>";
+                            echo "<td>{$event->eventID}</td>";
+                            echo "<td>{$event->eventName}</td>";
+                            echo "<td> <a href = 'EditEvent.php?eventID={$event->eventID}' class='btn btn-primary m-r-1em'>View</a> "
+                            . "<a href = 'ManageSchedule.php?eventID={$event->eventID}' class = 'btn btn-primary'>Manage Schedule</a> "
+                            . "<a href = 'ViewParticipantsApplication.php?eventID={$event->eventID}' class = 'btn btn-primary'>Participants</a> "
+                            . "<a href='ManageAttendance.php?eventID={$event->eventID}' class='btn btn-primary'>Attendance</a> "
+                            . "<a href='ManageHelper.php?eventID={$event->eventID}' class='btn btn-primary'>Helper</a></td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        //else no created schedule means new event then display
+                        echo "<tr>";
+                        echo "<td>{$event->eventID}</td>";
+                        echo "<td>{$event->eventName}</td>";
+                        echo "<td> <a href = 'EditEvent.php?eventID={$event->eventID}' class='btn btn-primary m-r-1em'>View</a> "
+                        . "<a href = 'ManageSchedule.php?eventID={$event->eventID}' class = 'btn btn-primary'>Manage Schedule</a> "
+                        . "<a href = 'ViewParticipantsApplication.php?eventID={$event->eventID}' class = 'btn btn-primary'>Participants</a> "
+                        . "<a href='ManageAttendance.php?eventID={$event->eventID}' class='btn btn-primary'>Attendance</a> "
+                        . "<a href='ManageHelper.php?eventID={$event->eventID}' class='btn btn-primary'>Helper</a></td>";
+                        echo "</tr>";
+                    }
+                }
+            }else{
                 echo "<tr>";
                 echo "<td colspan='7' style=color:red;text-align:center;>No records found.</td>";
                 echo "</tr>";
-            } else {
-                foreach ($eventArray as $event) {
-                    echo "<tr>";
-                    echo "<td>{$event->eventID}</td>";
-                    echo "<td>{$event->eventName}</td>";
-                    echo "<td> <a href = 'EditEvent.php?eventID={$event->eventID}' class='btn btn-primary m-r-1em'>View</a> "
-                    . "<a href = 'ManageSchedule.php?eventID={$event->eventID}' class = 'btn btn-primary'>Manage Schedule</a> "
-                    . "<a href = 'ViewParticipantsApplication.php?eventID={$event->eventID}' class = 'btn btn-primary'>Participants</a> "
-                    . "<a href='ManageAttendance.php?eventID={$event->eventID}' class='btn btn-primary'>Attendance</a> "
-                    . "<a href='ManageHelper.php?eventID={$event->eventID}' class='btn btn-primary'>Helper</a></td>";
-                    echo "</tr>";
-                }
             }
             echo "</tbody>";
             echo "</table>";

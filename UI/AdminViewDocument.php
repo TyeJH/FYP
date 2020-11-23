@@ -40,21 +40,29 @@ and open the template in the editor.
             });
             function approveDocument(value) {
                 var valueSpilted = value.split(':');
-                var existCol = document.getElementById(valueSpilted[0] + ":existCol");
-                var hiddenCol = document.getElementById(valueSpilted[0] + ":hiddenCol");
-                existCol.style.display = 'none';
-                hiddenCol.style.display = 'block';
+                var approveButton = document.getElementById(valueSpilted[0] + ":" + valueSpilted[1] + ":Approved");
+                var disapproveButton = document.getElementById(valueSpilted[0] + ":" + valueSpilted[1] + ":Disapproved");
+                var processedButton = document.getElementById(valueSpilted[0] + ":" + valueSpilted[1] + ":Processed");
+                var statusText = document.getElementById(valueSpilted[0] + ":status");
                 $.ajax
                         ({
                             type: "POST",
                             url: "../Domain/UpdateDocument.php",
                             data: {
                                 "docID": valueSpilted[0],
-                                "status": valueSpilted[1],
+                                "status": valueSpilted[2]
                             },
                             success: function (data) {
-                                alert(data);
-                                location.reload();
+                                if (data != 'error') {
+                                    statusText.innerHTML = 'Approved';
+                                    approveButton.style.display = 'none';
+                                    disapproveButton.style.display = 'none';
+                                    processedButton.style.display = 'block';
+                                    alert(data);
+                                } else {
+                                    alert('Sorry, unexpected error occur');
+                                }
+                                //location.reload();
                             }
                         });
             }
@@ -68,7 +76,10 @@ and open the template in the editor.
                 var docID = document.getElementById("docID").value;
                 var societyID = document.getElementById("societyID").value;
                 var feedback = document.getElementById("feedback").value;
-
+                var approveButton = document.getElementById(docID + ":" + societyID + ":Approved");
+                var disapproveButton = document.getElementById(docID + ":" + societyID + ":Disapproved");
+                var processedButton = document.getElementById(docID + ":" + societyID + ":Processed");
+                var statusText = document.getElementById(docID + ":status");
                 $.ajax
                         ({
                             type: "POST",
@@ -81,7 +92,16 @@ and open the template in the editor.
                             },
                             success: function (data) {
                                 $('#add_data_Modal').modal('hide');
-                                alert(data);
+                                if (data != 'error') {
+                                    statusText.innerHTML = 'Disapproved';
+                                    approveButton.style.display = 'none';
+                                    disapproveButton.style.display = 'none';
+                                    processedButton.style.display = 'block';
+                                    alert(data);
+                                } else {
+                                    alert('Sorry, unexpected error occur');
+                                }
+                                //location.reload();
                             }
                         });
             }
@@ -122,12 +142,12 @@ and open the template in the editor.
                         echo "<td><a title='Download File' download='" . $doc->docName . "' href=data:" . $doc->mime . ";base64," . base64_encode($doc->docContent) . ">$doc->docName</a></td>";
                         $dateFormatted = date("d-M-Y", strtotime($doc->applyDate));
                         echo "<td>{$dateFormatted}</td>";
-                        echo "<td>{$doc->status}</td>";
+                        echo "<td id='$doc->docID:status'>{$doc->status}</td>";
                         if ($doc->status == 'Pending') {
-                            echo "<td id='$doc->docID:existCol'>  "
-                            . "<a id='$doc->docID:Approved' onClick='approveDocument(this.id)' class='btn btn-success m-r-1em'>Approve</a> "
-                            . "<p id='$doc->docID:$doc->societyID:Disapproved' onClick='openFeedbackForm(this.id)' class='btn btn-danger m-r-1em'>Disapprove</p> </td>";
-                            echo "<td id='$doc->docID:hiddenCol' style='display:none;'>  <a id='$doc->docID' class='btn btn-info m-r-1em'>Processed</a> ";
+                            echo "<td id='$doc->docID:existCol'> "
+                            . "<a id='$doc->docID:$doc->societyID:Approved' onClick='approveDocument(this.id)' class='btn btn-success m-r-1em'>Approve</a> "
+                            . "<a id='$doc->docID:$doc->societyID:Disapproved' onClick='openFeedbackForm(this.id)' class='btn btn-danger m-r-1em'>Disapprove</a>"
+                            . "<button style='display:none;' id='$doc->docID:$doc->societyID:Processed' class='btn btn-secondary m-r-1em' disabled>Processed</button></td>";
                         } else {
                             echo "<td> <button class='btn btn-secondary m-r-1em' disabled>Processed</button> </td>";
                         }

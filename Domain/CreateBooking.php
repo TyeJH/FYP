@@ -16,7 +16,7 @@ if (isset($_POST['bookVenue'])) {
     $bookDate = $_POST['bookDate'];
     $startTime = $_POST['startTime'];
     $endTime = $_POST['endTime'];
-    $bookStatus = 'Approved';
+    $bookStatus = 'Pending';
     $societyID = $_SESSION['result']->societyID;
     $venueID = $_POST['venue'];
 

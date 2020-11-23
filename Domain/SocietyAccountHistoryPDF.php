@@ -54,8 +54,12 @@ class SocietyAccountHistoryPDF extends FPDF {
         $societyDA = new SocietyDA();
 
         $society = $societyDA->login($this->societyID);
-        $this->Cell(0, 5, "Society ID: $society->societyID", 0, 1, 'L');
-        $this->Cell(0, 5, "Society Name: $society->societyName", 0, 1, 'L');
+        $this->Cell(0, 6, "Society ID: $society->societyID", 0, 1, 'L');
+        $this->Cell(0, 6, "Society Name: $society->societyName", 0, 1, 'L');
+
+        if ($this->type != 'All') {
+            $this->Cell(0, 6, 'From '. date('d M Y', strtotime($this->startDate)) . ' To '. date('d M Y', strtotime($this->endDate)), 0, 1, 'L');
+        }
     }
 
     function headerTable() {

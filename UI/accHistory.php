@@ -77,7 +77,9 @@ require 'header.php';
                                 document.generateAccHistoryForm.startDate.disabled = true;
                                 document.generateAccHistoryForm.endDate.disabled = true;
                                 document.generateAccHistoryForm.startDate.value = '';
+                                document.generateAccHistoryForm.startDate.max = '';
                                 document.generateAccHistoryForm.endDate.value = '';
+                                document.generateAccHistoryForm.endDate.min = '';
                             } else {
                                 document.generateAccHistoryForm.startDate.disabled = false;
                                 document.generateAccHistoryForm.endDate.disabled = false;

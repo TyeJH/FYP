@@ -22,7 +22,7 @@ if (isset($_POST['societyGenerateAccHistoryReport'])) {
 
     $pdf = new SocietyAccountHistoryPDF('P', 'mm', 'A4');
     $pdf->societyID = $_SESSION['result']->societyID;
-    if (isset($_POST['type']) == 'All') {
+    if ($_POST['type'] == 'All') {
         $pdf->type = 'All';
     } else {
         $pdf->type = 'customDate';

@@ -23,7 +23,7 @@ if (isset($_POST['bookingID']) && isset($_POST['bookStatus'])) {
             }
         }
     } else {
-        echo "Unexpected error occur ";
+        echo 'error';
     }
 }
 

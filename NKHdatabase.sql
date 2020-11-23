@@ -1,3 +1,19 @@
+DROP TABLE feedbackBooking;
+DROP TABLE feedbackDocument;
+DROP TABLE helpers;
+DROP TABLE participants;
+DROP TABLE schedule;
+DROP TABLE societyevent;
+DROP TABLE documentation;
+DROP TABLE booking;
+DROP TABLE announcement;
+DROP TABLE venue;
+DROP TABLE transhistory;
+DROP TABLE student;
+DROP TABLE society;
+DROP TABLE admin;
+DROP TABLE uniStudent;
+
 CREATE TABLE uniStudent(
     studID        int(10)      not null,
     studName      varchar(50)  not null,
@@ -19,16 +35,6 @@ CREATE TABLE society(
     PRIMARY KEY(societyID)
 );
 
-CREATE TABLE transhistory(
-    transID       INT(6) auto_increment not null,
-    transDate     date                  not null,
-    amount        decimal(10,2)         not null,
-    purpose       varchar(300)          not null,
-    societyID     varchar(10)           not null,
-    PRIMARY KEY(transID),
-    FOREIGN KEY (societyID) REFERENCES society(societyID)
-);
-
 CREATE TABLE student(
     userID        varchar(10)  not null,
     username      varchar(300) not null,
@@ -39,6 +45,15 @@ CREATE TABLE student(
     FOREIGN KEY(studID) references uniStudent(studID)
 );
 
+CREATE TABLE transhistory(
+    transID       INT(6) auto_increment not null,
+    transDate     date                  not null,
+    amount        decimal(10,2)         not null,
+    purpose       varchar(300)          not null,
+    societyID     varchar(10)           not null,
+    PRIMARY KEY(transID),
+    FOREIGN KEY (societyID) REFERENCES society(societyID)
+);
 
 CREATE TABLE venue(
     venueID        varchar(10)   not null,
@@ -47,7 +62,6 @@ CREATE TABLE venue(
     venueStatus    varchar(10)   not null,
     PRIMARY KEY(venueID)
 );
-
 
 CREATE TABLE announcement(
     annID         varchar(10)    not null,
@@ -115,30 +129,6 @@ CREATE TABLE Schedule(
     FOREIGN KEY (eventID) REFERENCES SocietyEvent(eventID)
 );
 
-CREATE TABLE feedbackDocument(
-    feedbackDocumentID    int(6)      not null auto_increment,
-    content               varchar(20) not null,
-    adminID               varchar(10) not null,
-    docID                 int(6)      not null,
-    societyID             varchar(10) not null,
-    PRIMARY KEY(feedbackDocumentID),
-    FOREIGN KEY(adminID)   references admin(adminID),
-    FOREIGN KEY(societyID) REFERENCES society(societyID),
-    FOREIGN KEY(docID)     references documentation(docID)
-);
-
-CREATE TABLE feedbackBooking(
-    feedbackBookingID int(6)      not null auto_increment,
-    content           varchar(20) not null,
-    adminID           varchar(10) not null,
-    bookingID         int(6)      not null,
-    societyID         varchar(10) not null,
-    PRIMARY KEY(feedbackBookingID),
-    FOREIGN KEY(adminID)   REFERENCES admin(adminID),
-    FOREIGN KEY(societyID) REFERENCES society(societyID),
-    FOREIGN KEY(bookingID) REFERENCES booking(bookingID)
-);
-
 CREATE TABLE participants(
     scheduleID       INT(6)       not null,
     eventID          INT(6)       not null,
@@ -163,3 +153,34 @@ CREATE TABLE helpers(
     FOREIGN KEY (userID) REFERENCES student(userID)
 );
 
+CREATE TABLE feedbackDocument(
+    feedbackDocumentID    int(6)      not null auto_increment,
+    content               varchar(20) not null,
+    adminID               varchar(10) not null,
+    docID                 int(6)      not null,
+    societyID             varchar(10) not null,
+    PRIMARY KEY(feedbackDocumentID),
+    FOREIGN KEY(adminID)   references admin(adminID),
+    FOREIGN KEY(societyID) REFERENCES society(societyID),
+    FOREIGN KEY(docID)     references documentation(docID)
+);
+
+CREATE TABLE feedbackBooking(
+    feedbackBookingID int(6)      not null auto_increment,
+    content           varchar(20) not null,
+    adminID           varchar(10) not null,
+    bookingID         int(6)      not null,
+    societyID         varchar(10) not null,
+    PRIMARY KEY(feedbackBookingID),
+    FOREIGN KEY(adminID)   REFERENCES admin(adminID),
+    FOREIGN KEY(societyID) REFERENCES society(societyID),
+    FOREIGN KEY(bookingID) REFERENCES booking(bookingID)
+);
+
+INSERT INTO uniStudent (studID,studName) VALUES(1909705,'Tye Jun Hao');
+INSERT INTO uniStudent (studID,studName) VALUES(1909656,'Ngo Kian Hee');
+INSERT INTO uniStudent (studID,studName) VALUES(1909569,'Chin Ting Wei');
+INSERT INTO uniStudent (studID,studName) VALUES(1909695,'Tee Sheng Te');
+INSERT INTO uniStudent (studID,studName) VALUES(1909617,'Lee Kah Weng');
+INSERT INTO uniStudent (studID,studName) VALUES(1909618,'Lee Khai Yan');
+INSERT INTO uniStudent (studID,studName) VALUES(1909584,'Devin Choo Jian Chian');

@@ -157,4 +157,22 @@ class SocietyEventDA {
         DatabaseConnection::closeConnection($db);
     }
 
+    public function isEventEnd($eventID) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT SE.eventID,SE.eventName,SE.eventDesc,SE.eventCategory,SE.image,SE.noOfHelper,SE.contactNo,SE.societyID,SE.applyID FROM SocietyEvent SE, schedule S WHERE SE.eventID = ? AND SE.eventID = S.eventID AND ((SELECT max(S2.endDate) FROM schedule S2 WHERE S2.eventID = SE.eventID))>= CURDATE()';
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $eventID);
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return true;
+        } else {
+            return false;
+//            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+//            $event = new SocietyEvent($result['eventID'], $result['eventName'], $result['eventDesc'], $result['eventCategory'], $result['image'], $result['noOfHelper'], $result['contactNo'], $result['societyID'], $result['applyID']);
+//            return $event;
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+
 }
