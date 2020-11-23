@@ -52,7 +52,7 @@ class AttendancePDF extends FPDF {
         $this->SetFont('Times', '', 12);
 
         $societyDA = new SocietyDA();
-        
+
         $society = $societyDA->login($this->societyID);
         $this->Cell(200, 10, $society->societyName, 0, 0, 'C');
         $this->Ln(20);
@@ -97,11 +97,7 @@ class AttendancePDF extends FPDF {
 
     function headerTable($attendanceStatus) {
         $this->SetFont('Times', 'B', 12);
-        if ($attendanceStatus == 'Attend') {
-            $this->Cell(0, 10, 'Status: Attended', 0, 0, 'L');
-        } else {
-            $this->Cell(0, 10, 'Status: Absent', 0, 0, 'L');
-        }
+        $this->Cell(0, 10, "Status: $attendanceStatus", 0, 0, 'L');
         $this->Ln();
         //Table header
         $this->Cell(10, 10, 'No.', 1, 0, 'C');
@@ -150,6 +146,7 @@ class AttendancePDF extends FPDF {
         //Display attended participants
         $this->headerTable('Attended');
         $this->getContent($scheduleID, 'Attend');
+        $this->Ln();
         //Display absent participants
         $this->headerTable('Absent');
         $this->getContent($scheduleID, 'Absent');
