@@ -41,24 +41,24 @@ and open the template in the editor.
             });
         });
         function verifySubmit() {
-            if (document.editEventDetailsForm.eventName.value == '') {
+            if (document.createEventDetailsForm.eventName.value == '') {
                 alert('Please enter the event name.');
                 return false;
             }
-            if (document.editEventDetailsForm.eventDesc.value == '') {
-                alert('Please enter the event name.');
+            if (document.createEventDetailsForm.eventDesc.value == '') {
+                alert('Please enter the event description.');
                 return false;
             }
-            if (document.editEventDetailsForm.eventCategory.value == '') {
-                alert('Please enter the event name.');
+            if (document.createEventDetailsForm.eventCategory.value == '') {
+                alert('Please enter the event category.');
                 return false;
             }
-            if (document.editEventDetailsForm.noOfHelper.value == '') {
-                alert('Please enter the event name.');
+            if (document.createEventDetailsForm.noOfHelper.value == '') {
+                alert('Please enter the number of helper.');
                 return false;
             }
-            if (document.editEventDetailsForm.myfile.value == '') {
-                alert('Please enter the event name.');
+            if (document.createEventDetailsForm.myfile.value == '') {
+                alert('Please select a image file.');
                 return false;
             }
         }
@@ -70,6 +70,14 @@ and open the template in the editor.
                 <h1>Create Event</h1>
             </div>
             <?php
+            if (isset($_SESSION['successMsg'])) {
+                echo "<div class='alert alert-success'><strong>Success! </strong>" . $_SESSION['successMsg'] . '</div>';
+                unset($_SESSION['successMsg']);
+            }
+            if (isset($_SESSION['errorMsg'])) {
+                echo "<div class='alert alert-danger'><strong>Failed! </strong>" . $_SESSION['errorMsg'] . '</div>';
+                unset($_SESSION['errorMsg']);
+            }
             if (!isset($_GET['applyID'])) {
                 //If user haven't chose which approved document.
                 echo "<p>Have your documentation approved yet? <a href='ViewApplyStatus.php'> Click here to view </a></p>";
@@ -78,14 +86,7 @@ and open the template in the editor.
                 $eventDA = new SocietyEventDA();
                 if ($eventDA->isApplyIdExist($applyID)) {
                     //If event already created by user.
-                    if (isset($_SESSION['successMsg'])) {
-                        echo "<div class='alert alert-success'><strong>Success! </strong>" . $_SESSION['successMsg'] . '</div>';
-                        unset($_SESSION['successMsg']);
-                    }
-                    if (isset($_SESSION['errorMsg'])) {
-                        echo "<div class='alert alert-danger'><strong>Failed! </strong>" . $_SESSION['errorMsg'] . '</div>';
-                        unset($_SESSION['errorMsg']);
-                    }
+
                     echo "<p>You have already created your event. <a href='EventOrganizerHome.php'> Click here to view </a></p>";
                 } else {
                     ?>
