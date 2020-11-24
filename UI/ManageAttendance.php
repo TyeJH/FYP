@@ -181,7 +181,7 @@ and open the template in the editor.
                                 echo "<td>{$student['studID']}</td>";
                                 echo "<td>{$student['studName']}</td>";
                                 echo "<td>{$student['studEmail']}</td>";
-                                if ($participant->attendanceStatus == 'Attended') {
+                                if ($participant->attendanceStatus == 'Attend') {
                                     echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->scheduleID,$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate,$participant->applyStatus' checked></td>";
                                 } else {
                                     echo "<td>  <input type='checkbox' onclick='updateAttendanceStatus(this.id)' id='$participant->scheduleID,$participant->userID' value='$participant->scheduleID,$participant->eventID,$participant->userID,$participant->applyDate,$participant->applyStatus'></td>";
