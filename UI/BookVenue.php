@@ -1,5 +1,6 @@
 <?php
-require '../serverLoad.php';
+include_once '../Domain/Venue.php';
+include_once '../DataAccess/VenueDA.php';
 session_start();
 if ($_SESSION['current'] != 'Society') {
     unset($_SESSION['current']);
@@ -206,19 +207,15 @@ and open the template in the editor.
                             <td>
                                 <select name="venue" required>
                                     <?php
-                                    $query = 'SELECT * FROM venue';
-                                    $stmt = $db->prepare($query);
-                                    $stmt->execute();
-                                    $num = $stmt->rowCount();
-                                    if ($num > 0) {
-                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                            extract($row);
+                                    $venueDA = new VenueDA();
+                                    $venueArray = $venueDA->getAll();
+                                    if ($venueArray != null) {
+                                        foreach($venueArray as $venue){
                                             //if user chosed from Venue List then make default option for user.
-                                            if (strcmp($_GET['venueID'], $venueID) == 0) {
-                                                echo strcmp($venueID, $_GET['venueID']);
-                                                echo "<option selected='selected' value='{$venueID}'>{$venueName}</option>";
+                                            if (strcmp($_GET['venueID'], $venue->venueID) == 0) {
+                                                echo "<option selected='selected' value='$venue->venueID'>$venue->venueName</option>";
                                             } else {
-                                                echo "<option value='{$venueID}'>{$venueName}</option>";
+                                                echo "<option value='$venue->venueID'>$venue->venueName</option>";
                                             }
                                         }
                                     }
