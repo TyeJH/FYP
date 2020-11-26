@@ -175,4 +175,20 @@ class SocietyEventDA {
         DatabaseConnection::closeConnection($db);
     }
 
+    public function getNumberOfApprovedHelper($eventID) {
+        $db = DatabaseConnection::getInstance()->getDB();
+        $query = 'SELECT COUNT(*) FROM helpers WHERE eventID = ? AND applyStatus = ?';
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(1, $eventID);
+        $stmt->bindValue(2, 'Approved');
+        $stmt->execute();
+        $total = $stmt->rowCount();
+        if ($total == 0) {
+            return 0;
+        } else {
+           return $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        DatabaseConnection::closeConnection($db);
+    }
+
 }

@@ -98,9 +98,9 @@ AUTHOR : NGO KIAN HEE
                                     <a href = "https://api.whatsapp.com/send?phone=+60162152296&text=Hi! I would like to enquiry about the event details.">WhatsApp</a> -->
                                     <a target = "_blank" href = "https://wa.me/60<?= $event->contactNo ?>?text=Hi! I would like to enquiry more details about the '<?= $event->eventName ?>'. I saw your events on Event Management System :)">WhatsApp</a>
                                 </td>
-        <?php
-    }
-    ?>
+                                <?php
+                            }
+                            ?>
 
                         </tr>
                         <tr>
@@ -108,108 +108,121 @@ AUTHOR : NGO KIAN HEE
                                 Schedule Session
                             </td>
                             <td>
-    <?php
-    $scheduleDA = new ScheduleDA();
-    $scheduleArray = $scheduleDA->retrieveOrderByStartDate($eventID);
-    $count = 1;
-    if ($scheduleArray != null) {
-        foreach ($scheduleArray as $schedule) {
-            echo "<b>Session $count </b> </br>";
-            echo "<b>Venue :</b> $schedule->venue  </br>";
-            if ($schedule->unlimited == 'No') {
-                echo "Slots: $schedule->noOfJoined/$schedule->noOfParticipant</br>";
-            } else {
-                echo "Unlimited slots</br>";
-            }
-            //convert format to dd/mm/yyyy 2200
-            $stFormat = $schedule->startDate . " " . $schedule->startTime;
-            $etFormat = $schedule->endDate . " " . $schedule->endTime;
-            $st = strtotime($stFormat);
-            $et = strtotime($etFormat);
-            //convert format to Thursday, 2020--Oct-01 4:00 PM
-            $startDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($stFormat));
-            $endDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($etFormat));
-            //$et = strtotime($etFormat);
-            //When student logged in
-            if ($_SESSION['current'] == 'Student') {
+                                <?php
+                                $scheduleDA = new ScheduleDA();
+                                $scheduleArray = $scheduleDA->retrieveOrderByStartDate($eventID);
+                                $count = 1;
+                                if ($scheduleArray != null) {
+                                    foreach ($scheduleArray as $schedule) {
+                                        echo "<b>Session $count </b> </br>";
+                                        echo "<b>Venue :</b> $schedule->venue  </br>";
+                                        if ($schedule->unlimited == 'No') {
+                                            echo "Slots: $schedule->noOfJoined/$schedule->noOfParticipant</br>";
+                                        } else {
+                                            echo "Unlimited slots</br>";
+                                        }
+                                        //convert format to dd/mm/yyyy 2200
+                                        $stFormat = $schedule->startDate . " " . $schedule->startTime;
+                                        $etFormat = $schedule->endDate . " " . $schedule->endTime;
+                                        $st = strtotime($stFormat);
+                                        $et = strtotime($etFormat);
+                                        //convert format to Thursday, 2020--Oct-01 4:00 PM
+                                        $startDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($stFormat));
+                                        $endDateTimeFormatted = date("D, d-M-Y h:i A", strtotime($etFormat));
+                                        //$et = strtotime($etFormat);
+                                        //When student logged in
+                                        if ($_SESSION['current'] == 'Student') {
 
-                if (isset($_SESSION['result'])) {
-                    $participantDA = new ParticipantsDA();
-                    $result = $participantDA->retrieveByScheduleIDUserID($schedule->scheduleID, $_SESSION['result']->studID);
-                    //If student already joined or applied
-                    if ($result != null) {
-                        if ($result->applyStatus == 'Approved') {
-                            echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-success'>Joined</p></br></br>";
-                        } else if ($result->applyStatus == 'Pending') {
-                            echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-info'>Pending for approval</p> <a href ='../Domain/DeleteParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-warning' name = 'participate'>Cancel</a></br></br>";
-                        } else if ($result->applyStatus == 'Disapproved') {
-                            echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Disapproved</p></br></br>";
-                        }
-                    } else {
-                        //If student didn't joined
-                        if ($schedule->unlimited == 'No') {
-                            if ($schedule->noOfJoined >= $schedule->noOfParticipant) {
-                                echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Full</p></br></br>";
-                            } else {
-                                echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br></br>";
-                            }
-                        } else {
-                            echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID'  type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br></br>";
-                        }
-                    }
-                } else {
-                    //When not loggeed in
-                    if ($schedule->unlimited == 'No') {
-                        if ($schedule->noOfJoined >= $schedule->noOfParticipant) {
-                            echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Full</p></br></br>";
-                        } else {
-                            echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br></br>";
-                        }
-                    } else {
-                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
-                    }
-                }
-            } else {
-                echo "$startDateTimeFormatted - $endDateTimeFormatted </br></br>";
-            }
-            $count++;
-        }
-    } else {
-        echo "Waiting for event organizer to upload schedule.";
-    }
-    ?>
+                                            if (isset($_SESSION['result'])) {
+                                                $participantDA = new ParticipantsDA();
+                                                $result = $participantDA->retrieveByScheduleIDUserID($schedule->scheduleID, $_SESSION['result']->studID);
+                                                //If student already joined or applied
+                                                if ($result != null) {
+                                                    if ($result->applyStatus == 'Approved') {
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-success'>Joined</p></br></br>";
+                                                    } else if ($result->applyStatus == 'Pending') {
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-info'>Pending for approval</p> <a href ='../Domain/DeleteParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-warning' name = 'participate'>Cancel</a></br></br>";
+                                                    } else if ($result->applyStatus == 'Disapproved') {
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Disapproved</p></br></br>";
+                                                    }
+                                                } else {
+                                                    //If student didn't joined
+                                                    if ($schedule->unlimited == 'No') {
+                                                        if ($schedule->noOfJoined >= $schedule->noOfParticipant) {
+                                                            echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Full</p></br></br>";
+                                                        } else {
+                                                            echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br></br>";
+                                                        }
+                                                    } else {
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID'  type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br></br>";
+                                                    }
+                                                }
+                                            } else {
+                                                //When not loggeed in
+                                                if ($schedule->unlimited == 'No') {
+                                                    if ($schedule->noOfJoined >= $schedule->noOfParticipant) {
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <p class ='btn btn-danger'>Full</p></br></br>";
+                                                    } else {
+                                                        echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br></br>";
+                                                    }
+                                                } else {
+                                                    echo "$startDateTimeFormatted - $endDateTimeFormatted <a href ='../Domain/CreateParticipant.php?eventID=$event->eventID&scheduleID=$schedule->scheduleID' type = 'submit' class = 'btn btn-primary' name = 'participate'>Join here!</a></br>";
+                                                }
+                                            }
+                                        } else {
+                                            echo "$startDateTimeFormatted - $endDateTimeFormatted </br></br>";
+                                        }
+                                        $count++;
+                                    }
+                                } else {
+                                    echo "Waiting for event organizer to upload schedule.";
+                                }
+                                ?>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 Register for Helper!
+                                <?php
+                                $slotLeft = $eventDA->getNumberOfApprovedHelper($eventID);
+                                $numberOfApprovedHelpers = $slotLeft['COUNT(*)'];
+                                echo "(Slots: $numberOfApprovedHelpers/$event->noOfHelper)";
+                                ?>
                             </td>
                             <td>
-    <?php
-    if ($_SESSION['current'] == 'Student') {
-        if (isset($_SESSION['result'])) {
-            $helpersDA = new HelpersDA();
-            $result2 = $helpersDA->retrieveByEventIDAndUserID($eventID, $_SESSION['result']->studID);
-            //If student already joined or applied
-            if ($result2 != null) {
-                if ($result2->applyStatus == 'Approved') {
-                    echo "<a class = 'btn btn-info' name = 'helper'>Registered</a></br>";
-                } else if ($result2->applyStatus == 'Pending') {
-                    echo "<a class = 'btn btn-info' name = 'helper'>Pending for approval</a> <a href ='../Domain/DeleteHelper.php?eventID=$event->eventID'  type = 'submit' class = 'btn btn-warning' name = 'helper'>Cancel</a></br>";
-                } else if ($result2->applyStatus == 'Disapproved') {
-                    echo "<a class = 'btn btn-info' name = 'helper'>Disapproved</a></br>";
-                }
-            } else {
-                echo "<a href ='../Domain/CreateHelper.php?eventID=$event->eventID' type = 'submit' class = 'btn btn-primary' name = 'helper'>Register here</a></br>";
-            }
-        }
-    } else {
-        if (!isset($_SESSION['current']) == '') {
-            $_SESSION['role'] = 'student';
-            echo "<a href ='Login.php'>Login to register!</a>";
-        }
-    }
-    ?>
+                                <?php
+                                if ($_SESSION['current'] == 'Student') {
+                                    if (isset($_SESSION['result'])) {
+                                        $helpersDA = new HelpersDA();
+                                        $result2 = $helpersDA->retrieveByEventIDAndUserID($eventID, $_SESSION['result']->studID);
+                                        //If student already joined or applied
+                                        if ($result2 != null) {
+                                            if ($result2->applyStatus == 'Approved') {
+                                                echo "<a class = 'btn btn-info' name = 'helper'>Registered</a></br>";
+                                            } else if ($result2->applyStatus == 'Pending') {
+                                                echo "<a class = 'btn btn-info' name = 'helper'>Pending for approval</a> <a href ='../Domain/DeleteHelper.php?eventID=$event->eventID'  type = 'submit' class = 'btn btn-warning' name = 'helper'>Cancel</a></br>";
+                                            } else if ($result2->applyStatus == 'Disapproved') {
+                                                echo "<a class = 'btn btn-info' name = 'helper'>Disapproved</a></br>";
+                                            }
+                                        } else {
+                                            if ($numberOfApprovedHelpers < $event->noOfHelper) {
+                                                echo "<a href ='../Domain/CreateHelper.php?eventID=$event->eventID' type = 'submit' class = 'btn btn-primary' name = 'helper'>Register here</a></br>";
+                                            } else {
+                                                echo "<p class = 'btn btn-danger'>Full</p>";
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (!isset($_SESSION['current']) == '') {
+                                        $_SESSION['role'] = 'student';
+                                        if ($numberOfApprovedHelpers < $event->noOfHelper) {
+                                            echo "<a href ='Login.php'>Login to register!</a>";
+                                        } else {
+                                            echo "<p class = 'btn btn-info' disabled>Full</p>";
+                                        }
+                                    }
+                                }
+                                ?>
                             </td>
                         </tr>
                         <tr>
@@ -220,11 +233,11 @@ AUTHOR : NGO KIAN HEE
                         </tr>
                     </table>
 
-    <?php
-} else {
-    header("Location:HomePage.php");
-}
-?>
+                    <?php
+                } else {
+                    header("Location:HomePage.php");
+                }
+                ?>
 
             </form>
         </div>
