@@ -61,7 +61,6 @@ AUTHOR : NGO KIAN HEE
                     header('location:EventOrganizerHome.php');
                 }
                 ?>
-                <form action="../Domain/CreateParticipant.php" method="post" enctype="multipart/form-data">
                     <table class='table table-hover table-responsive table-bordered'>
                         <tr>
                             <td colspan="2" style="text-align: center;"><img src="data:image/jpeg;base64, <?php echo base64_encode($event->image); ?>"/></td>
@@ -238,8 +237,6 @@ AUTHOR : NGO KIAN HEE
                     header("Location:HomePage.php");
                 }
                 ?>
-
-            </form>
         </div>
 
     </body>
