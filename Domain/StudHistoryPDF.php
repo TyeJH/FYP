@@ -136,7 +136,7 @@ class StudHistoryPDF extends FPDF {
                             $sDate = date("d-M-Y", strtotime($historyList->startDate));
                             $eDate = date("d-M-Y", strtotime($historyList->endDate));
                             if (!empty($eName)) {
-                                $this->Cell(19, 10, $count, 1, 0, 'C');
+                                $this->Cell(10, 10, $count, 1, 0, 'C');
                                 $this->Cell(30, 10, $historyList->eventID, 1, 0, 'C');
                                 $this->Cell(50, 10, $eName->eventName, 1, 0, 'C');
                                 $this->Cell(50, 10, $sDate . " - " . $eDate, 1, 0, 'C');
