@@ -46,12 +46,14 @@ require '../UI/header.php';
 
         if (empty($username)) {
             $_SESSION['error'] = "Username cannot be empty";
+            echo '<script>location.href = "../UI/checkUsername.php";</script>';
         } else {
             $std = new StudentDA();
             $test = $std->login($username);
 
             if ($test == null) {
                 $_SESSION['error'] = "Username Not Found";
+                echo '<script>location.href = "../UI/checkUsername.php";</script>';
             } else {
                 $_SESSION['reset'] = $test;
                 echo '<script>location.href = "../UI/ResetPassword.php";</script>';
