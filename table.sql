@@ -140,7 +140,6 @@ CREATE TABLE participants(
     FOREIGN KEY (scheduleID) REFERENCES Schedule(scheduleID),
     FOREIGN KEY (eventID)    REFERENCES SocietyEvent(eventID),
     FOREIGN KEY (userID)     REFERENCES student(userID)
-
 );
 
 CREATE TABLE helpers(
